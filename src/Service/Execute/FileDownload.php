@@ -53,10 +53,12 @@ class FileDownload extends RepoServiceAbstract
         $userLanguage = new UserLanguage('', '', '');
         $user         = new User('', '', '', '', false, false, $userLanguage);
 
-        return new Entity('', $file, $user, new \DateTime());
+        return new Entity($entityId, $file, $user, new \DateTime());
     }
 
     /**
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      * @param Entity $entity
      * @param array  $data
      *

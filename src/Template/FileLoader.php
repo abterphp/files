@@ -122,6 +122,8 @@ class FileLoader implements ILoader
     }
 
     /**
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      * @param string[] $identifiers
      * @param string   $cacheTime
      *
