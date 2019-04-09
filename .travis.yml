@@ -15,9 +15,6 @@ script:
   - docker-compose exec php make coverage
 
 after_success:
-  - ls -lah
-  - curl -L -v --output php-coveralls.phar https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar
-  - ls -lah
+  - curl -L --output php-coveralls.phar https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar
   - chmod +x php-coveralls.phar
-  - ls -lah
-  - travis_retry php-coveralls.phar --coverage_clover=./tmp/report/clover.xml --json_path=./tmp/report/coveralls-upload.json
+  - travis_retry ./php-coveralls.phar --coverage_clover=./tmp/report/clover.xml --json_path=./tmp/report/coveralls-upload.json
