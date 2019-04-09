@@ -1,0 +1,35 @@
+{
+  "name": "abtercms/files",
+  "description": "File upload and file sharing module for AbterPHP",
+  "authors": [
+    {
+      "name": "Peter Aba",
+      "email": "peter@peteraba.com",
+      "role": "Engineer"
+    }
+  ],
+  "type": "project",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "AbterPhp\\Files\\": [
+        "src",
+        "tests"
+      ]
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "abtercms/website": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.1",
+    "squizlabs/php_codesniffer": "^3.4",
+    "phpmd/phpmd": "^2.6",
+    "friendsofphp/php-cs-fixer": "^2.14"
+  },
+  "config": {
+    "prefer-install": "dist"
+  }
+}
