@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "575e9183035dd76b620f7d465f854065",
+    "content-hash": "32f9f501f402541d1040396f79f22059",
     "packages": [
         {
-            "name": "abtercms/admin",
+            "name": "abterphp/admin",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/abtercms/admin.git",
-                "reference": "8f9db5f7aee2a3548238289fbc40a8cfd92341a5"
+                "url": "https://github.com/abterphp/admin.git",
+                "reference": "eb10f12771cedffdee961595c20d3e1e448d27f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abtercms/admin/zipball/8f9db5f7aee2a3548238289fbc40a8cfd92341a5",
-                "reference": "8f9db5f7aee2a3548238289fbc40a8cfd92341a5",
+                "url": "https://api.github.com/repos/abterphp/admin/zipball/eb10f12771cedffdee961595c20d3e1e448d27f7",
+                "reference": "eb10f12771cedffdee961595c20d3e1e448d27f7",
                 "shasum": ""
             },
             "require": {
-                "abtercms/framework": "dev-master"
+                "abterphp/framework": "dev-master"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.14",
@@ -53,20 +53,20 @@
                 }
             ],
             "description": "Admin module for AbterPHP",
-            "time": "2019-04-08T18:49:11+00:00"
+            "time": "2019-04-10T12:16:45+00:00"
         },
         {
-            "name": "abtercms/framework",
+            "name": "abterphp/framework",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/abtercms/framework.git",
-                "reference": "26e80b045d1590bf85b50c87420c3f961a4276a8"
+                "url": "https://github.com/abterphp/framework.git",
+                "reference": "5b39519546b00bd79330d06f90662b3c11d83b07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abtercms/framework/zipball/26e80b045d1590bf85b50c87420c3f961a4276a8",
-                "reference": "26e80b045d1590bf85b50c87420c3f961a4276a8",
+                "url": "https://api.github.com/repos/abterphp/framework/zipball/5b39519546b00bd79330d06f90662b3c11d83b07",
+                "reference": "5b39519546b00bd79330d06f90662b3c11d83b07",
                 "shasum": ""
             },
             "require": {
@@ -83,7 +83,7 @@
                 "mikey179/vfsstream": "^1.6",
                 "monolog/monolog": "1.22.0",
                 "opulence/opulence": "1.1.*",
-                "php": "^7.1",
+                "php": "^7.2",
                 "swiftmailer/swiftmailer": "^6.1"
             },
             "require-dev": {
@@ -116,24 +116,24 @@
                 }
             ],
             "description": "Foundations for AbterPHP",
-            "time": "2019-04-09T10:24:18+00:00"
+            "time": "2019-04-10T11:50:41+00:00"
         },
         {
-            "name": "abtercms/website",
+            "name": "abterphp/website",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/abtercms/website.git",
-                "reference": "00ad5d0ee9a6f12484b986d95197b25a96478f93"
+                "url": "https://github.com/abterphp/website.git",
+                "reference": "f7aa8ff9815b18b150fa7d24dd37dd47787f9e5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abtercms/website/zipball/00ad5d0ee9a6f12484b986d95197b25a96478f93",
-                "reference": "00ad5d0ee9a6f12484b986d95197b25a96478f93",
+                "url": "https://api.github.com/repos/abterphp/website/zipball/f7aa8ff9815b18b150fa7d24dd37dd47787f9e5a",
+                "reference": "f7aa8ff9815b18b150fa7d24dd37dd47787f9e5a",
                 "shasum": ""
             },
             "require": {
-                "abtercms/admin": "dev-master"
+                "abterphp/admin": "dev-master"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.14",
@@ -162,7 +162,7 @@
                 }
             ],
             "description": "Website module for AbterPHP",
-            "time": "2019-04-08T19:23:06+00:00"
+            "time": "2019-04-10T12:26:05+00:00"
         },
         {
             "name": "bjeavons/zxcvbn-php",
@@ -1971,20 +1971,20 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.9.0",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "78af75148f9fdd34ea727c8b529a9b4a8f7b740c"
+                "reference": "e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/78af75148f9fdd34ea727c8b529a9b4a8f7b740c",
-                "reference": "78af75148f9fdd34ea727c8b529a9b4a8f7b740c",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72",
+                "reference": "e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2"
+                "php": "^7.1"
             },
             "replace": {
                 "myclabs/deep-copy": "self.version"
@@ -1992,8 +1992,6 @@
             "require-dev": {
                 "doctrine/collections": "^1.0",
                 "doctrine/common": "^2.6",
-                "phpstan/phpstan": "^0.9.2",
-                "phpstan/phpstan-phpunit": "^0.9.4",
                 "phpunit/phpunit": "^7.1"
             },
             "type": "library",
@@ -2017,7 +2015,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2018-10-30T00:14:44+00:00"
+            "time": "2019-04-07T13:18:21+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -4394,7 +4392,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "abtercms/website": 20
+        "abterphp/website": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
