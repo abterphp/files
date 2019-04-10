@@ -1,1 +1,0 @@
-<% include("errors/json/Error", ["__errorCode" => 400, "__errorMessage" => "Your request was invalid"]) %>

@@ -1,1 +1,0 @@
-DELETE FROM pages WHERE identifier IN ('contact-success', 'contact-error');
