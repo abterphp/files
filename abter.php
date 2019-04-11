@@ -1,7 +1,8 @@
 <?php
 
-namespace AbterPhp\Files;
-
+use AbterPhp\Files\Bootstrappers;
+use AbterPhp\Files\Console;
+use AbterPhp\Files\Events;
 use AbterPhp\Framework\Constant\Event;
 use AbterPhp\Framework\Constant\Module;
 use AbterPhp\Framework\Constant\Priorities;
