@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/admin.git",
-                "reference": "eb10f12771cedffdee961595c20d3e1e448d27f7"
+                "reference": "6648b61736861f8491d00ef452263966cb6a6017"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/admin/zipball/eb10f12771cedffdee961595c20d3e1e448d27f7",
-                "reference": "eb10f12771cedffdee961595c20d3e1e448d27f7",
+                "url": "https://api.github.com/repos/abterphp/admin/zipball/6648b61736861f8491d00ef452263966cb6a6017",
+                "reference": "6648b61736861f8491d00ef452263966cb6a6017",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 }
             ],
             "description": "Admin module for AbterPHP",
-            "time": "2019-04-10T12:16:45+00:00"
+            "time": "2019-04-15T17:16:51+00:00"
         },
         {
             "name": "abterphp/framework",
@@ -61,12 +61,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/framework.git",
-                "reference": "5b39519546b00bd79330d06f90662b3c11d83b07"
+                "reference": "25fa1bee88f90b0f3494c190ced3a5a609acc2de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/framework/zipball/5b39519546b00bd79330d06f90662b3c11d83b07",
-                "reference": "5b39519546b00bd79330d06f90662b3c11d83b07",
+                "url": "https://api.github.com/repos/abterphp/framework/zipball/25fa1bee88f90b0f3494c190ced3a5a609acc2de",
+                "reference": "25fa1bee88f90b0f3494c190ced3a5a609acc2de",
                 "shasum": ""
             },
             "require": {
@@ -116,7 +116,7 @@
                 }
             ],
             "description": "Foundations for AbterPHP",
-            "time": "2019-04-10T11:50:41+00:00"
+            "time": "2019-04-15T17:11:32+00:00"
         },
         {
             "name": "abterphp/website",
@@ -124,12 +124,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/website.git",
-                "reference": "f7aa8ff9815b18b150fa7d24dd37dd47787f9e5a"
+                "reference": "1946a0655bc419cba77a26fa39223bb6e6ce0099"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/website/zipball/f7aa8ff9815b18b150fa7d24dd37dd47787f9e5a",
-                "reference": "f7aa8ff9815b18b150fa7d24dd37dd47787f9e5a",
+                "url": "https://api.github.com/repos/abterphp/website/zipball/1946a0655bc419cba77a26fa39223bb6e6ce0099",
+                "reference": "1946a0655bc419cba77a26fa39223bb6e6ce0099",
                 "shasum": ""
             },
             "require": {
@@ -162,7 +162,7 @@
                 }
             ],
             "description": "Website module for AbterPHP",
-            "time": "2019-04-10T12:26:05+00:00"
+            "time": "2019-04-15T17:18:50+00:00"
         },
         {
             "name": "bjeavons/zxcvbn-php",
@@ -3539,16 +3539,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.4.1",
+            "version": "3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "5b4333b4010625d29580eb4a41f1e53251be6baa"
+                "reference": "b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/5b4333b4010625d29580eb4a41f1e53251be6baa",
-                "reference": "5b4333b4010625d29580eb4a41f1e53251be6baa",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8",
+                "reference": "b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8",
                 "shasum": ""
             },
             "require": {
@@ -3586,7 +3586,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2019-03-19T03:22:27+00:00"
+            "time": "2019-04-10T23:49:02+00:00"
         },
         {
             "name": "symfony/config",

@@ -15,6 +15,9 @@ return [
         Bootstrappers\Orm\OrmBootstrapper::class,
         Bootstrappers\Validation\ValidatorBootstrapper::class,
     ],
+    Module::CLI_BOOTSTRAPPERS => [
+        Bootstrappers\Database\MigrationsBootstrapper::class,
+    ],
     Module::COMMANDS        => [
         Console\Commands\File\Cleanup::class,
     ],
@@ -45,7 +48,8 @@ return [
     ],
     Module::MIGRATION_PATHS => [
         Priorities::NORMAL => [
-            realpath(__DIR__ . '/Databases/Migrations'),
+            realpath(__DIR__ . '/src/Databases/Migrations'),
         ],
     ],
+    Module::RESOURCE_PATH    => realpath(__DIR__ . '/resources'),
 ];
