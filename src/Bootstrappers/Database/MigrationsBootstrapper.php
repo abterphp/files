@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AbterPhp\Files\Bootstrappers\Database;
 
 use AbterPhp\Admin\Bootstrappers\Database\MigrationsBootstrapper as AdminBootstrapper;
-use AbterPhp\Website\Databases\Migrations\Init;
+use AbterPhp\Files\Databases\Migrations\Init;
 use Opulence\Databases\IConnection;
 use Opulence\Ioc\IContainer;
 
