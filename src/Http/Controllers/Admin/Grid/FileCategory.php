@@ -14,7 +14,8 @@ use Opulence\Routing\Urls\UrlGenerator;
 
 class FileCategory extends GridAbstract
 {
-    const ENTITY_PLURAL = 'fileCategories';
+    const ENTITY_PLURAL   = 'fileCategories';
+    const ENTITY_SINGULAR = 'fileCategory';
 
     const ENTITY_TITLE_PLURAL = 'files:fileCategories';
 
