@@ -34,6 +34,6 @@ class Routes
     const PATH_FILES_DELETE    = '/file/:id/delete';
     const PATH_FILES_DOWNLOAD  = '/file/:id';
 
-    const ROUTE_FILE_DOWNLOADS = 'downloads';
-    const PATH_FILE_DOWNLOADS  = '/download';
+    const ROUTE_FILE_DOWNLOADS = 'filedownloads';
+    const PATH_FILE_DOWNLOADS  = '/filedownload';
 }
