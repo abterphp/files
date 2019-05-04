@@ -8,7 +8,7 @@ use AbterPhp\Admin\Authorization\PolicyProviderTrait;
 use Casbin\Exceptions\CasbinException;
 use Casbin\Model\Model;
 use Casbin\Persist\Adapter as CasbinAdapter;
-use AbterPhp\Files\Databases\Queries\FileCategoryAuthLoader;
+use AbterPhp\Files\Databases\Queries\FileCategoryAuthLoader as AuthLoader;
 
 class FileCategoryProvider implements CasbinAdapter
 {
@@ -16,15 +16,18 @@ class FileCategoryProvider implements CasbinAdapter
 
     const PREFIX = 'file_category';
 
+    /** @var AuthLoader */
+    protected $authLoader;
+
     /**
      * FileCategory constructor.
      *
-     * @param FileCategoryAuthLoader $fileCategoryAuth
+     * @param AuthLoader $authLoader
      */
-    public function __construct(FileCategoryAuthLoader $fileCategoryAuth)
+    public function __construct(AuthLoader $authLoader)
     {
-        $this->authQueries = $fileCategoryAuth;
-        $this->prefix      = static::PREFIX;
+        $this->authLoader = $authLoader;
+        $this->prefix     = static::PREFIX;
     }
 
     /**

@@ -144,52 +144,6 @@ class FileSqlDataMapperTest extends SqlTestCase
         $this->assertCollection($expectedData, $actualResult);
     }
 
-    public function testGetAllByUsername()
-    {
-        $username = 'johndoe';
-
-        $id                 = 'c82cd0a6-cd5d-4189-ab37-0583f2d3f6a9';
-        $filesystemName     = 'foo';
-        $publicName         = 'bar';
-        $description        = 'baz';
-        $categoryId         = 'acfc178a-56d3-4e6d-b185-346b2e07db08';
-        $categoryName       = 'qux';
-        $categoryIdentifier = 'quuux';
-        $uploadedAt         = new \DateTime();
-        $id2                = 'cbad0407-5fb2-41cd-8a7c-dc505b275b0e';
-
-        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted =0 INNER JOIN user_groups_file_categories AS ugfc ON file_categories.id = ugfc.file_category_id AND file_categories.deleted = 0 INNER JOIN user_groups AS user_groups ON user_groups.id = ugfc.user_group_id AND user_groups.deleted = 0 INNER JOIN users AS users ON users.user_group_id = user_groups.id AND users.deleted = 0 WHERE (files.deleted = 0) AND (users.username = :username) GROUP BY files.id'; // phpcs:ignore
-        $values       = ['username' => [$username, \PDO::PARAM_STR]];
-        $expectedData = [
-            [
-                'id'                       => $id,
-                'filesystem_name'          => $filesystemName,
-                'public_name'              => $publicName,
-                'file_category_id'         => $categoryId,
-                'description'              => $description,
-                'uploaded_at'              => $uploadedAt->format(File::DATE_FORMAT),
-                'file_category_name'       => $categoryName,
-                'file_category_identifier' => $categoryIdentifier,
-            ],
-            [
-                'id'                       => $id2,
-                'filesystem_name'          => $filesystemName,
-                'public_name'              => $publicName,
-                'file_category_id'         => $categoryId,
-                'description'              => $description,
-                'uploaded_at'              => $uploadedAt->format(File::DATE_FORMAT),
-                'file_category_name'       => $categoryName,
-                'file_category_identifier' => $categoryIdentifier,
-            ],
-        ];
-
-        $this->prepare($this->readConnectionMock, $sql, $this->createReadStatement($values, $expectedData));
-
-        $actualResult = $this->sut->getAllByUsername($username);
-
-        $this->assertCollection($expectedData, $actualResult);
-    }
-
     public function testUpdate()
     {
         $id                 = '542260d0-25be-4088-9253-9ad2bef63ac2';

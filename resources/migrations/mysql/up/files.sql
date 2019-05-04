@@ -104,8 +104,8 @@ CREATE TABLE `user_groups_file_categories`
   PRIMARY KEY (`id`),
   KEY `user_group_id` (`user_group_id`),
   KEY `file_category_id` (`file_category_id`),
-  CONSTRAINT `ugfc_ibfk_1` FOREIGN KEY (`file_category_id`) REFERENCES `file_categories` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `ugfc_ibfk_2` FOREIGN KEY (`user_group_id`) REFERENCES `user_groups` (`id`) ON DELETE CASCADE
+  CONSTRAINT `ugfc_ibfk_1` FOREIGN KEY (`user_group_id`) REFERENCES `user_groups` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `ugfc_ibfk_2` FOREIGN KEY (`file_category_id`) REFERENCES `file_categories` (`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 

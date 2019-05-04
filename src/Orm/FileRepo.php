@@ -65,18 +65,6 @@ class FileRepo extends Repository implements IGridRepo
     }
 
     /**
-     * @param string $username
-     *
-     * @return Entity[]
-     * @throws \Opulence\Orm\OrmException
-     */
-    public function getAllByUsername(string $username): array
-    {
-        /** @see FileSqlDataMapper::getAllByUsername() */
-        return $this->getFromDataMapper('getAllByUsername', [$username]);
-    }
-
-    /**
      * @param string[] $identifiers
      *
      * @return Entity[]

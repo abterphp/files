@@ -42,14 +42,6 @@ interface IFileDataMapper extends IDataMapper
     public function getPage(int $limitFrom, int $pageSize, array $orders, array $filters, array $params): array;
 
     /**
-     * @param string $username
-     *
-     * @return Entity[]
-     * @throws \Opulence\Orm\OrmException
-     */
-    public function getAllByUsername(string $username): array;
-
-    /**
      * @param string[] $identifiers
      *
      * @return Entity[]

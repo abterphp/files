@@ -77,7 +77,8 @@ class FileCategory extends RepoServiceAbstract
 
         $isPublic = isset($data['is_public']) ? (bool)$data['is_public'] : false;
 
-        $entity->setName($name)
+        $entity
+            ->setName($name)
             ->setIdentifier($identifier)
             ->setUserGroups($userGroups)
             ->setIsPublic($isPublic);

@@ -35,8 +35,11 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
                 ]
             );
 
-        $statement = $this->writeConnection->prepare($query->getSql());
-        $statement->bindValues($query->getParameters());
+        $sql    = $query->getSql();
+        $params = $query->getParameters();
+
+        $statement = $this->writeConnection->prepare($sql);
+        $statement->bindValues($params);
         $statement->execute();
     }
 
@@ -54,12 +57,11 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
             ->where('id = ?')
             ->addUnnamedPlaceholderValue($entity->getId(), \PDO::PARAM_STR);
 
-        $sql = $query->getSql();
-
-        $parameters = $query->getParameters();
+        $sql    = $query->getSql();
+        $params = $query->getParameters();
 
         $statement = $this->writeConnection->prepare($sql);
-        $statement->bindValues($parameters);
+        $statement->bindValues($params);
         $statement->execute();
     }
 
@@ -115,13 +117,12 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
     {
         $query = $this->getBaseQuery()->andWhere('files.id = :file_id');
 
-        $parameters = [
+        $params = [
             'file_id' => [$id, \PDO::PARAM_STR],
         ];
+        $sql    = $query->getSql();
 
-        $sql = $query->getSql();
-
-        return $this->read($sql, $parameters, self::VALUE_TYPE_ENTITY, true);
+        return $this->read($sql, $params, self::VALUE_TYPE_ENTITY, true);
     }
 
     /**
@@ -133,13 +134,12 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
     {
         $query = $this->getBaseQuery()->andWhere('files.filesystem_name = :filesystem_name');
 
-        $parameters = [
+        $params = [
             'filesystem_name' => [$filesystemName, \PDO::PARAM_STR],
         ];
+        $sql    = $query->getSql();
 
-        $sql = $query->getSql();
-
-        return $this->read($sql, $parameters, self::VALUE_TYPE_ENTITY, true);
+        return $this->read($sql, $params, self::VALUE_TYPE_ENTITY, true);
     }
 
     /**
@@ -153,34 +153,12 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
             ->andWhere('files.filesystem_name = :filesystem_name')
             ->andWhere('file_categories.is_public = 1');
 
-        $parameters = [
+        $params = [
             'filesystem_name' => [$filesystemName, \PDO::PARAM_STR],
         ];
+        $sql    = $query->getSql();
 
-        $sql = $query->getSql();
-
-        return $this->read($sql, $parameters, self::VALUE_TYPE_ENTITY, true);
-    }
-
-    /**
-     * @param string $username
-     *
-     * @return Entity[]
-     * @throws \Opulence\Orm\OrmException
-     */
-    public function getAllByUsername(string $username): array
-    {
-        $query = $this
-            ->withUser($this->withUserGroup($this->getBaseQuery()))
-            ->andWhere('users.username = :username');
-
-        $parameters = [
-            'username' => [$username, \PDO::PARAM_STR],
-        ];
-
-        $sql = $query->getSql();
-
-        return $this->read($sql, $parameters, self::VALUE_TYPE_ARRAY);
+        return $this->read($sql, $params, self::VALUE_TYPE_ENTITY, true);
     }
 
     /**
@@ -217,13 +195,12 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
             ->withUserGroup($this->getBaseQuery())
             ->andWhere('user_groups.user_id = :user_id');
 
-        $sql = $query->getSql();
-
-        $parameters = [
+        $sql    = $query->getSql();
+        $params = [
             'user_id' => [$userId, \PDO::PARAM_STR],
         ];
 
-        return $this->read($sql, $parameters, self::VALUE_TYPE_ARRAY);
+        return $this->read($sql, $params, self::VALUE_TYPE_ARRAY);
     }
 
     /**
@@ -253,11 +230,11 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
             ->andWhere('deleted = 0')
             ->addUnnamedPlaceholderValue($entity->getId(), \PDO::PARAM_STR);
 
-        $sql        = $query->getSql();
-        $parameters = $query->getParameters();
+        $sql    = $query->getSql();
+        $params = $query->getParameters();
 
         $statement = $this->writeConnection->prepare($sql);
-        $statement->bindValues($parameters);
+        $statement->bindValues($params);
         $statement->execute();
     }
 

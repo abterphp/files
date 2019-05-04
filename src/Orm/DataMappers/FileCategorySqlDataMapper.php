@@ -23,7 +23,7 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
     public function add($entity)
     {
         if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException(__CLASS__ . ':' . __FUNCTION__ . ' expects a FileCategory entity.');
+            throw new \InvalidArgumentException(__CLASS__ . ':' . __FUNCTION__ . ' expects a File Category entity.');
         }
 
         $query = (new QueryBuilder())
@@ -52,7 +52,7 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
     public function delete($entity)
     {
         if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException(__CLASS__ . ':' . __FUNCTION__ . ' expects a FileCategory entity.');
+            throw new \InvalidArgumentException(__CLASS__ . ':' . __FUNCTION__ . ' expects a File Category entity.');
         }
 
         $query = (new QueryBuilder())
@@ -154,7 +154,7 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
     public function update($entity)
     {
         if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException(__CLASS__ . ':' . __FUNCTION__ . ' expects a FileCategory entity.');
+            throw new \InvalidArgumentException(__CLASS__ . ':' . __FUNCTION__ . ' expects a File Category entity.');
         }
 
         $query = (new QueryBuilder())

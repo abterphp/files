@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Events\Listeners;
 
+use AbterPhp\Files\Authorization\FileCategoryProvider as AuthProvider;
 use AbterPhp\Framework\Events\AuthReady;
-use AbterPhp\Files\Authorization\FileCategoryProvider;
 
 class AuthInitializer
 {
-    /** @var FileCategoryProvider */
-    protected $fileCategoryProvider;
+    /** @var AuthProvider */
+    protected $authProvider;
 
     /**
      * AuthRegistrar constructor.
      *
-     * @param FileCategoryProvider $authProvider
+     * @param AuthProvider $authProvider
      */
-    public function __construct(FileCategoryProvider $authProvider)
+    public function __construct(AuthProvider $authProvider)
     {
-        $this->fileCategoryProvider = $authProvider;
+        $this->authProvider = $authProvider;
     }
 
     /**
@@ -27,6 +27,6 @@ class AuthInitializer
      */
     public function handle(AuthReady $event)
     {
-        $event->getAdapter()->registerAdapter($this->fileCategoryProvider);
+        $event->getAdapter()->registerAdapter($this->authProvider);
     }
 }
