@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/admin.git",
-                "reference": "cbcb8a0028c7861f55f763104e7bcb732b9240d3"
+                "reference": "6cf0c0ab4b041279e76ddcd7effba053d496916b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/admin/zipball/cbcb8a0028c7861f55f763104e7bcb732b9240d3",
-                "reference": "cbcb8a0028c7861f55f763104e7bcb732b9240d3",
+                "url": "https://api.github.com/repos/abterphp/admin/zipball/6cf0c0ab4b041279e76ddcd7effba053d496916b",
+                "reference": "6cf0c0ab4b041279e76ddcd7effba053d496916b",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 }
             ],
             "description": "Admin module for AbterPHP",
-            "time": "2019-04-29T12:59:50+00:00"
+            "time": "2019-05-07T17:27:11+00:00"
         },
         {
             "name": "abterphp/framework",
@@ -61,12 +61,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/framework.git",
-                "reference": "9a8db4f7108798badf8913b7c90f938e53dacc18"
+                "reference": "d80e446c7bdcf0bd76bab3607141ce126b130284"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/framework/zipball/9a8db4f7108798badf8913b7c90f938e53dacc18",
-                "reference": "9a8db4f7108798badf8913b7c90f938e53dacc18",
+                "url": "https://api.github.com/repos/abterphp/framework/zipball/d80e446c7bdcf0bd76bab3607141ce126b130284",
+                "reference": "d80e446c7bdcf0bd76bab3607141ce126b130284",
                 "shasum": ""
             },
             "require": {
@@ -117,7 +117,7 @@
                 }
             ],
             "description": "Foundations for AbterPHP",
-            "time": "2019-04-29T14:06:21+00:00"
+            "time": "2019-05-07T17:26:00+00:00"
         },
         {
             "name": "abterphp/website",
@@ -125,12 +125,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/website.git",
-                "reference": "130872b0a189a047c3684d0edbd38e659d0589f1"
+                "reference": "802807fc4619118b74e74c7a62919a979cc9f71d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/website/zipball/130872b0a189a047c3684d0edbd38e659d0589f1",
-                "reference": "130872b0a189a047c3684d0edbd38e659d0589f1",
+                "url": "https://api.github.com/repos/abterphp/website/zipball/802807fc4619118b74e74c7a62919a979cc9f71d",
+                "reference": "802807fc4619118b74e74c7a62919a979cc9f71d",
                 "shasum": ""
             },
             "require": {
@@ -163,7 +163,7 @@
                 }
             ],
             "description": "Website module for AbterPHP",
-            "time": "2019-05-01T23:22:32+00:00"
+            "time": "2019-05-07T17:28:21+00:00"
         },
         {
             "name": "bjeavons/zxcvbn-php",
@@ -1939,16 +1939,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v2.14.2",
+            "version": "v2.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "ff401e58261ffc5934a58f795b3f95b355e276cb"
+                "reference": "adfab51ae979ee8b0fcbc55aa231ec2786cb1f91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/ff401e58261ffc5934a58f795b3f95b355e276cb",
-                "reference": "ff401e58261ffc5934a58f795b3f95b355e276cb",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/adfab51ae979ee8b0fcbc55aa231ec2786cb1f91",
+                "reference": "adfab51ae979ee8b0fcbc55aa231ec2786cb1f91",
                 "shasum": ""
             },
             "require": {
@@ -1976,10 +1976,10 @@
                 "mikey179/vfsstream": "^1.6",
                 "php-coveralls/php-coveralls": "^2.1",
                 "php-cs-fixer/accessible-object": "^1.0",
-                "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.0.1",
-                "php-cs-fixer/phpunit-constraint-xmlmatchesxsd": "^1.0.1",
+                "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.1",
+                "php-cs-fixer/phpunit-constraint-xmlmatchesxsd": "^1.1",
                 "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1",
-                "phpunitgoodpractices/traits": "^1.5.1",
+                "phpunitgoodpractices/traits": "^1.8",
                 "symfony/phpunit-bridge": "^4.0"
             },
             "suggest": {
@@ -1992,6 +1992,11 @@
                 "php-cs-fixer"
             ],
             "type": "application",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.15-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "PhpCsFixer\\": "src/"
@@ -2023,7 +2028,7 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
-            "time": "2019-02-17T17:44:13+00:00"
+            "time": "2019-05-06T07:13:51+00:00"
         },
         {
             "name": "myclabs/deep-copy",
