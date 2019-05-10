@@ -18,12 +18,10 @@ use Opulence\Routing\Urls\UrlGenerator;
 
 class FileCategory extends BaseFactory
 {
-    const GROUP_ID         = 'fileCategory-id';
     const GROUP_IDENTIFIER = 'fileCategory-identifier';
     const GROUP_NAME       = 'fileCategory-name';
     const GROUP_IS_PUBLIC  = 'fileCategory-is-public';
 
-    const GETTER_ID         = 'getId';
     const GETTER_IDENTIFIER = 'getIdentifier';
     const GETTER_NAME       = 'getName';
     const GETTER_IS_PUBLIC  = 'isPublic';
@@ -53,7 +51,6 @@ class FileCategory extends BaseFactory
     public function getGetters(): array
     {
         return [
-            static::GROUP_ID         => static::GETTER_ID,
             static::GROUP_IDENTIFIER => static::GETTER_IDENTIFIER,
             static::GROUP_NAME       => static::GETTER_NAME,
             static::GROUP_IS_PUBLIC  => [$this, 'getIsPublic'],

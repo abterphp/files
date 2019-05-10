@@ -20,13 +20,11 @@ use Opulence\Routing\Urls\UrlGenerator;
 
 class File extends BaseFactory
 {
-    const GROUP_ID          = 'file-id';
     const GROUP_FILENAME    = 'file-filename';
     const GROUP_CATEGORY    = 'file-category';
     const GROUP_DESCRIPTION = 'file-description';
     const GROUP_UPLOADED_AT = 'file-uploaded-at';
 
-    const GETTER_ID          = 'getId';
     const GETTER_PUBLIC_NAME = 'getPublicName';
     const GETTER_CATEGORY    = 'getCategory';
     const GETTER_DESCRIPTION = 'getDescription';
@@ -58,7 +56,6 @@ class File extends BaseFactory
     public function getGetters(): array
     {
         return [
-            static::GROUP_ID          => static::GETTER_ID,
             static::GROUP_FILENAME    => static::GETTER_PUBLIC_NAME,
             static::GROUP_CATEGORY    => static::GETTER_CATEGORY,
             static::GROUP_DESCRIPTION => static::GETTER_DESCRIPTION,

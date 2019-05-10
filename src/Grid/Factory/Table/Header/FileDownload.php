@@ -8,19 +8,16 @@ use AbterPhp\Framework\Grid\Factory\Table\HeaderFactory;
 
 class FileDownload extends HeaderFactory
 {
-    const GROUP_ID            = 'fileDownload-id';
     const GROUP_FILE          = 'fileDownload-file';
     const GROUP_USER          = 'fileDownload-user';
     const GROUP_DOWNLOADED_AT = 'fileDownload-downloaded-at';
 
-    const HEADER_ID            = 'files:fileDownloadId';
     const HEADER_FILE          = 'files:fileDownloadFile';
     const HEADER_USER          = 'files:fileDownloadUser';
     const HEADER_DOWNLOADED_AT = 'files:fileDownloadDownloadedAt';
 
     /** @var array */
     protected $headers = [
-        self::GROUP_ID            => self::HEADER_ID,
         self::GROUP_FILE          => self::HEADER_FILE,
         self::GROUP_USER          => self::HEADER_USER,
         self::GROUP_DOWNLOADED_AT => self::HEADER_DOWNLOADED_AT,
@@ -28,11 +25,14 @@ class FileDownload extends HeaderFactory
 
     /** @var array */
     protected $inputNames = [
-        self::GROUP_ID => 'id',
+        self::GROUP_FILE          => 'filename',
+        self::GROUP_USER          => 'username',
+        self::GROUP_DOWNLOADED_AT => 'downloaded_at',
     ];
 
     /** @var array */
     protected $fieldNames = [
-        self::GROUP_ID => 'file_downloads.id',
+        self::GROUP_FILE          => 'files.public_name',
+        self::GROUP_DOWNLOADED_AT => 'users.username',
     ];
 }

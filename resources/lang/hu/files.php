@@ -16,7 +16,7 @@ return [
     'fileCategoryId'         => 'Id',
     'fileCategoryIdentifier' => 'Azonosító',
     'fileCategoryIsPublic'   => 'Publikus',
-    'fileCategoryName'       => 'Kategória',
+    'fileCategoryName'       => 'Név',
     'fileCategoryUserGroups' => 'Felhasználói csoportok',
 
     'filedownloads'            => 'Letöltések',

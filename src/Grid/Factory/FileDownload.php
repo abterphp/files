@@ -15,12 +15,10 @@ use Opulence\Routing\Urls\UrlGenerator;
 
 class FileDownload extends BaseFactory
 {
-    const GROUP_ID            = 'fileDownload-id';
     const GROUP_FILE          = 'fileDownload-file';
     const GROUP_USER          = 'fileDownload-user';
     const GROUP_DOWNLOADED_AT = 'fileDownload-downloaded-at';
 
-    const GETTER_ID            = 'getId';
     const GETTER_FILE          = 'getFile';
     const GETTER_USER          = 'getUser';
     const GETTER_DOWNLOADED_AT = 'getDownloadedAt';
@@ -50,7 +48,6 @@ class FileDownload extends BaseFactory
     public function getGetters(): array
     {
         return [
-            static::GROUP_ID            => static::GETTER_ID,
             static::GROUP_FILE          => static::GETTER_FILE,
             static::GROUP_USER          => static::GETTER_USER,
             /** @see FileDownload::getDownloadedAt() */
