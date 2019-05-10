@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/admin.git",
-                "reference": "6cf0c0ab4b041279e76ddcd7effba053d496916b"
+                "reference": "7ba2cb7a88321426ce45421cd282cfa7fd14118b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/admin/zipball/6cf0c0ab4b041279e76ddcd7effba053d496916b",
-                "reference": "6cf0c0ab4b041279e76ddcd7effba053d496916b",
+                "url": "https://api.github.com/repos/abterphp/admin/zipball/7ba2cb7a88321426ce45421cd282cfa7fd14118b",
+                "reference": "7ba2cb7a88321426ce45421cd282cfa7fd14118b",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 }
             ],
             "description": "Admin module for AbterPHP",
-            "time": "2019-05-07T17:27:11+00:00"
+            "time": "2019-05-10T14:06:42+00:00"
         },
         {
             "name": "abterphp/framework",
@@ -61,12 +61,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/framework.git",
-                "reference": "d80e446c7bdcf0bd76bab3607141ce126b130284"
+                "reference": "4961e19ad233d0dffb6ea86271d5fde12392405c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/framework/zipball/d80e446c7bdcf0bd76bab3607141ce126b130284",
-                "reference": "d80e446c7bdcf0bd76bab3607141ce126b130284",
+                "url": "https://api.github.com/repos/abterphp/framework/zipball/4961e19ad233d0dffb6ea86271d5fde12392405c",
+                "reference": "4961e19ad233d0dffb6ea86271d5fde12392405c",
                 "shasum": ""
             },
             "require": {
@@ -117,7 +117,7 @@
                 }
             ],
             "description": "Foundations for AbterPHP",
-            "time": "2019-05-07T17:26:00+00:00"
+            "time": "2019-05-10T14:02:49+00:00"
         },
         {
             "name": "abterphp/website",
@@ -125,12 +125,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/website.git",
-                "reference": "802807fc4619118b74e74c7a62919a979cc9f71d"
+                "reference": "f7cefd78202f4c4f8ea4e77be40e20ecd1e92aba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/website/zipball/802807fc4619118b74e74c7a62919a979cc9f71d",
-                "reference": "802807fc4619118b74e74c7a62919a979cc9f71d",
+                "url": "https://api.github.com/repos/abterphp/website/zipball/f7cefd78202f4c4f8ea4e77be40e20ecd1e92aba",
+                "reference": "f7cefd78202f4c4f8ea4e77be40e20ecd1e92aba",
                 "shasum": ""
             },
             "require": {
@@ -163,7 +163,7 @@
                 }
             ],
             "description": "Website module for AbterPHP",
-            "time": "2019-05-07T17:28:21+00:00"
+            "time": "2019-05-10T14:07:15+00:00"
         },
         {
             "name": "bjeavons/zxcvbn-php",
@@ -3786,16 +3786,16 @@
         },
         {
             "name": "symfony/contracts",
-            "version": "v1.0.2",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/contracts.git",
-                "reference": "1aa7ab2429c3d594dd70689604b5cf7421254cdf"
+                "reference": "d3636025e8253c6144358ec0a62773cae588395b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/contracts/zipball/1aa7ab2429c3d594dd70689604b5cf7421254cdf",
-                "reference": "1aa7ab2429c3d594dd70689604b5cf7421254cdf",
+                "url": "https://api.github.com/repos/symfony/contracts/zipball/d3636025e8253c6144358ec0a62773cae588395b",
+                "reference": "d3636025e8253c6144358ec0a62773cae588395b",
                 "shasum": ""
             },
             "require": {
@@ -3803,19 +3803,22 @@
             },
             "require-dev": {
                 "psr/cache": "^1.0",
-                "psr/container": "^1.0"
+                "psr/container": "^1.0",
+                "symfony/polyfill-intl-idn": "^1.10"
             },
             "suggest": {
                 "psr/cache": "When using the Cache contracts",
                 "psr/container": "When using the Service contracts",
                 "symfony/cache-contracts-implementation": "",
+                "symfony/event-dispatcher-implementation": "",
+                "symfony/http-client-contracts-implementation": "",
                 "symfony/service-contracts-implementation": "",
                 "symfony/translation-contracts-implementation": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -3850,7 +3853,7 @@
                 "interoperability",
                 "standards"
             ],
-            "time": "2018-12-05T08:06:11+00:00"
+            "time": "2019-04-27T14:29:50+00:00"
         },
         {
             "name": "symfony/dependency-injection",
