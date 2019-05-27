@@ -62,10 +62,10 @@ class File extends RepoServiceAbstract
      * @param string[]       $postData
      * @param UploadedFile[] $fileData
      *
-     * @return string
+     * @return Entity
      * @throws OrmException
      */
-    public function create(array $postData, array $fileData): string
+    public function create(array $postData, array $fileData): IStringerEntity
     {
         $entity = $this->fillEntity($this->createEntity(''), $postData, $fileData);
 
@@ -75,22 +75,19 @@ class File extends RepoServiceAbstract
 
         $this->commitCreate($entity);
 
-        return $entity->getId();
+        return $entity;
     }
 
     /**
-     * @param string         $entityId
+     * @param Entity         $entity
      * @param string[]       $postData
      * @param UploadedFile[] $fileData
      *
      * @return bool
      * @throws OrmException
      */
-    public function update(string $entityId, array $postData, array $fileData): bool
+    public function update(IStringerEntity $entity, array $postData, array $fileData): bool
     {
-        /** @var Entity $entity */
-        $entity = $this->retrieveEntity($entityId);
-
         $this->fillEntity($entity, $postData, $fileData);
 
         if (!empty($fileData)) {
@@ -104,16 +101,13 @@ class File extends RepoServiceAbstract
     }
 
     /**
-     * @param string $entityId
+     * @param Entity $entity
      *
      * @return bool
      * @throws OrmException
      */
-    public function delete(string $entityId): bool
+    public function delete(IStringerEntity $entity): bool
     {
-        /** @var Entity $entity */
-        $entity = $this->retrieveEntity($entityId);
-
         $this->deleteFile($entity);
 
         $this->repo->delete($entity);
@@ -126,7 +120,7 @@ class File extends RepoServiceAbstract
     /**
      * @param Entity $entity
      */
-    public function deleteFile(Entity $entity)
+    public function deleteFile(IStringerEntity $entity)
     {
         $this->uploader->delete($entity->getOldFilesystemName());
     }
@@ -152,7 +146,7 @@ class File extends RepoServiceAbstract
      *
      * @return Entity
      */
-    protected function createEntity(string $entityId): IStringerEntity
+    public function createEntity(string $entityId): IStringerEntity
     {
         $fileCategory = new FileCategory('', '', '', false, []);
 

@@ -232,4 +232,16 @@ class File implements IStringerEntity
 
         return $this->publicName;
     }
+
+    /**
+     * @return string
+     */
+    public function toJSON(): string
+    {
+        return json_encode(
+            [
+                "id" => $this->getId(),
+            ]
+        );
+    }
 }

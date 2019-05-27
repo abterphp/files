@@ -85,4 +85,23 @@ class FileDownload implements IStringerEntity
     {
         return '#' . $this->getId();
     }
+
+    /**
+     * @return string
+     */
+    public function toJSON(): string
+    {
+        return json_encode(
+            [
+                'id'            => $this->getId(),
+                'file'          => [
+                    'id' => $this->getFile()->getId(),
+                ],
+                'user'          => [
+                    'id' => $this->getUser(),
+                ],
+                'downloaded_at' => $this->getDownloadedAt(),
+            ]
+        );
+    }
 }

@@ -144,4 +144,25 @@ class FileCategory implements IStringerEntity
     {
         return $this->getName();
     }
+
+    /**
+     * @return string
+     */
+    public function toJSON(): string
+    {
+        $userGroupIds = [];
+        foreach ($this->getUserGroups() as $userGroup) {
+            $userGroupIds[] = $userGroup->getId();
+        }
+
+        return json_encode(
+            [
+                'id'             => $this->getId(),
+                'identifier'     => $this->getIdentifier(),
+                'name'           => $this->getName(),
+                'is_public'      => $this->isPublic(),
+                'user_group_ids' => $userGroupIds,
+            ]
+        );
+    }
 }
