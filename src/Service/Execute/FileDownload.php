@@ -14,6 +14,7 @@ use AbterPhp\Framework\Domain\Entities\IStringerEntity;
 use AbterPhp\Framework\Http\Service\Execute\RepoServiceAbstract;
 use Cocur\Slugify\Slugify;
 use Opulence\Events\Dispatchers\IEventDispatcher;
+use Opulence\Http\Requests\UploadedFile;
 use Opulence\Orm\IUnitOfWork;
 
 class FileDownload extends RepoServiceAbstract
@@ -59,12 +60,13 @@ class FileDownload extends RepoServiceAbstract
     /**
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param Entity $entity
-     * @param array  $data
+     * @param Entity         $entity
+     * @param array          $postData
+     * @param UploadedFile[] $fileData
      *
      * @return Entity
      */
-    protected function fillEntity(IStringerEntity $entity, array $data): IStringerEntity
+    protected function fillEntity(IStringerEntity $entity, array $postData, array $fileData): IStringerEntity
     {
         return $entity;
     }

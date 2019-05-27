@@ -12,6 +12,7 @@ use AbterPhp\Framework\Domain\Entities\IStringerEntity;
 use AbterPhp\Framework\Http\Service\Execute\RepoServiceAbstract;
 use Cocur\Slugify\Slugify;
 use Opulence\Events\Dispatchers\IEventDispatcher;
+use Opulence\Http\Requests\UploadedFile;
 use Opulence\Orm\IUnitOfWork;
 
 class FileCategory extends RepoServiceAbstract
@@ -53,29 +54,32 @@ class FileCategory extends RepoServiceAbstract
     }
 
     /**
-     * @param Entity $entity
-     * @param array  $data
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
+     * @param Entity         $entity
+     * @param array          $postData
+     * @param UploadedFile[] $fileData
      *
      * @return Entity
      */
-    protected function fillEntity(IStringerEntity $entity, array $data): IStringerEntity
+    protected function fillEntity(IStringerEntity $entity, array $postData, array $fileData): IStringerEntity
     {
-        $name = isset($data['name']) ? (string)$data['name'] : '';
+        $name = isset($postData['name']) ? (string)$postData['name'] : '';
 
-        $identifier = (string)$data['identifier'];
+        $identifier = (string)$postData['identifier'];
         if (empty($identifier)) {
             $identifier = $name;
         }
         $identifier = $this->slugify->slugify($identifier);
 
         $userGroups = [];
-        if (array_key_exists('user_group_ids', $data)) {
-            foreach ($data['user_group_ids'] as $id) {
+        if (array_key_exists('user_group_ids', $postData)) {
+            foreach ($postData['user_group_ids'] as $id) {
                 $userGroups[] = new UserGroup((string)$id, '', '');
             }
         }
 
-        $isPublic = isset($data['is_public']) ? (bool)$data['is_public'] : false;
+        $isPublic = isset($postData['is_public']) ? (bool)$postData['is_public'] : false;
 
         $entity
             ->setName($name)

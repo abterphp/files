@@ -67,7 +67,7 @@ class File extends RepoServiceAbstract
      */
     public function create(array $postData, array $fileData): string
     {
-        $entity = $this->fillEntity($this->createEntity(''), $postData);
+        $entity = $this->fillEntity($this->createEntity(''), $postData, $fileData);
 
         $this->uploadFile($entity, $fileData);
 
@@ -91,7 +91,7 @@ class File extends RepoServiceAbstract
         /** @var Entity $entity */
         $entity = $this->retrieveEntity($entityId);
 
-        $this->fillEntity($entity, $postData);
+        $this->fillEntity($entity, $postData, $fileData);
 
         if (!empty($fileData)) {
             $this->deleteFile($entity);
@@ -128,7 +128,7 @@ class File extends RepoServiceAbstract
      */
     public function deleteFile(Entity $entity)
     {
-        $this->uploader->delete($entity->getFilesystemName());
+        $this->uploader->delete($entity->getOldFilesystemName());
     }
 
     /**
@@ -160,27 +160,31 @@ class File extends RepoServiceAbstract
     }
 
     /**
-     * @param Entity $entity
-     * @param array  $data
+     * @param Entity         $entity
+     * @param array          $postData
+     * @param UploadedFile[] $fileData
      *
      * @return Entity
      * @throws OrmException
      */
-    protected function fillEntity(IStringerEntity $entity, array $data): IStringerEntity
+    protected function fillEntity(IStringerEntity $entity, array $postData, array $fileData): IStringerEntity
     {
-        $description = (string)$data['description'];
+        $description = (string)$postData['description'];
 
         /** @var FileCategory $fileCategory */
-        $fileCategory = $this->fileCategoryRepo->getById($data['category_id']);
+        $fileCategory = $this->fileCategoryRepo->getById($postData['category_id']);
 
         $entity
             ->setDescription($description)
             ->setCategory($fileCategory);
 
-        if (array_key_exists('file', $data)) {
+        if (array_key_exists('file', $fileData)) {
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = $fileData['file'];
+
             $entity
-                ->setFilesystemName((string)$data['file'])
-                ->setPublicName((string)$data['filename']);
+                ->setFilesystemName($uploadedFile->getFilename())
+                ->setPublicName($uploadedFile->getTempFilename());
         }
 
         return $entity;

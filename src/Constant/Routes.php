@@ -20,8 +20,8 @@ class Routes
     const ROUTE_FILE_CATEGORIES_DELETE = 'filecategories-delete';
     const PATH_FILE_CATEGORIES         = '/filecategory';
     const PATH_FILE_CATEGORIES_NEW     = '/filecategory/new';
-    const PATH_FILE_CATEGORIES_EDIT    = '/filecategory/:id/edit';
-    const PATH_FILE_CATEGORIES_DELETE  = '/filecategory/:id/delete';
+    const PATH_FILE_CATEGORIES_EDIT    = '/filecategory/:entityId/edit';
+    const PATH_FILE_CATEGORIES_DELETE  = '/filecategory/:entityId/delete';
 
     const ROUTE_FILES          = 'files';
     const ROUTE_FILES_NEW      = 'files-new';
@@ -30,9 +30,9 @@ class Routes
     const ROUTE_FILES_DOWNLOAD = 'files-download';
     const PATH_FILES           = '/file';
     const PATH_FILES_NEW       = '/file/new';
-    const PATH_FILES_EDIT      = '/file/:id/edit';
-    const PATH_FILES_DELETE    = '/file/:id/delete';
-    const PATH_FILES_DOWNLOAD  = '/file/:id';
+    const PATH_FILES_EDIT      = '/file/:entityId/edit';
+    const PATH_FILES_DELETE    = '/file/:entityId/delete';
+    const PATH_FILES_DOWNLOAD  = '/file/:entityId';
 
     const ROUTE_FILE_DOWNLOADS = 'filedownloads';
     const PATH_FILE_DOWNLOADS  = '/filedownload';

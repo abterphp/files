@@ -109,10 +109,9 @@ class Downloader
      */
     public function getStream(File $entity): callable
     {
-        $path   = $this->uploader->getPath(Uploader::DEFAULT_KEY, $entity->getFilesystemName());
-        $stream = $this->uploader->getStream($path);
+        $stream = $this->uploader->getStream($entity->getFilesystemName());
         if (!$stream) {
-            throw new FileNotFoundException($path);
+            throw new FileNotFoundException($this->uploader->getPath($entity->getFilesystemName()));
         }
 
         return $this->getReadStreamCallback($stream);
@@ -148,7 +147,7 @@ class Downloader
      */
     public function logDownload(File $file, User $user)
     {
-        $fileDownload = new FileDownload(0, $file, $user, new \DateTime());
+        $fileDownload = new FileDownload('', $file, $user, new \DateTime());
         $this->fileDownloadRepo->add($fileDownload);
 
         $this->unitOfWork->commit();
