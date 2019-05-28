@@ -28,6 +28,38 @@ $router->group(
                 ],
             ],
             function (Router $router) {
+                $entities = [
+                    'filecategories' => 'FileCategory',
+                    'filedownloads'  => 'FileDownload',
+                    'files'          => 'File',
+                ];
+
+                foreach ($entities as $route => $controllerName) {
+                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileCategory::create() */
+                    /** @see \AbterPhp\Admin\Http\Controllers\Api\File::create() */
+                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileDownload::create() */
+                    $router->post(
+                        "/${route}",
+                        "Api\\${controllerName}@create"
+                    );
+
+                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileCategory::update() */
+                    /** @see \AbterPhp\Admin\Http\Controllers\Api\File::update() */
+                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileDownload::update() */
+                    $router->put(
+                        "/${route}/:entityId",
+                        "Api\\${controllerName}@update"
+                    );
+
+                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileCategory::delete() */
+                    /** @see \AbterPhp\Admin\Http\Controllers\Api\File::delete() */
+                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileDownload::delete() */
+                    $router->delete(
+                        "/${route}/:entityId",
+                        "Api\\${controllerName}@delete"
+                    );
+                }
+
                 /** @see \AbterPhp\Files\Http\Controllers\Api\File\Csv::csv() */
                 $router->get(
                     Routes::PATH_API_CSV,
@@ -40,17 +72,6 @@ $router->group(
                     'Api\File\Download@download',
                     [OPTION_NAME => Routes::ROUTE_API_DOWNLOAD]
                 );
-            }
-        );
-
-        $router->group(
-            [
-                'path'       => PATH_ADMIN,
-                'middleware' => [
-                    Authentication::class,
-                ],
-            ],
-            function (Router $router) {
             }
         );
     }
