@@ -129,12 +129,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/website.git",
-                "reference": "9c7246ef7230c2fbed980ef2b2a53114d7960d26"
+                "reference": "3b2dd48ee77df6098142985aed9437f14b1d123f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/website/zipball/9c7246ef7230c2fbed980ef2b2a53114d7960d26",
-                "reference": "9c7246ef7230c2fbed980ef2b2a53114d7960d26",
+                "url": "https://api.github.com/repos/abterphp/website/zipball/3b2dd48ee77df6098142985aed9437f14b1d123f",
+                "reference": "3b2dd48ee77df6098142985aed9437f14b1d123f",
                 "shasum": ""
             },
             "require": {
@@ -167,7 +167,7 @@
                 }
             ],
             "description": "Website module for AbterPHP",
-            "time": "2019-05-27T16:18:04+00:00"
+            "time": "2019-05-28T15:22:42+00:00"
         },
         {
             "name": "bjeavons/zxcvbn-php",

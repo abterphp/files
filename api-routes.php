@@ -3,11 +3,7 @@
 declare(strict_types=1);
 
 use AbterPhp\Admin\Http\Middleware\Api;
-use AbterPhp\Admin\Http\Middleware\Authentication;
-use AbterPhp\Admin\Http\Middleware\Authorization;
-use AbterPhp\Admin\Http\Middleware\LastGridPage;
 use AbterPhp\Files\Constant\Routes;
-use AbterPhp\Framework\Authorization\Constant\Role;
 use Opulence\Routing\Router;
 
 /**
