@@ -71,6 +71,6 @@ class File extends FormAbstract
     {
         $fileCategory = new FileCategory('', '', '', false, []);
 
-        return new Entity($entityId, '', '', '', $fileCategory, null);
+        return new Entity($entityId, '', '', '', '', $fileCategory, null);
     }
 }

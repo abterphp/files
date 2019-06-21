@@ -70,9 +70,10 @@ class FileDownloadSqlDataMapperTest extends SqlTestCase
         $downloadedAt   = new \DateTime();
         $filesystemName = 'foo';
         $publicName     = 'bar';
+        $mime           = 'text/yax';
         $userName       = 'baz';
 
-        $sql          = 'SELECT file_downloads.id, file_downloads.file_id, file_downloads.user_id, file_downloads.downloaded_at, files.filesystem_name AS filesystem_name, files.public_name AS public_name, users.username AS username FROM file_downloads INNER JOIN files AS files ON files.id=file_downloads.file_id INNER JOIN users AS users ON users.id=file_downloads.user_id WHERE (file_downloads.deleted = 0)'; // phpcs:ignore
+        $sql          = 'SELECT file_downloads.id, file_downloads.file_id, file_downloads.user_id, file_downloads.downloaded_at, files.filesystem_name AS filesystem_name, files.public_name AS public_name, files.mime AS mime, users.username AS username FROM file_downloads INNER JOIN files AS files ON files.id=file_downloads.file_id INNER JOIN users AS users ON users.id=file_downloads.user_id WHERE (file_downloads.deleted = 0)'; // phpcs:ignore
         $values       = [];
         $expectedData = [
             [
@@ -82,6 +83,7 @@ class FileDownloadSqlDataMapperTest extends SqlTestCase
                 'downloaded_at'   => $downloadedAt->format(FileDownload::DATE_FORMAT),
                 'filesystem_name' => $filesystemName,
                 'public_name'     => $publicName,
+                'mime'            => $mime,
                 'username'        => $userName,
             ],
         ];
@@ -101,9 +103,10 @@ class FileDownloadSqlDataMapperTest extends SqlTestCase
         $downloadedAt   = new \DateTime();
         $filesystemName = 'foo';
         $publicName     = 'bar';
+        $mime           = 'text/yax';
         $userName       = 'baz';
 
-        $sql          = 'SELECT file_downloads.id, file_downloads.file_id, file_downloads.user_id, file_downloads.downloaded_at, files.filesystem_name AS filesystem_name, files.public_name AS public_name, users.username AS username FROM file_downloads INNER JOIN files AS files ON files.id=file_downloads.file_id INNER JOIN users AS users ON users.id=file_downloads.user_id WHERE (file_downloads.deleted = 0) AND (file_downloads.id = :file_download_id)'; // phpcs:ignore
+        $sql          = 'SELECT file_downloads.id, file_downloads.file_id, file_downloads.user_id, file_downloads.downloaded_at, files.filesystem_name AS filesystem_name, files.public_name AS public_name, files.mime AS mime, users.username AS username FROM file_downloads INNER JOIN files AS files ON files.id=file_downloads.file_id INNER JOIN users AS users ON users.id=file_downloads.user_id WHERE (file_downloads.deleted = 0) AND (file_downloads.id = :file_download_id)'; // phpcs:ignore
         $values       = ['file_download_id' => [$id, \PDO::PARAM_STR]];
         $expectedData = [
             [
@@ -113,6 +116,7 @@ class FileDownloadSqlDataMapperTest extends SqlTestCase
                 'downloaded_at'   => $downloadedAt->format(FileDownload::DATE_FORMAT),
                 'filesystem_name' => $filesystemName,
                 'public_name'     => $publicName,
+                'mime'            => $mime,
                 'username'        => $userName,
             ],
         ];
@@ -153,9 +157,10 @@ class FileDownloadSqlDataMapperTest extends SqlTestCase
         $downloadedAt   = new \DateTime();
         $filesystemName = 'foo';
         $publicName     = 'bar';
+        $mime           = 'text/yax';
         $userName       = 'baz';
 
-        $sql          = 'SELECT file_downloads.id, file_downloads.file_id, file_downloads.user_id, file_downloads.downloaded_at, files.filesystem_name AS filesystem_name, files.public_name AS public_name, users.username AS username FROM file_downloads INNER JOIN files AS files ON files.id=file_downloads.file_id INNER JOIN users AS users ON users.id=file_downloads.user_id WHERE (file_downloads.deleted = 0) AND (file_id = :file_id)'; // phpcs:ignore
+        $sql          = 'SELECT file_downloads.id, file_downloads.file_id, file_downloads.user_id, file_downloads.downloaded_at, files.filesystem_name AS filesystem_name, files.public_name AS public_name, files.mime AS mime, users.username AS username FROM file_downloads INNER JOIN files AS files ON files.id=file_downloads.file_id INNER JOIN users AS users ON users.id=file_downloads.user_id WHERE (file_downloads.deleted = 0) AND (file_id = :file_id)'; // phpcs:ignore
         $values       = ['file_id' => [$fileId, \PDO::PARAM_STR]];
         $expectedData = [
             [
@@ -165,6 +170,7 @@ class FileDownloadSqlDataMapperTest extends SqlTestCase
                 'downloaded_at'   => $downloadedAt->format(FileDownload::DATE_FORMAT),
                 'filesystem_name' => $filesystemName,
                 'public_name'     => $publicName,
+                'mime'            => $mime,
                 'username'        => $userName,
             ],
         ];
@@ -184,9 +190,10 @@ class FileDownloadSqlDataMapperTest extends SqlTestCase
         $downloadedAt   = new \DateTime();
         $filesystemName = 'foo';
         $publicName     = 'bar';
+        $mime           = 'text/yax';
         $userName       = 'baz';
 
-        $sql          = 'SELECT file_downloads.id, file_downloads.file_id, file_downloads.user_id, file_downloads.downloaded_at, files.filesystem_name AS filesystem_name, files.public_name AS public_name, users.username AS username FROM file_downloads INNER JOIN files AS files ON files.id=file_downloads.file_id INNER JOIN users AS users ON users.id=file_downloads.user_id WHERE (file_downloads.deleted = 0) AND (user_id = :user_id)'; // phpcs:ignore
+        $sql          = 'SELECT file_downloads.id, file_downloads.file_id, file_downloads.user_id, file_downloads.downloaded_at, files.filesystem_name AS filesystem_name, files.public_name AS public_name, files.mime AS mime, users.username AS username FROM file_downloads INNER JOIN files AS files ON files.id=file_downloads.file_id INNER JOIN users AS users ON users.id=file_downloads.user_id WHERE (file_downloads.deleted = 0) AND (user_id = :user_id)'; // phpcs:ignore
         $values       = ['user_id' => [$userId, \PDO::PARAM_STR]];
         $expectedData = [
             [
@@ -196,6 +203,7 @@ class FileDownloadSqlDataMapperTest extends SqlTestCase
                 'downloaded_at'   => $downloadedAt->format(FileDownload::DATE_FORMAT),
                 'filesystem_name' => $filesystemName,
                 'public_name'     => $publicName,
+                'mime'            => $mime,
                 'username'        => $userName,
             ],
         ];
@@ -218,7 +226,7 @@ class FileDownloadSqlDataMapperTest extends SqlTestCase
      */
     protected function createEntity(string $id, string $fileId, string $userId, \DateTime $downloadedAt)
     {
-        $file         = new File($fileId, '', '', '');
+        $file         = new File($fileId, '', '', '', '');
         $userLanguage = new UserLanguage('', '', '');
         $user         = new User($userId, '', '', '', true, true, $userLanguage);
 
@@ -240,6 +248,7 @@ class FileDownloadSqlDataMapperTest extends SqlTestCase
         $this->assertSame($expectedData['downloaded_at'], $downloadedAt);
         $this->assertSame($expectedData['filesystem_name'], $entity->getFile()->getFilesystemName());
         $this->assertSame($expectedData['public_name'], $entity->getFile()->getPublicName());
+        $this->assertSame($expectedData['mime'], $entity->getFile()->getMime());
         $this->assertSame($expectedData['username'], $entity->getUser()->getUsername());
     }
 }

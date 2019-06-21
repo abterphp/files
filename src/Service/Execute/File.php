@@ -167,22 +167,24 @@ class File extends RepoServiceAbstract
      */
     protected function fillEntity(IStringerEntity $entity, array $postData, array $fileData): IStringerEntity
     {
+        $categoryId  = (string)$postData['category_id'];
         $description = (string)$postData['description'];
 
         /** @var FileCategory $fileCategory */
-        $fileCategory = $this->fileCategoryRepo->getById($postData['category_id']);
+        $fileCategory = $this->fileCategoryRepo->getById($categoryId);
 
         $entity
             ->setDescription($description)
             ->setCategory($fileCategory);
 
-        if (array_key_exists('file', $fileData)) {
+        if (array_key_exists(static::INPUT_NAME_FILE, $fileData)) {
             /** @var UploadedFile $uploadedFile */
-            $uploadedFile = $fileData['file'];
+            $uploadedFile = $fileData[static::INPUT_NAME_FILE];
 
             $entity
                 ->setFilesystemName($uploadedFile->getFilename())
-                ->setPublicName($uploadedFile->getTempFilename());
+                ->setPublicName($uploadedFile->getTempFilename())
+                ->setMime($uploadedFile->getMimeType());
         }
 
         return $entity;

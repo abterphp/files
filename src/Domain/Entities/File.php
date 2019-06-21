@@ -24,6 +24,9 @@ class File implements IStringerEntity
     protected $publicName;
 
     /** @var string */
+    protected $mime;
+
+    /** @var string */
     protected $description;
 
     /** @var DateTime */
@@ -35,16 +38,21 @@ class File implements IStringerEntity
     /** @var bool */
     protected $writable;
 
+    /** @var string|null */
+    protected $content;
+
     /**
      * File constructor.
      *
      * @param string            $id
      * @param string            $filesystemName
      * @param string            $publicName
+     * @param string            $mime
      * @param string            $description
      * @param FileCategory|null $category
      * @param DateTime|null     $uploadedAt
      * @param bool              $writable
+     * @param string|null       $content
      *
      * @throws \Exception
      */
@@ -52,19 +60,23 @@ class File implements IStringerEntity
         string $id,
         string $filesystemName,
         string $publicName,
+        string $mime,
         string $description,
         FileCategory $category = null,
         DateTime $uploadedAt = null,
-        bool $writable = false
+        bool $writable = false,
+        ?string $content = null
     ) {
         $this->id                = $id;
         $this->filesystemName    = $filesystemName;
         $this->oldFilesystemName = $filesystemName;
         $this->publicName        = $publicName;
+        $this->mime              = $mime;
         $this->description       = $description;
         $this->category          = $category;
         $this->uploadedAt        = $uploadedAt ?: new DateTime();
         $this->writable          = $writable;
+        $this->content           = $content;
     }
 
     /**
@@ -135,6 +147,26 @@ class File implements IStringerEntity
     public function setPublicName(string $publicName): File
     {
         $this->publicName = $publicName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMime(): string
+    {
+        return $this->mime;
+    }
+
+    /**
+     * @param string $mime
+     *
+     * @return File
+     */
+    public function setMime(string $mime): File
+    {
+        $this->mime = $mime;
 
         return $this;
     }
@@ -222,6 +254,30 @@ class File implements IStringerEntity
     }
 
     /**
+     * @return bool
+     */
+    public function hasContent(): bool
+    {
+        return !($this->content === null);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param string|null $content
+     */
+    public function setContent(?string $content): void
+    {
+        $this->content = $content;
+    }
+
+    /**
      * @return string
      */
     public function __toString(): string
@@ -238,13 +294,19 @@ class File implements IStringerEntity
      */
     public function toJSON(): string
     {
-        return json_encode(
-            [
-                'id'          => $this->getId(),
-                'name'        => $this->getPublicName(),
-                'description' => $this->getDescription(),
-                'category_id' => $this->getCategory()->getId(),
-            ]
-        );
+        $data = [
+            'id'          => $this->getId(),
+            'name'        => $this->getPublicName(),
+            'mime'        => $this->getMime(),
+            'description' => $this->getDescription(),
+            'category_id' => $this->getCategory()->getId(),
+            'uploaded_at' => $this->getUploadedAt()->format(\DateTime::ISO8601),
+        ];
+
+        if ($this->hasContent()) {
+            $data['data'] = $this->getContent();
+        }
+
+        return json_encode($data);
     }
 }

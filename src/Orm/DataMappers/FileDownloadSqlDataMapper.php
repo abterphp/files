@@ -189,7 +189,7 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
      */
     protected function loadEntity(array $hash)
     {
-        $file         = new File($hash['file_id'], $hash['filesystem_name'], $hash['public_name'], '');
+        $file         = new File($hash['file_id'], $hash['filesystem_name'], $hash['public_name'], $hash['mime'], '');
         $userLanguage = new UserLanguage('', '', '');
         $user         = new User(
             $hash['user_id'],
@@ -223,6 +223,7 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
                 'file_downloads.downloaded_at',
                 'files.filesystem_name AS filesystem_name',
                 'files.public_name AS public_name',
+                'files.mime AS mime',
                 'users.username AS username'
             )
             ->from('file_downloads')

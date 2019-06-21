@@ -237,7 +237,7 @@ class Cleanup extends Command
 
         foreach ($fsOnly as $id => $path) {
             try {
-                $this->fileRepo->delete(new Entity($id, '', '', ''));
+                $this->fileRepo->delete(new Entity($id, '', '', '', ''));
                 $response->writeln(sprintf('<comment>%d: %s</comment>', $id, $path));
             } catch (\Exception $e) {
                 if ($e->getPrevious()) {

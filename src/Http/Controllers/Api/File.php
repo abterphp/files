@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Http\Controllers\Api;
 
+use AbterPhp\Files\Domain\Entities\File as Entity;
 use AbterPhp\Files\Service\Execute\Api\File as RepoService;
 use AbterPhp\Framework\Config\Provider as ConfigProvider;
 use AbterPhp\Framework\Databases\Queries\FoundRows;
 use AbterPhp\Framework\Http\Controllers\ApiAbstract;
 use League\Flysystem\Filesystem;
+use Opulence\Http\Responses\Response;
 use Psr\Log\LoggerInterface;
 
 class File extends ApiAbstract
@@ -42,6 +44,31 @@ class File extends ApiAbstract
         parent::__construct($logger, $repoService, $foundRows, $configProvider);
 
         $this->filesystem = $filesystem;
+    }
+
+    /**
+     * @param string $entityId
+     *
+     * @return Response
+     */
+    public function get(string $entityId): Response
+    {
+        try {
+            /** @var Entity $entity */
+            $entity = $this->repoService->retrieveEntity($entityId);
+        } catch (\Exception $e) {
+            $msg = sprintf(static::LOG_MSG_GET_FAILURE, static::ENTITY_SINGULAR);
+
+            return $this->handleException($msg, $e);
+        }
+
+        if ($this->request->getQuery()->get('embed') === 'data') {
+            $content = $this->filesystem->read($entity->getFilesystemName());
+
+            $entity->setContent(base64_encode($content));
+        }
+
+        return $this->handleGetSuccess($entity);
     }
 
     /**

@@ -154,7 +154,7 @@ class File extends RepoServiceAbstract
     {
         $fileCategory = new FileCategory('', '', '', false, []);
 
-        return new Entity($entityId, '', '', '', $fileCategory, null);
+        return new Entity($entityId, '', '', '', '', $fileCategory, null);
     }
 
     /**
@@ -169,20 +169,21 @@ class File extends RepoServiceAbstract
      */
     protected function fillEntity(IStringerEntity $entity, array $postData, array $fileData): IStringerEntity
     {
-        $description = (string)$postData['description'];
+        $categoryId     = (string)$postData['category_id'];
+        $description    = (string)$postData['description'];
+        $filesystemName = (string)$postData['filesystem_name'];
+        $publicName     = (string)$postData['public_name'];
+        $mime           = (string)$postData['mime'];
 
         /** @var FileCategory $fileCategory */
-        $fileCategory = $this->fileCategoryRepo->getById($postData['category_id']);
+        $fileCategory = $this->fileCategoryRepo->getById($categoryId);
 
         $entity
             ->setDescription($description)
-            ->setCategory($fileCategory);
-
-        if (array_key_exists('filesystem_name', $postData)) {
-            $entity
-                ->setFilesystemName($postData['filesystem_name'])
-                ->setPublicName($postData['public_name']);
-        }
+            ->setCategory($fileCategory)
+            ->setFilesystemName($filesystemName)
+            ->setPublicName($publicName)
+            ->setMime($mime);
 
         return $entity;
     }
