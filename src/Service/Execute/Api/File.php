@@ -159,7 +159,7 @@ class File extends RepoServiceAbstract
 
     /**
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     * 
+     *
      * @param Entity         $entity
      * @param array          $postData
      * @param UploadedFile[] $fileData
