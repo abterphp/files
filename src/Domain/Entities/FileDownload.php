@@ -98,7 +98,7 @@ class FileDownload implements IStringerEntity
                     'id' => $this->getFile()->getId(),
                 ],
                 'user'          => [
-                    'id' => $this->getUser(),
+                    'id' => $this->getUser()->getId(),
                 ],
                 'downloaded_at' => $this->getDownloadedAt(),
             ]

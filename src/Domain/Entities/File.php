@@ -240,7 +240,10 @@ class File implements IStringerEntity
     {
         return json_encode(
             [
-                "id" => $this->getId(),
+                'id'          => $this->getId(),
+                'name'        => $this->getPublicName(),
+                'description' => $this->getDescription(),
+                'category_id' => $this->getCategory()->getId(),
             ]
         );
     }

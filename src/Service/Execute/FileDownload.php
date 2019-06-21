@@ -68,6 +68,12 @@ class FileDownload extends RepoServiceAbstract
      */
     protected function fillEntity(IStringerEntity $entity, array $postData, array $fileData): IStringerEntity
     {
+        $file = $entity->getFile();
+        $file->setId($postData['file_id']);
+
+        $user = $entity->getUser();
+        $user->setId($postData['user_id']);
+
         return $entity;
     }
 }

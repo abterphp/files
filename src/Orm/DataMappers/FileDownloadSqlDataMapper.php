@@ -34,8 +34,11 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
                 ]
             );
 
-        $statement = $this->writeConnection->prepare($query->getSql());
-        $statement->bindValues($query->getParameters());
+        $sql    = $query->getSql();
+        $params = $query->getParameters();
+
+        $statement = $this->writeConnection->prepare($sql);
+        $statement->bindValues($params);
         $statement->execute();
     }
 
@@ -53,8 +56,11 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
             ->where('id = ?')
             ->addUnnamedPlaceholderValue($entity->getId(), \PDO::PARAM_STR);
 
-        $statement = $this->writeConnection->prepare($query->getSql());
-        $statement->bindValues($query->getParameters());
+        $sql    = $query->getSql();
+        $params = $query->getParameters();
+
+        $statement = $this->writeConnection->prepare($sql);
+        $statement->bindValues($params);
         $statement->execute();
     }
 
@@ -168,8 +174,11 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
             ->where('id = ?')
             ->addUnnamedPlaceholderValue($entity->getId(), \PDO::PARAM_STR);
 
-        $statement = $this->writeConnection->prepare($query->getSql());
-        $statement->bindValues($query->getParameters());
+        $sql    = $query->getSql();
+        $params = $query->getParameters();
+
+        $statement = $this->writeConnection->prepare($sql);
+        $statement->bindValues($params);
         $statement->execute();
     }
 

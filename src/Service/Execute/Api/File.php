@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace AbterPhp\Files\Service\Execute;
+namespace AbterPhp\Files\Service\Execute\Api;
 
 use AbterPhp\Files\Domain\Entities\File as Entity;
 use AbterPhp\Files\Domain\Entities\FileCategory;
 use AbterPhp\Files\Orm\FileCategoryRepo;
 use AbterPhp\Files\Orm\FileRepo as GridRepo;
-use AbterPhp\Files\Validation\Factory\File as ValidatorFactory;
+use AbterPhp\Files\Validation\Factory\Api\File as ValidatorFactory;
 use AbterPhp\Framework\Domain\Entities\IStringerEntity;
 use AbterPhp\Framework\Filesystem\Uploader;
 use AbterPhp\Framework\Http\Service\Execute\RepoServiceAbstract;
@@ -176,13 +176,10 @@ class File extends RepoServiceAbstract
             ->setDescription($description)
             ->setCategory($fileCategory);
 
-        if (array_key_exists('file', $fileData)) {
-            /** @var UploadedFile $uploadedFile */
-            $uploadedFile = $fileData['file'];
-
+        if (array_key_exists('filesystem_name', $postData)) {
             $entity
-                ->setFilesystemName($uploadedFile->getFilename())
-                ->setPublicName($uploadedFile->getTempFilename());
+                ->setFilesystemName($postData['filesystem_name'])
+                ->setPublicName($postData['public_name']);
         }
 
         return $entity;

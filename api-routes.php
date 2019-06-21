@@ -31,6 +31,22 @@ $router->group(
                 ];
 
                 foreach ($entities as $route => $controllerName) {
+                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileCategory::get() */
+                    /** @see \AbterPhp\Admin\Http\Controllers\Api\File::get() */
+                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileDownload::get() */
+                    $router->get(
+                        "/${route}/:entityId",
+                        "Api\\${controllerName}@get"
+                    );
+
+                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileCategory::list() */
+                    /** @see \AbterPhp\Admin\Http\Controllers\Api\File::list() */
+                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileDownload::list() */
+                    $router->get(
+                        "/${route}",
+                        "Api\\${controllerName}@list"
+                    );
+
                     /** @see \AbterPhp\Admin\Http\Controllers\Api\FileCategory::create() */
                     /** @see \AbterPhp\Admin\Http\Controllers\Api\File::create() */
                     /** @see \AbterPhp\Admin\Http\Controllers\Api\FileDownload::create() */
