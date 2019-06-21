@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/admin.git",
-                "reference": "e1fc66a1fa22ed7e75993addc32b867d5129cba3"
+                "reference": "3eafb59ab158973e2398b21e67c299b22d480872"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/admin/zipball/e1fc66a1fa22ed7e75993addc32b867d5129cba3",
-                "reference": "e1fc66a1fa22ed7e75993addc32b867d5129cba3",
+                "url": "https://api.github.com/repos/abterphp/admin/zipball/3eafb59ab158973e2398b21e67c299b22d480872",
+                "reference": "3eafb59ab158973e2398b21e67c299b22d480872",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 }
             ],
             "description": "Admin module for AbterPHP",
-            "time": "2019-06-21T18:36:12+00:00"
+            "time": "2019-06-21T20:48:42+00:00"
         },
         {
             "name": "abterphp/framework",
@@ -61,12 +61,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/framework.git",
-                "reference": "932fc10ebdc68b19c32adb2d64af7093d60eab8c"
+                "reference": "5f8f057c7aa08c3d46eb3cef6547dca826c57148"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/framework/zipball/932fc10ebdc68b19c32adb2d64af7093d60eab8c",
-                "reference": "932fc10ebdc68b19c32adb2d64af7093d60eab8c",
+                "url": "https://api.github.com/repos/abterphp/framework/zipball/5f8f057c7aa08c3d46eb3cef6547dca826c57148",
+                "reference": "5f8f057c7aa08c3d46eb3cef6547dca826c57148",
                 "shasum": ""
             },
             "require": {
@@ -122,7 +122,7 @@
                 }
             ],
             "description": "Foundations for AbterPHP",
-            "time": "2019-06-21T18:13:16+00:00"
+            "time": "2019-06-21T20:40:02+00:00"
         },
         {
             "name": "abterphp/website",
