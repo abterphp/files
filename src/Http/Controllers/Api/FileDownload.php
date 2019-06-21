@@ -28,6 +28,8 @@ class FileDownload extends ApiAbstract
     }
 
     /**
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      * @param string $entityId
      *
      * @return Response
