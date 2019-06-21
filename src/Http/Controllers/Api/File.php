@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace AbterPhp\Files\Http\Controllers\Api;
 
 use AbterPhp\Files\Service\Execute\Api\File as RepoService;
+use AbterPhp\Framework\Config\Provider as ConfigProvider;
 use AbterPhp\Framework\Databases\Queries\FoundRows;
-use AbterPhp\Framework\Http\Controllers\Admin\ApiAbstract;
+use AbterPhp\Framework\Http\Controllers\ApiAbstract;
 use League\Flysystem\Filesystem;
 use Psr\Log\LoggerInterface;
 
@@ -28,15 +29,17 @@ class File extends ApiAbstract
      * @param LoggerInterface $logger
      * @param RepoService     $repoService
      * @param FoundRows       $foundRows
+     * @param ConfigProvider  $configProvider
      * @param Filesystem      $filesystem
      */
     public function __construct(
         LoggerInterface $logger,
         RepoService $repoService,
         FoundRows $foundRows,
+        ConfigProvider $configProvider,
         Filesystem $filesystem
     ) {
-        parent::__construct($logger, $repoService, $foundRows);
+        parent::__construct($logger, $repoService, $foundRows, $configProvider);
 
         $this->filesystem = $filesystem;
     }
