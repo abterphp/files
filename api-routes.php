@@ -31,41 +31,41 @@ $router->group(
                 ];
 
                 foreach ($entities as $route => $controllerName) {
-                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileCategory::get() */
-                    /** @see \AbterPhp\Admin\Http\Controllers\Api\File::get() */
-                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileDownload::get() */
+                    /** @see \AbterPhp\Files\Http\Controllers\Api\FileCategory::get() */
+                    /** @see \AbterPhp\Files\Http\Controllers\Api\File::get() */
+                    /** @see \AbterPhp\Files\Http\Controllers\Api\FileDownload::get() */
                     $router->get(
                         "/${route}/:entityId",
                         "Api\\${controllerName}@get"
                     );
 
-                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileCategory::list() */
-                    /** @see \AbterPhp\Admin\Http\Controllers\Api\File::list() */
-                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileDownload::list() */
+                    /** @see \AbterPhp\Files\Http\Controllers\Api\FileCategory::list() */
+                    /** @see \AbterPhp\Files\Http\Controllers\Api\File::list() */
+                    /** @see \AbterPhp\Files\Http\Controllers\Api\FileDownload::list() */
                     $router->get(
                         "/${route}",
                         "Api\\${controllerName}@list"
                     );
 
-                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileCategory::create() */
-                    /** @see \AbterPhp\Admin\Http\Controllers\Api\File::create() */
-                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileDownload::create() */
+                    /** @see \AbterPhp\Files\Http\Controllers\Api\FileCategory::create() */
+                    /** @see \AbterPhp\Files\Http\Controllers\Api\File::create() */
+                    /** @see \AbterPhp\Files\Http\Controllers\Api\FileDownload::create() */
                     $router->post(
                         "/${route}",
                         "Api\\${controllerName}@create"
                     );
 
-                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileCategory::update() */
-                    /** @see \AbterPhp\Admin\Http\Controllers\Api\File::update() */
-                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileDownload::update() */
+                    /** @see \AbterPhp\Files\Http\Controllers\Api\FileCategory::update() */
+                    /** @see \AbterPhp\Files\Http\Controllers\Api\File::update() */
+                    /** @see \AbterPhp\Files\Http\Controllers\Api\FileDownload::update() */
                     $router->put(
                         "/${route}/:entityId",
                         "Api\\${controllerName}@update"
                     );
 
-                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileCategory::delete() */
-                    /** @see \AbterPhp\Admin\Http\Controllers\Api\File::delete() */
-                    /** @see \AbterPhp\Admin\Http\Controllers\Api\FileDownload::delete() */
+                    /** @see \AbterPhp\Files\Http\Controllers\Api\FileCategory::delete() */
+                    /** @see \AbterPhp\Files\Http\Controllers\Api\File::delete() */
+                    /** @see \AbterPhp\Files\Http\Controllers\Api\FileDownload::delete() */
                     $router->delete(
                         "/${route}/:entityId",
                         "Api\\${controllerName}@delete"
