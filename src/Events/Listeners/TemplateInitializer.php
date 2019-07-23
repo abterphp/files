@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Events\Listeners;
 
-use AbterPhp\Files\Template\FileLoader as Loader;
+use AbterPhp\Files\Template\Loader\File as Loader;
 use AbterPhp\Framework\Events\TemplateEngineReady;
 use AbterPhp\Framework\Template\ILoader;
 

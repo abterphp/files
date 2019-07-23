@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AbterPhp\Files\Template;
+namespace AbterPhp\Files\Template\Loader;
 
 use AbterPhp\Files\Constant\Routes;
 use AbterPhp\Framework\Html\Helper\StringHelper;
@@ -11,9 +11,10 @@ use AbterPhp\Framework\Template\ILoader;
 use AbterPhp\Framework\Template\Data;
 use AbterPhp\Files\Domain\Entities\File as Entity;
 use AbterPhp\Files\Orm\FileRepo;
+use AbterPhp\Framework\Template\ParsedTemplate;
 use Opulence\Routing\Urls\UrlGenerator;
 
-class FileLoader implements ILoader
+class File implements ILoader
 {
     const TAG_A  = 'a';
     const TAG_LI = 'li';
@@ -31,7 +32,7 @@ class FileLoader implements ILoader
     protected $urlGenerator;
 
     /**
-     * FileLoader constructor.
+     * File constructor.
      *
      * @param FileRepo     $fileRepo
      * @param UrlGenerator $urlGenerator
@@ -43,12 +44,14 @@ class FileLoader implements ILoader
     }
 
     /**
-     * @param string[] $identifiers
+     * @param ParsedTemplate[] $parsedTemplates
      *
      * @return IData[]
      */
-    public function load(array $identifiers): array
+    public function load(array $parsedTemplates): array
     {
+        $identifiers = array_keys($parsedTemplates);
+
         $files = $this->fileRepo->getPublicByCategoryIdentifiers($identifiers);
 
         $filesByCategories = $this->getFilesByCategory($files);
