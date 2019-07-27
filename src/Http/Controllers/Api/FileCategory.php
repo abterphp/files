@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AbterPhp\Files\Http\Controllers\Api;
 
 use AbterPhp\Files\Service\Execute\FileCategory as RepoService;
-use AbterPhp\Framework\Config\Provider as ConfigProvider;
+use AbterPhp\Framework\Config\EnvReader;
 use AbterPhp\Framework\Databases\Queries\FoundRows;
 use AbterPhp\Framework\Http\Controllers\ApiAbstract;
 use Psr\Log\LoggerInterface;
@@ -21,15 +21,15 @@ class FileCategory extends ApiAbstract
      * @param LoggerInterface $logger
      * @param RepoService     $repoService
      * @param FoundRows       $foundRows
-     * @param ConfigProvider  $configProvider
+     * @param EnvReader       $envReader
      */
     public function __construct(
         LoggerInterface $logger,
         RepoService $repoService,
         FoundRows $foundRows,
-        ConfigProvider $configProvider
+        EnvReader $envReader
     ) {
-        parent::__construct($logger, $repoService, $foundRows, $configProvider);
+        parent::__construct($logger, $repoService, $foundRows, $envReader);
     }
 
     /**
