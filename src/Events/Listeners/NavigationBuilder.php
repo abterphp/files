@@ -46,7 +46,7 @@ class NavigationBuilder
             return;
         }
 
-        $item   = $this->createFilesItem();
+        $item = $this->createFilesItem();
 
         $navigation->addItem($item, static::BASE_WEIGHT);
     }
@@ -87,7 +87,7 @@ class NavigationBuilder
         $item->setIntent(Item::INTENT_DROPDOWN);
         $item->setAttribute(Html5::ATTR_ID, 'nav-files');
 
-        if (count($item) > 0 && $item instanceof ITag) {
+        if (!empty($item[0]) && $item[0] instanceof ITag) {
             $item[0]->setAttribute(Html5::ATTR_HREF, 'javascript:void(0);');
         }
 
@@ -102,7 +102,7 @@ class NavigationBuilder
      */
     protected function createDropdown(): Dropdown
     {
-        $dropdown = new Dropdown();
+        $dropdown   = new Dropdown();
         $dropdown[] = $this->createFileCategoriesItem();
         $dropdown[] = $this->createFilesItem();
         $dropdown[] = $this->createFileDownloadsItem();
