@@ -32,7 +32,7 @@ class CsvCreator
     }
 
     /**
-     * @param Entity[] $file
+     * @param Entity[] $files
      *
      * @return string
      */

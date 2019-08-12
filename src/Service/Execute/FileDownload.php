@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Service\Execute;
 
+use AbterPhp\Admin\Http\Service\Execute\RepoServiceAbstract;
 use AbterPhp\Admin\Domain\Entities\User;
 use AbterPhp\Admin\Domain\Entities\UserLanguage;
 use AbterPhp\Files\Domain\Entities\File;
@@ -11,7 +12,6 @@ use AbterPhp\Files\Domain\Entities\FileDownload as Entity;
 use AbterPhp\Files\Orm\FileDownloadRepo as GridRepo;
 use AbterPhp\Files\Validation\Factory\FileDownload as ValidatorFactory;
 use AbterPhp\Framework\Domain\Entities\IStringerEntity;
-use AbterPhp\Framework\Http\Service\Execute\RepoServiceAbstract;
 use Cocur\Slugify\Slugify;
 use Opulence\Events\Dispatchers\IEventDispatcher;
 use Opulence\Http\Requests\UploadedFile;
@@ -60,14 +60,18 @@ class FileDownload extends RepoServiceAbstract
     /**
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param Entity         $entity
-     * @param array          $postData
-     * @param UploadedFile[] $fileData
+     * @param IStringerEntity $entity
+     * @param array           $postData
+     * @param UploadedFile[]  $fileData
      *
      * @return Entity
      */
     protected function fillEntity(IStringerEntity $entity, array $postData, array $fileData): IStringerEntity
     {
+        if (!($entity instanceof Entity)) {
+            throw new \InvalidArgumentException('Invalid entity');
+        }
+
         $file = $entity->getFile();
         $file->setId($postData['file_id']);
 

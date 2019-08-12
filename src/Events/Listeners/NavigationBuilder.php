@@ -8,7 +8,7 @@ use AbterPhp\Files\Constant\Routes;
 use AbterPhp\Framework\Constant\Html5;
 use AbterPhp\Framework\Events\NavigationReady;
 use AbterPhp\Framework\Html\Component\ButtonFactory;
-use AbterPhp\Framework\I18n\ITranslator;
+use AbterPhp\Framework\Html\ITag;
 use AbterPhp\Framework\Navigation\Dropdown;
 use AbterPhp\Framework\Navigation\Item;
 use AbterPhp\Framework\Navigation\Navigation;
@@ -33,6 +33,11 @@ class NavigationBuilder
     /**
      * @param NavigationReady $event
      */
+    /**
+     * @param NavigationReady $event
+     *
+     * @throws \Opulence\Routing\Urls\UrlException
+     */
     public function handle(NavigationReady $event)
     {
         $navigation = $event->getNavigation();
@@ -41,16 +46,7 @@ class NavigationBuilder
             return;
         }
 
-        $dropdown = new Dropdown();
-        $dropdown[] = $this->createFileCategoriesItem();
-        $dropdown[] = $this->createFilesItem();
-        $dropdown[] = $this->createFileDownloadsItem();
-
         $item   = $this->createFilesItem();
-        $item->setIntent(Item::INTENT_DROPDOWN);
-        $item->setAttribute(Html5::ATTR_ID, 'nav-files');
-        $item[0]->setAttribute(Html5::ATTR_HREF, 'javascript:void(0);');
-        $item[1] = $dropdown;
 
         $navigation->addItem($item, static::BASE_WEIGHT);
     }
@@ -88,7 +84,30 @@ class NavigationBuilder
         $item = new Item($button);
         $item->setResource($resource);
 
+        $item->setIntent(Item::INTENT_DROPDOWN);
+        $item->setAttribute(Html5::ATTR_ID, 'nav-files');
+
+        if (count($item) > 0 && $item instanceof ITag) {
+            $item[0]->setAttribute(Html5::ATTR_HREF, 'javascript:void(0);');
+        }
+
+        $item[] = $this->createDropdown();
+
         return $item;
+    }
+
+    /**
+     * @return Dropdown
+     * @throws \Opulence\Routing\Urls\UrlException
+     */
+    protected function createDropdown(): Dropdown
+    {
+        $dropdown = new Dropdown();
+        $dropdown[] = $this->createFileCategoriesItem();
+        $dropdown[] = $this->createFilesItem();
+        $dropdown[] = $this->createFileDownloadsItem();
+
+        return $dropdown;
     }
 
     /**

@@ -15,7 +15,7 @@ class FileCategorySqlDataMapperTest extends SqlTestCase
     /** @var FileCategorySqlDataMapper */
     protected $sut;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

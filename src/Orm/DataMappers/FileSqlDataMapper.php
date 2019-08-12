@@ -11,6 +11,8 @@ use Opulence\QueryBuilders\Conditions\ConditionFactory;
 use Opulence\QueryBuilders\MySql\QueryBuilder;
 use Opulence\QueryBuilders\MySql\SelectQuery;
 
+/** @phan-file-suppress PhanTypeMismatchArgument */
+
 class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
 {
     /**
@@ -46,6 +48,8 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
 
     /**
      * @param Entity $entity
+     *
+     * @throws \Opulence\QueryBuilders\InvalidQueryException
      */
     public function delete($entity)
     {
@@ -68,6 +72,7 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
 
     /**
      * @return Entity[]
+     * @throws \Opulence\Orm\OrmException
      */
     public function getAll(): array
     {
@@ -86,6 +91,7 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
      * @param array    $params
      *
      * @return Entity[]
+     * @throws \Opulence\Orm\OrmException
      */
     public function getPage(int $limitFrom, int $pageSize, array $orders, array $conditions, array $params): array
     {
@@ -113,6 +119,7 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
      * @param int|string $id
      *
      * @return Entity
+     * @throws \Opulence\Orm\OrmException
      */
     public function getById($id)
     {
@@ -130,6 +137,7 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
      * @param string $filesystemName
      *
      * @return Entity
+     * @throws \Opulence\Orm\OrmException
      */
     public function getByFilesystemName(string $filesystemName): Entity
     {
@@ -147,6 +155,7 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
      * @param string $filesystemName
      *
      * @return Entity
+     * @throws \Opulence\Orm\OrmException
      */
     public function getPublicByFilesystemName(string $filesystemName): Entity
     {
@@ -189,6 +198,7 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
      * @param string $userId
      *
      * @return Entity[]
+     * @throws \Opulence\Orm\OrmException
      */
     public function getByUserId(string $userId): array
     {

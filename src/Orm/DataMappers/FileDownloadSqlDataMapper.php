@@ -12,6 +12,8 @@ use Opulence\Orm\DataMappers\SqlDataMapper;
 use Opulence\QueryBuilders\MySql\QueryBuilder;
 use Opulence\QueryBuilders\MySql\SelectQuery;
 
+/** @phan-file-suppress PhanTypeMismatchArgument */
+
 class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDataMapper
 {
     /**
@@ -44,6 +46,8 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
 
     /**
      * @param Entity $entity
+     *
+     * @throws \Opulence\QueryBuilders\InvalidQueryException
      */
     public function delete($entity)
     {
@@ -65,7 +69,8 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
     }
 
     /**
-     * @return array
+     * @return Entity[]
+     * @throws \Opulence\Orm\OrmException
      */
     public function getAll(): array
     {
@@ -82,6 +87,7 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
      * @param array    $params
      *
      * @return Entity[]
+     * @throws \Opulence\Orm\OrmException
      */
     public function getPage(int $limitFrom, int $pageSize, array $orders, array $conditions, array $params): array
     {
@@ -108,7 +114,8 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
     /**
      * @param int|string $id
      *
-     * @return Entity|null
+     * @return Entity
+     * @throws \Opulence\Orm\OrmException
      */
     public function getById($id)
     {
@@ -125,6 +132,7 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
      * @param string $userId
      *
      * @return Entity[]
+     * @throws \Opulence\Orm\OrmException
      */
     public function getByUserId(string $userId): array
     {
@@ -140,6 +148,7 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
      * @param string $fileId
      *
      * @return Entity[]
+     * @throws \Opulence\Orm\OrmException
      */
     public function getByFileId(string $fileId): array
     {
@@ -153,7 +162,9 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
     }
 
     /**
-     * @param Entity $entity
+     * @param object $entity
+     *
+     * @throws \Opulence\QueryBuilders\InvalidQueryException
      */
     public function update($entity)
     {
@@ -186,6 +197,7 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
      * @param array $hash
      *
      * @return Entity
+     * @throws \Exception
      */
     protected function loadEntity(array $hash)
     {

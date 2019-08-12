@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace AbterPhp\Files\Orm\DataMappers;
 
 use AbterPhp\Admin\Domain\Entities\UserGroup;
+use AbterPhp\Admin\Orm\DataMappers\IdGeneratorUserTrait;
 use AbterPhp\Files\Domain\Entities\FileCategory as Entity;
-use AbterPhp\Framework\Orm\DataMappers\IdGeneratorUserTrait;
 use Opulence\Orm\DataMappers\SqlDataMapper;
 use Opulence\QueryBuilders\MySql\QueryBuilder;
 use Opulence\QueryBuilders\MySql\SelectQuery;
+
+/** @phan-file-suppress PhanTypeMismatchArgument */
 
 class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDataMapper
 {
@@ -48,6 +50,8 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
 
     /**
      * @param Entity $entity
+     *
+     * @throws \Opulence\QueryBuilders\InvalidQueryException
      */
     public function delete($entity)
     {
@@ -71,6 +75,7 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
 
     /**
      * @return Entity[]
+     * @throws \Opulence\Orm\OrmException
      */
     public function getAll(): array
     {
@@ -89,6 +94,7 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
      * @param array    $params
      *
      * @return Entity[]
+     * @throws \Opulence\Orm\OrmException
      */
     public function getPage(int $limitFrom, int $pageSize, array $orders, array $conditions, array $params): array
     {
@@ -113,9 +119,10 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
     }
 
     /**
-     * @param int|string $id
+     * @param string $id
      *
-     * @return array|null
+     * @return Entity
+     * @throws \Opulence\Orm\OrmException
      */
     public function getById($id)
     {
@@ -134,6 +141,7 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
      * @param string $userGroupId
      *
      * @return Entity[]
+     * @throws \Opulence\Orm\OrmException
      */
     public function getByUserGroupId(string $userGroupId): array
     {
@@ -150,6 +158,8 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
 
     /**
      * @param Entity $entity
+     *
+     * @throws \Opulence\QueryBuilders\InvalidQueryException
      */
     public function update($entity)
     {
@@ -183,6 +193,8 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
 
     /**
      * @param Entity $entity
+     *
+     * @throws \Opulence\QueryBuilders\InvalidQueryException
      */
     protected function deleteUserGroups(Entity $entity)
     {

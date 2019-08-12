@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Http\Controllers\Api;
 
+use AbterPhp\Admin\Http\Controllers\ApiAbstract;
 use AbterPhp\Files\Service\Execute\FileDownload as RepoService;
 use AbterPhp\Framework\Config\EnvReader;
 use AbterPhp\Framework\Databases\Queries\FoundRows;
-use AbterPhp\Framework\Http\Controllers\ApiAbstract;
 use Opulence\Http\Responses\Response;
+use Opulence\Http\Responses\ResponseHeaders;
 use Psr\Log\LoggerInterface;
 
 class FileDownload extends ApiAbstract
 {
     const ENTITY_SINGULAR = 'fileDownload';
     const ENTITY_PLURAL   = 'fileDownloads';
+
+    /** @var RepoService */
+    protected $repoService;
 
     /**
      * FileDownload constructor.

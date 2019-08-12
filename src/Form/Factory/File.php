@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Form\Factory;
 
+use AbterPhp\Admin\Form\Factory\Base;
+use AbterPhp\Admin\Form\Factory\IFormFactory;
 use AbterPhp\Files\Domain\Entities\File as Entity;
 use AbterPhp\Files\Domain\Entities\FileCategory;
 use AbterPhp\Files\Orm\FileCategoryRepo;
@@ -14,8 +16,6 @@ use AbterPhp\Framework\Form\Element\Input;
 use AbterPhp\Framework\Form\Element\Select;
 use AbterPhp\Framework\Form\Element\Textarea;
 use AbterPhp\Framework\Form\Extra\Help;
-use AbterPhp\Framework\Form\Factory\Base;
-use AbterPhp\Framework\Form\Factory\IFormFactory;
 use AbterPhp\Framework\Form\IForm;
 use AbterPhp\Framework\Form\Label\Label;
 use AbterPhp\Framework\I18n\ITranslator;
@@ -121,7 +121,11 @@ class File extends Base
      */
     protected function getAllFileCategories(): array
     {
-        return $this->fileCategoryRepo->getAll();
+        try {
+            return $this->fileCategoryRepo->getAll();
+        } catch (\Opulence\Orm\OrmException $e) {
+            return [];
+        }
     }
 
     /**

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace AbterPhp\Files\Service\Execute;
 
 use AbterPhp\Admin\Domain\Entities\UserGroup;
+use AbterPhp\Admin\Http\Service\Execute\RepoServiceAbstract;
 use AbterPhp\Files\Domain\Entities\FileCategory as Entity;
 use AbterPhp\Files\Orm\FileCategoryRepo as GridRepo;
 use AbterPhp\Files\Validation\Factory\FileCategory as ValidatorFactory;
 use AbterPhp\Framework\Domain\Entities\IStringerEntity;
-use AbterPhp\Framework\Http\Service\Execute\RepoServiceAbstract;
 use Cocur\Slugify\Slugify;
 use Opulence\Events\Dispatchers\IEventDispatcher;
 use Opulence\Http\Requests\UploadedFile;
@@ -56,14 +56,18 @@ class FileCategory extends RepoServiceAbstract
     /**
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param Entity         $entity
-     * @param array          $postData
-     * @param UploadedFile[] $fileData
+     * @param IStringerEntity $entity
+     * @param array           $postData
+     * @param UploadedFile[]  $fileData
      *
      * @return Entity
      */
     protected function fillEntity(IStringerEntity $entity, array $postData, array $fileData): IStringerEntity
     {
+        if (!($entity instanceof Entity)) {
+            throw new \InvalidArgumentException('Invalid entity');
+        }
+
         $name = isset($postData['name']) ? (string)$postData['name'] : '';
 
         $identifier = (string)$postData['identifier'];

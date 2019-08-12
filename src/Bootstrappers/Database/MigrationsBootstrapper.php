@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace AbterPhp\Files\Bootstrappers\Database;
+namespace AbterPhp\Admin\Bootstrappers\Database;
 
-use AbterPhp\Admin\Bootstrappers\Database\MigrationsBootstrapper as AdminBootstrapper;
+use AbterPhp\Admin\Bootstrappers\Filesystem\FileFinderBootstrapper;
 use AbterPhp\Files\Databases\Migrations\Init;
-use Opulence\Databases\IConnection;
+use AbterPhp\Framework\Filesystem\IFileFinder; // @phan-suppress-current-line PhanUnreferencedUseNormal
+use Opulence\Databases\IConnection; // @phan-suppress-current-line PhanUnreferencedUseNormal
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
+use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
 use Opulence\Ioc\IContainer;
 
-class MigrationsBootstrapper extends AdminBootstrapper
+class MigrationsBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
-    const MODULE_KEY = 'AbterPhp\\Files';
-
     /**
      * @return array
      */
@@ -30,13 +31,13 @@ class MigrationsBootstrapper extends AdminBootstrapper
      */
     public function registerBindings(IContainer $container)
     {
-        $migrationsPath = $this->getMigrationPath();
-        $driver         = $this->getDriver();
-
         /** @var IConnection $connection */
         $connection = $container->resolve(IConnection::class);
 
-        $migration = new Init($connection, $migrationsPath, $driver);
+        /** @var IFileFinder $fileFinder */
+        $fileFinder = $container->resolve(FileFinderBootstrapper::MIGRATION_FILE_FINDER);
+
+        $migration = new Init($connection, $fileFinder);
 
         $container->bindInstance(Init::class, $migration);
     }

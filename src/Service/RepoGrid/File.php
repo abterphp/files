@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Service\RepoGrid;
 
+use AbterPhp\Admin\Http\Service\RepoGrid\RepoGridAbstract;
 use AbterPhp\Files\Grid\Factory\File as GridFactory;
 use AbterPhp\Files\Orm\FileRepo as Repo;
 use AbterPhp\Framework\Databases\Queries\FoundRows;
-use AbterPhp\Framework\Http\Service\RepoGrid\RepoGridAbstract;
 use Casbin\Enforcer;
 
 class File extends RepoGridAbstract

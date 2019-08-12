@@ -140,7 +140,7 @@ class File implements IStringerEntity
     }
 
     /**
-     * @param string $file
+     * @param string $publicName
      *
      * @return File
      */
@@ -224,11 +224,11 @@ class File implements IStringerEntity
     }
 
     /**
-     * @param string $uploadedAt
+     * @param DateTime $uploadedAt
      *
      * @return File
      */
-    public function setUploadedAt(\DateTime $uploadedAt): File
+    public function setUploadedAt(DateTime $uploadedAt): File
     {
         $this->uploadedAt = $uploadedAt;
 
@@ -245,6 +245,8 @@ class File implements IStringerEntity
 
     /**
      * @param bool $writable
+     *
+     * @return $this
      */
     public function setWritable(bool $writable): File
     {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Grid\Factory\Table;
 
-use AbterPhp\Framework\Grid\Factory\TableFactory;
-use AbterPhp\Framework\Grid\Factory\Table\BodyFactory;
+use AbterPhp\Admin\Grid\Factory\TableFactory;
+use AbterPhp\Admin\Grid\Factory\Table\BodyFactory;
 use AbterPhp\Files\Grid\Factory\Table\Header\FileCategory as HeaderFactory;
 
 class FileCategory extends TableFactory

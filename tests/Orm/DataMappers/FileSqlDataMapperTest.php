@@ -14,7 +14,7 @@ class FileSqlDataMapperTest extends SqlTestCase
     /** @var FileSqlDataMapper */
     protected $sut;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

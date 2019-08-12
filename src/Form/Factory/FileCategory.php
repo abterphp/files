@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Form\Factory;
 
+use AbterPhp\Admin\Form\Factory\Base;
+use AbterPhp\Admin\Form\Factory\IFormFactory;
 use AbterPhp\Admin\Domain\Entities\UserGroup;
 use AbterPhp\Admin\Orm\UserGroupRepo;
 use AbterPhp\Files\Domain\Entities\FileCategory as Entity;
@@ -13,12 +15,11 @@ use AbterPhp\Framework\Form\Container\FormGroup;
 use AbterPhp\Framework\Form\Element\Input;
 use AbterPhp\Framework\Form\Element\MultiSelect;
 use AbterPhp\Framework\Form\Element\Select;
-use AbterPhp\Framework\Form\Factory\Base;
-use AbterPhp\Framework\Form\Factory\IFormFactory;
 use AbterPhp\Framework\Form\IForm;
 use AbterPhp\Framework\Form\Label\Label;
 use AbterPhp\Framework\I18n\ITranslator;
 use Opulence\Orm\IEntity;
+use Opulence\Orm\OrmException;
 use Opulence\Sessions\ISession;
 
 class FileCategory extends Base
@@ -126,7 +127,11 @@ class FileCategory extends Base
      */
     protected function getAllUserGroups(): array
     {
-        return $this->userGroupRepo->getAll();
+        try {
+            return $this->userGroupRepo->getAll();
+        } catch (OrmException $e) {
+            return [];
+        }
     }
 
     /**

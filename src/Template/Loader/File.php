@@ -103,7 +103,7 @@ class File implements ILoader
     {
         $html = [];
         foreach ($files as $file) {
-            $url  = $this->urlGenerator->createFromName(Routes::ROUTE_PUBLIC_FILE, $file->getFilesystemName());
+            $url  = $this->urlGenerator->createFromName(Routes::ROUTE_PUBLIC_FILE, [$file->getFilesystemName()]);
             $link = StringHelper::wrapInTag(
                 $file->getPublicName(),
                 static::TAG_A,

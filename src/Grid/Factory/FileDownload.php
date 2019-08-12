@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Grid\Factory;
 
+use AbterPhp\Admin\Grid\Factory\BaseFactory;
+use AbterPhp\Admin\Grid\Factory\GridFactory;
+use AbterPhp\Admin\Grid\Factory\PaginationFactory;
 use AbterPhp\Files\Domain\Entities\FileDownload as Entity;
-use AbterPhp\Files\Grid\Factory\Table\FileDownload as Table;
+use AbterPhp\Files\Grid\Factory\Table\FileDownload as TableFactory;
 use AbterPhp\Files\Grid\Filters\FileDownload as Filters;
-use AbterPhp\Framework\Grid\Factory\BaseFactory;
-use AbterPhp\Framework\Grid\Factory\GridFactory;
-use AbterPhp\Framework\Grid\Factory\PaginationFactory as PaginationFactory;
 use AbterPhp\Framework\Helper\DateHelper;
 use Opulence\Routing\Urls\UrlGenerator;
 
@@ -28,14 +28,14 @@ class FileDownload extends BaseFactory
      *
      * @param UrlGenerator      $urlGenerator
      * @param PaginationFactory $paginationFactory
-     * @param Table             $tableFactory
+     * @param TableFactory      $tableFactory
      * @param GridFactory       $gridFactory
      * @param Filters           $filters
      */
     public function __construct(
         UrlGenerator $urlGenerator,
         PaginationFactory $paginationFactory,
-        Table $tableFactory,
+        TableFactory $tableFactory,
         GridFactory $gridFactory,
         Filters $filters
     ) {

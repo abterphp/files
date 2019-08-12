@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Http\Controllers\Api;
 
+use AbterPhp\Admin\Http\Controllers\ApiAbstract;
 use AbterPhp\Files\Service\Execute\FileCategory as RepoService;
 use AbterPhp\Framework\Config\EnvReader;
 use AbterPhp\Framework\Databases\Queries\FoundRows;
-use AbterPhp\Framework\Http\Controllers\ApiAbstract;
 use Psr\Log\LoggerInterface;
 
 class FileCategory extends ApiAbstract
 {
     const ENTITY_SINGULAR = 'fileCategory';
     const ENTITY_PLURAL   = 'fileCategories';
+
+    /** @var RepoService */
+    protected $repoService;
 
     /**
      * FileCategory constructor.

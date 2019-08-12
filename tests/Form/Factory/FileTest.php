@@ -28,21 +28,23 @@ class FileTest extends TestCase
     /** @var File */
     protected $sut;
 
-    public function setUp()
+    public function setUp(): void
     {
+        parent::setUp();
+
         $this->sessionMock = $this->getMockBuilder(Session::class)
-            ->setMethods(['get'])
+            ->onlyMethods(['get'])
             ->getMock();
         $this->sessionMock->expects($this->any())->method('get')->willReturnArgument(0);
 
         $this->translatorMock = $this->getMockBuilder(ITranslator::class)
-            ->setMethods(['translate', 'canTranslate'])
+            ->onlyMethods(['translate', 'canTranslate'])
             ->getMock();
         $this->translatorMock->expects($this->any())->method('translate')->willReturnArgument(0);
 
         $this->fileCategoryRepoMock = $this->getMockBuilder(FileCategoryRepo::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getAll'])
+            ->onlyMethods(['getAll'])
             ->getMock();
 
         $this->sut = new File($this->sessionMock, $this->translatorMock, $this->fileCategoryRepoMock);
@@ -76,15 +78,15 @@ class FileTest extends TestCase
 
         $form = (string)$this->sut->create($action, $method, $showUrl, $entityMock);
 
-        $this->assertContains($action, $form);
-        $this->assertContains($showUrl, $form);
-        $this->assertContains('CSRF', $form);
-        $this->assertContains('POST', $form);
-        $this->assertContains('file', $form);
-        $this->assertContains('description', $form);
-        $this->assertContains('file_category_id', $form);
-        $this->assertContains('selected', $form);
-        $this->assertContains('button', $form);
+        $this->assertStringContainsString($action, $form);
+        $this->assertStringContainsString($showUrl, $form);
+        $this->assertStringContainsString('CSRF', $form);
+        $this->assertStringContainsString('POST', $form);
+        $this->assertStringContainsString('file', $form);
+        $this->assertStringContainsString('description', $form);
+        $this->assertStringContainsString('file_category_id', $form);
+        $this->assertStringContainsString('selected', $form);
+        $this->assertStringContainsString('button', $form);
     }
 
     /**
@@ -94,7 +96,7 @@ class FileTest extends TestCase
     {
         $entityMock = $this->getMockBuilder(Entity::class)
             ->disableOriginalConstructor()
-            ->setMethods(
+            ->onlyMethods(
                 [
                     'getId',
                     'getDescription',

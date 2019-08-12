@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Service\Execute;
 
+use AbterPhp\Admin\Http\Service\Execute\RepoServiceAbstract;
 use AbterPhp\Files\Domain\Entities\File as Entity;
 use AbterPhp\Files\Domain\Entities\FileCategory;
 use AbterPhp\Files\Orm\FileCategoryRepo;
@@ -11,7 +12,6 @@ use AbterPhp\Files\Orm\FileRepo as GridRepo;
 use AbterPhp\Files\Validation\Factory\File as ValidatorFactory;
 use AbterPhp\Framework\Domain\Entities\IStringerEntity;
 use AbterPhp\Framework\Filesystem\Uploader;
-use AbterPhp\Framework\Http\Service\Execute\RepoServiceAbstract;
 use Cocur\Slugify\Slugify;
 use Opulence\Events\Dispatchers\IEventDispatcher;
 use Opulence\Http\Requests\UploadedFile;
@@ -83,15 +83,19 @@ class File extends RepoServiceAbstract
     }
 
     /**
-     * @param Entity         $entity
-     * @param string[]       $postData
-     * @param UploadedFile[] $fileData
+     * @param IStringerEntity $entity
+     * @param string[]        $postData
+     * @param UploadedFile[]  $fileData
      *
      * @return bool
      * @throws OrmException
      */
     public function update(IStringerEntity $entity, array $postData, array $fileData): bool
     {
+        if (!($entity instanceof Entity)) {
+            throw new \InvalidArgumentException('Invalid entity');
+        }
+
         $this->fillEntity($entity, $postData, $fileData);
 
         if (!empty($fileData)) {
@@ -105,13 +109,17 @@ class File extends RepoServiceAbstract
     }
 
     /**
-     * @param Entity $entity
+     * @param IStringerEntity $entity
      *
      * @return bool
      * @throws OrmException
      */
     public function delete(IStringerEntity $entity): bool
     {
+        if (!($entity instanceof Entity)) {
+            throw new \InvalidArgumentException('Invalid entity');
+        }
+
         $this->deleteFile($entity);
 
         $this->repo->delete($entity);
@@ -122,19 +130,27 @@ class File extends RepoServiceAbstract
     }
 
     /**
-     * @param Entity $entity
+     * @param IStringerEntity $entity
      */
     public function deleteFile(IStringerEntity $entity)
     {
+        if (!($entity instanceof Entity)) {
+            throw new \InvalidArgumentException('Invalid entity');
+        }
+
         $this->uploader->delete($entity->getOldFilesystemName());
     }
 
     /**
-     * @param Entity         $entity
-     * @param UploadedFile[] $fileData
+     * @param IStringerEntity $entity
+     * @param UploadedFile[]  $fileData
      */
-    public function uploadFile(Entity $entity, array $fileData)
+    public function uploadFile(IStringerEntity $entity, array $fileData)
     {
+        if (!($entity instanceof Entity)) {
+            throw new \InvalidArgumentException('Invalid entity');
+        }
+
         $paths = $this->uploader->persist($fileData);
 
         if (!$paths) {
@@ -154,19 +170,23 @@ class File extends RepoServiceAbstract
     {
         $fileCategory = new FileCategory('', '', '', false, []);
 
-        return new Entity($entityId, '', '', '', $fileCategory, null);
+        return new Entity($entityId, '', '', '', '', $fileCategory);
     }
 
     /**
-     * @param Entity         $entity
-     * @param array          $postData
-     * @param UploadedFile[] $fileData
+     * @param IStringerEntity $entity
+     * @param array           $postData
+     * @param UploadedFile[]  $fileData
      *
      * @return Entity
      * @throws OrmException
      */
     protected function fillEntity(IStringerEntity $entity, array $postData, array $fileData): IStringerEntity
     {
+        if (!($entity instanceof Entity)) {
+            throw new \InvalidArgumentException('Invalid entity');
+        }
+
         $categoryId  = (string)$postData['category_id'];
         $description = (string)$postData['description'];
 

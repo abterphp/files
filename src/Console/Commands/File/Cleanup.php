@@ -12,6 +12,7 @@ use Opulence\Console\Commands\Command;
 use Opulence\Console\Requests\Option;
 use Opulence\Console\Requests\OptionTypes;
 use Opulence\Console\Responses\IResponse;
+use Opulence\Console\StatusCodes;
 use Opulence\Orm\IUnitOfWork;
 
 class Cleanup extends Command
@@ -92,13 +93,15 @@ class Cleanup extends Command
 
         $dryRun = $this->isDryRun($response);
         if ($dryRun) {
-            return;
+            return StatusCodes::OK;
         }
 
         $this->deleteFilesFromDatabase($response, $dbOnly);
         $this->deleteFilesFromFilesystem($response, $fsOnly);
 
         $this->commit($response);
+
+        return StatusCodes::OK;
     }
 
     /**

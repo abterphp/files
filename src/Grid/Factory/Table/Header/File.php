@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Grid\Factory\Table\Header;
 
-use AbterPhp\Framework\Grid\Factory\Table\HeaderFactory;
+use AbterPhp\Admin\Grid\Factory\Table\HeaderFactory;
 
 class File extends HeaderFactory
 {

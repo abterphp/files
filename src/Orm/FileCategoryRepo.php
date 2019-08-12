@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Orm;
 
-use AbterPhp\Files\Domain\Entities\FileCategory as Entity;
 use AbterPhp\Admin\Domain\Entities\UserGroup;
+use AbterPhp\Files\Domain\Entities\FileCategory as Entity;
+use AbterPhp\Files\Orm\DataMappers\FileCategorySqlDataMapper; // @phan-suppress-current-line PhanUnreferencedUseNormal
 use AbterPhp\Framework\Orm\IGridRepo;
-use AbterPhp\Files\Orm\DataMappers\FileCategorySqlDataMapper;
 use Opulence\Orm\Repositories\Repository;
 
 class FileCategoryRepo extends Repository implements IGridRepo
@@ -20,6 +20,7 @@ class FileCategoryRepo extends Repository implements IGridRepo
      * @param array    $params
      *
      * @return Entity[]
+     * @throws \Opulence\Orm\OrmException
      */
     public function getPage(int $limitFrom, int $pageSize, array $orders, array $conditions, array $params): array
     {
@@ -31,6 +32,7 @@ class FileCategoryRepo extends Repository implements IGridRepo
      * @param UserGroup $userGroup
      *
      * @return Entity[]
+     * @throws \Opulence\Orm\OrmException
      */
     public function getByUserGroup(UserGroup $userGroup): array
     {

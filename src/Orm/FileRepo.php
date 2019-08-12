@@ -6,7 +6,7 @@ namespace AbterPhp\Files\Orm;
 
 use AbterPhp\Admin\Domain\Entities\User;
 use AbterPhp\Files\Domain\Entities\File as Entity;
-use AbterPhp\Files\Orm\DataMappers\FileSqlDataMapper;
+use AbterPhp\Files\Orm\DataMappers\FileSqlDataMapper; // @phan-suppress-current-line PhanUnreferencedUseNormal
 use AbterPhp\Framework\Orm\IGridRepo;
 use Opulence\Orm\Repositories\Repository;
 

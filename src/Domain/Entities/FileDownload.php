@@ -25,10 +25,10 @@ class FileDownload implements IStringerEntity
     protected $downloadedAt;
 
     /**
-     * @param string   $id
-     * @param File     $file
-     * @param User     $user
-     * @param DateTime $downloadedAt
+     * @param string        $id
+     * @param File          $file
+     * @param User          $user
+     * @param DateTime|null $downloadedAt
      */
     public function __construct(string $id, File $file, User $user, DateTime $downloadedAt = null)
     {

@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Grid\Factory;
 
+use AbterPhp\Admin\Grid\Factory\BaseFactory;
+use AbterPhp\Admin\Grid\Factory\GridFactory;
+use AbterPhp\Admin\Grid\Factory\PaginationFactory;
 use AbterPhp\Files\Constant\Routes;
 use AbterPhp\Files\Domain\Entities\File as Entity;
-use AbterPhp\Files\Grid\Factory\Table\File as Table;
+use AbterPhp\Files\Grid\Factory\Table\File as TableFactory;
 use AbterPhp\Files\Grid\Filters\File as Filters;
 use AbterPhp\Framework\Constant\Html5;
 use AbterPhp\Framework\Grid\Action\Action;
 use AbterPhp\Framework\Grid\Component\Actions;
-use AbterPhp\Framework\Grid\Factory\BaseFactory;
-use AbterPhp\Framework\Grid\Factory\GridFactory;
-use AbterPhp\Framework\Grid\Factory\PaginationFactory as PaginationFactory;
 use AbterPhp\Framework\Helper\DateHelper;
 use AbterPhp\Framework\Html\Component;
 use Opulence\Routing\Urls\UrlGenerator;
@@ -36,14 +36,14 @@ class File extends BaseFactory
      *
      * @param UrlGenerator      $urlGenerator
      * @param PaginationFactory $paginationFactory
-     * @param Table             $tableFactory
+     * @param TableFactory      $tableFactory
      * @param GridFactory       $gridFactory
      * @param Filters           $filters
      */
     public function __construct(
         UrlGenerator $urlGenerator,
         PaginationFactory $paginationFactory,
-        Table $tableFactory,
+        TableFactory $tableFactory,
         GridFactory $gridFactory,
         Filters $filters
     ) {
@@ -141,7 +141,7 @@ class File extends BaseFactory
 
         $closure = function ($attribute, Entity $entity) use ($urlGenerator) {
             try {
-                return $urlGenerator->createFromName($attribute, $entity->getFilesystemName());
+                return $urlGenerator->createFromName($attribute, [$entity->getFilesystemName()]);
             } catch (\Exception $e) {
                 return '';
             }

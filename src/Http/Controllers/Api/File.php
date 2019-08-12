@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Http\Controllers\Api;
 
+use AbterPhp\Admin\Http\Controllers\ApiAbstract;
 use AbterPhp\Files\Domain\Entities\File as Entity;
 use AbterPhp\Files\Service\Execute\Api\File as RepoService;
 use AbterPhp\Framework\Config\EnvReader;
 use AbterPhp\Framework\Databases\Queries\FoundRows;
-use AbterPhp\Framework\Http\Controllers\ApiAbstract;
 use League\Flysystem\Filesystem;
 use Opulence\Http\Responses\Response;
 use Psr\Log\LoggerInterface;
@@ -20,10 +20,11 @@ class File extends ApiAbstract
     const ENTITY_SINGULAR = 'file';
     const ENTITY_PLURAL   = 'files';
 
-    /**
-     * @var Filesystem
-     */
+    /** @var Filesystem */
     protected $filesystem;
+
+    /** @var RepoService */
+    protected $repoService;
 
     /**
      * File constructor.
@@ -50,16 +51,20 @@ class File extends ApiAbstract
      * @param string $entityId
      *
      * @return Response
+     * @throws \League\Flysystem\FileNotFoundException
      */
     public function get(string $entityId): Response
     {
         try {
-            /** @var Entity $entity */
             $entity = $this->repoService->retrieveEntity($entityId);
         } catch (\Exception $e) {
             $msg = sprintf(static::LOG_MSG_GET_FAILURE, static::ENTITY_SINGULAR);
 
             return $this->handleException($msg, $e);
+        }
+
+        if (!($entity instanceof Entity)) {
+            throw new \RuntimeException('Invalid entity');
         }
 
         if ($this->request->getQuery()->get('embed') === 'data') {
@@ -73,6 +78,7 @@ class File extends ApiAbstract
 
     /**
      * @return array
+     * @throws \League\Flysystem\FileExistsException
      */
     public function getSharedData(): array
     {
