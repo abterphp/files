@@ -141,7 +141,8 @@ class File extends BaseFactory
 
         $closure = function ($attribute, Entity $entity) use ($urlGenerator) {
             try {
-                return $urlGenerator->createFromName($attribute, [$entity->getFilesystemName()]);
+                // @phan-suppress-next-line PhanTypeMismatchArgument
+                return $urlGenerator->createFromName($attribute, $entity->getFilesystemName());
             } catch (\Exception $e) {
                 return '';
             }
