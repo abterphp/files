@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Databases\Queries;
 
-use AbterPhp\Framework\Orm\DataMappers\SqlTestCase;
+use AbterPhp\Framework\TestCase\Database\QueryTestCase;
+use AbterPhp\Framework\TestDouble\Database\MockStatementFactory;
 
-class FileCategoryAuthLoaderTest extends SqlTestCase
+class FileCategoryAuthLoaderTest extends QueryTestCase
 {
     /** @var FileCategoryAuthLoader */
     protected $sut;
@@ -31,19 +32,11 @@ class FileCategoryAuthLoaderTest extends SqlTestCase
                 'v1' => $fileCategoryIdentifier,
             ],
         ];
-
-        $this->prepare($this->readConnectionMock, $sql, $this->createReadStatement($valuesToBind, $returnValues));
+        $statement = MockStatementFactory::createReadStatement($this, $valuesToBind, $returnValues);
+        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
 
         $actualResult = $this->sut->loadAll();
 
         $this->assertEquals($returnValues, $actualResult);
-    }
-
-    /**
-     * @param array  $expectedData
-     * @param object $entity
-     */
-    protected function assertEntity(array $expectedData, $entity)
-    {
     }
 }

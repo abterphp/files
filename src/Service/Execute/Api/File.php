@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Service\Execute\Api;
 
-use AbterPhp\Admin\Http\Service\Execute\RepoServiceAbstract;
+use AbterPhp\Admin\Service\Execute\RepoServiceAbstract;
 use AbterPhp\Files\Domain\Entities\File as Entity;
 use AbterPhp\Files\Domain\Entities\FileCategory;
 use AbterPhp\Files\Orm\FileCategoryRepo;

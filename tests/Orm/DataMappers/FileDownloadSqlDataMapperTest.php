@@ -6,12 +6,13 @@ namespace AbterPhp\Files\Orm\DataMapper;
 
 use AbterPhp\Admin\Domain\Entities\User;
 use AbterPhp\Admin\Domain\Entities\UserLanguage;
+use AbterPhp\Admin\TestCase\Orm\DataMapperTestCase;
 use AbterPhp\Files\Domain\Entities\File;
 use AbterPhp\Files\Domain\Entities\FileDownload;
 use AbterPhp\Files\Orm\DataMappers\FileDownloadSqlDataMapper;
-use AbterPhp\Framework\Orm\DataMappers\SqlTestCase;
+use AbterPhp\Framework\TestDouble\Database\MockStatementFactory;
 
-class FileDownloadSqlDataMapperTest extends SqlTestCase
+class FileDownloadSqlDataMapperTest extends DataMapperTestCase
 {
     /** @var FileDownloadSqlDataMapper */
     protected $sut;
@@ -37,8 +38,9 @@ class FileDownloadSqlDataMapperTest extends SqlTestCase
             [$userId, \PDO::PARAM_STR],
             [$downloadedAt->format(FileDownload::DATE_FORMAT), \PDO::PARAM_STR],
         ];
+        $statement = MockStatementFactory::createWriteStatement($this, $values);
+        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql, $statement);
 
-        $this->prepare($this->writeConnectionMock, $sql, $this->createWriteStatement($values));
         $entity = $this->createEntity($nextId, $fileId, $userId, $downloadedAt);
 
         $this->sut->add($entity);
@@ -55,8 +57,9 @@ class FileDownloadSqlDataMapperTest extends SqlTestCase
 
         $sql    = 'UPDATE file_downloads AS file_downloads SET deleted = ? WHERE (id = ?)'; // phpcs:ignore
         $values = [[1, \PDO::PARAM_INT], [$id, \PDO::PARAM_STR]];
+        $statement = MockStatementFactory::createWriteStatement($this, $values);
+        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql, $statement);
 
-        $this->prepare($this->writeConnectionMock, $sql, $this->createWriteStatement($values));
         $entity = $this->createEntity($id, $fileId, $userId, $downloadedAt);
 
         $this->sut->delete($entity);
@@ -87,8 +90,8 @@ class FileDownloadSqlDataMapperTest extends SqlTestCase
                 'username'        => $userName,
             ],
         ];
-
-        $this->prepare($this->readConnectionMock, $sql, $this->createReadStatement($values, $expectedData));
+        $statement = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
 
         $actualResult = $this->sut->getAll();
 
@@ -120,8 +123,8 @@ class FileDownloadSqlDataMapperTest extends SqlTestCase
                 'username'        => $userName,
             ],
         ];
-
-        $this->prepare($this->readConnectionMock, $sql, $this->createReadStatement($values, $expectedData));
+        $statement = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
 
         $actualResult = $this->sut->getById($id);
 
@@ -142,8 +145,9 @@ class FileDownloadSqlDataMapperTest extends SqlTestCase
             [$downloadedAt->format(FileDownload::DATE_FORMAT), \PDO::PARAM_STR],
             [$id, \PDO::PARAM_STR],
         ];
+        $statement = MockStatementFactory::createWriteStatement($this, $values);
+        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql, $statement);
 
-        $this->prepare($this->writeConnectionMock, $sql, $this->createWriteStatement($values));
         $entity = $this->createEntity($id, $fileId, $userId, $downloadedAt);
 
         $this->sut->update($entity);
@@ -174,8 +178,8 @@ class FileDownloadSqlDataMapperTest extends SqlTestCase
                 'username'        => $userName,
             ],
         ];
-
-        $this->prepare($this->readConnectionMock, $sql, $this->createReadStatement($values, $expectedData));
+        $statement = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
 
         $actualResult = $this->sut->getByFileId($fileId);
 
@@ -207,8 +211,8 @@ class FileDownloadSqlDataMapperTest extends SqlTestCase
                 'username'        => $userName,
             ],
         ];
-
-        $this->prepare($this->readConnectionMock, $sql, $this->createReadStatement($values, $expectedData));
+        $statement = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
 
         $actualResult = $this->sut->getByUserId($userId);
 

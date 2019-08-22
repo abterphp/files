@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AbterPhp\Files\Service\Execute;
 
 use AbterPhp\Admin\Domain\Entities\UserGroup;
-use AbterPhp\Admin\Http\Service\Execute\RepoServiceAbstract;
+use AbterPhp\Admin\Service\Execute\RepoServiceAbstract;
 use AbterPhp\Files\Domain\Entities\FileCategory as Entity;
 use AbterPhp\Files\Orm\FileCategoryRepo as GridRepo;
 use AbterPhp\Files\Validation\Factory\FileCategory as ValidatorFactory;

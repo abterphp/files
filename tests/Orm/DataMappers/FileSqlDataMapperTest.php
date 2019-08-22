@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Orm\DataMapper;
 
+use AbterPhp\Admin\TestCase\Orm\DataMapperTestCase;
 use AbterPhp\Files\Domain\Entities\File;
 use AbterPhp\Files\Domain\Entities\FileCategory;
 use AbterPhp\Files\Orm\DataMappers\FileSqlDataMapper;
-use AbterPhp\Framework\Orm\DataMappers\SqlTestCase;
+use AbterPhp\Framework\TestDouble\Database\MockStatementFactory;
 
-class FileSqlDataMapperTest extends SqlTestCase
+class FileSqlDataMapperTest extends DataMapperTestCase
 {
     /** @var FileSqlDataMapper */
     protected $sut;
@@ -34,10 +35,11 @@ class FileSqlDataMapperTest extends SqlTestCase
         $categoryIsPublic   = false;
         $uploadedAt         = new \DateTime();
 
-        $sql    = 'UPDATE files AS files SET deleted = ? WHERE (id = ?)'; // phpcs:ignore
-        $values = [[1, \PDO::PARAM_INT], [$id, \PDO::PARAM_STR]];
+        $sql       = 'UPDATE files AS files SET deleted = ? WHERE (id = ?)'; // phpcs:ignore
+        $values    = [[1, \PDO::PARAM_INT], [$id, \PDO::PARAM_STR]];
+        $statement = MockStatementFactory::createWriteStatement($this, $values);
+        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql, $statement);
 
-        $this->prepare($this->writeConnectionMock, $sql, $this->createWriteStatement($values));
         $category = new FileCategory($categoryId, $categoryIdentifier, $categoryName, $categoryIsPublic);
         $entity   = new File($id, $filesystemName, $publicName, $mime, $description, $category, $uploadedAt);
 
@@ -71,8 +73,8 @@ class FileSqlDataMapperTest extends SqlTestCase
                 'file_category_identifier' => $categoryIdentifier,
             ],
         ];
-
-        $this->prepare($this->readConnectionMock, $sql, $this->createReadStatement($values, $expectedData));
+        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
 
         $actualResult = $this->sut->getAll();
 
@@ -106,8 +108,8 @@ class FileSqlDataMapperTest extends SqlTestCase
                 'file_category_identifier' => $categoryIdentifier,
             ],
         ];
-
-        $this->prepare($this->readConnectionMock, $sql, $this->createReadStatement($values, $expectedData));
+        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
 
         $actualResult = $this->sut->getById($id);
 
@@ -143,8 +145,8 @@ class FileSqlDataMapperTest extends SqlTestCase
                 'file_category_identifier' => $categoryIdentifier,
             ],
         ];
-
-        $this->prepare($this->readConnectionMock, $sql, $this->createReadStatement($values, $expectedData));
+        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
 
         $actualResult = $this->sut->getByUserId($userId);
 
@@ -164,8 +166,8 @@ class FileSqlDataMapperTest extends SqlTestCase
         $categoryIsPublic   = false;
         $uploadedAt         = new \DateTime();
 
-        $sql    = 'UPDATE files AS files SET filesystem_name = ?, public_name = ?, mime = ?, description = ?, uploaded_at = ?, file_category_id = ? WHERE (id = ?) AND (deleted = 0)'; // phpcs:ignore
-        $values = [
+        $sql       = 'UPDATE files AS files SET filesystem_name = ?, public_name = ?, mime = ?, description = ?, uploaded_at = ?, file_category_id = ? WHERE (id = ?) AND (deleted = 0)'; // phpcs:ignore
+        $values    = [
             [$filesystemName, \PDO::PARAM_STR],
             [$publicName, \PDO::PARAM_STR],
             [$description, \PDO::PARAM_STR],
@@ -174,8 +176,9 @@ class FileSqlDataMapperTest extends SqlTestCase
             [$categoryId, \PDO::PARAM_STR],
             [$id, \PDO::PARAM_STR],
         ];
+        $statement = MockStatementFactory::createWriteStatement($this, $values);
+        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql, $statement);
 
-        $this->prepare($this->writeConnectionMock, $sql, $this->createWriteStatement($values));
         $category = new FileCategory($categoryId, $categoryIdentifier, $categoryName, $categoryIsPublic);
         $entity   = new File($id, $filesystemName, $publicName, $description, $mime, $category, $uploadedAt);
 
