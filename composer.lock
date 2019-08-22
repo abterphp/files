@@ -12,16 +12,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/admin.git",
-                "reference": "186df75406bb4ea0315e2a7a899d4c119af40948"
+                "reference": "024bde3ce197fb79c2d120fc094b817dc9274dcf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/admin/zipball/186df75406bb4ea0315e2a7a899d4c119af40948",
-                "reference": "186df75406bb4ea0315e2a7a899d4c119af40948",
+                "url": "https://api.github.com/repos/abterphp/admin/zipball/024bde3ce197fb79c2d120fc094b817dc9274dcf",
+                "reference": "024bde3ce197fb79c2d120fc094b817dc9274dcf",
                 "shasum": ""
             },
             "require": {
-                "abterphp/framework": "dev-master"
+                "abterphp/framework": "dev-master",
+                "ext-json": "*"
             },
             "require-dev": {
                 "phan/phan": "^2.2",
@@ -53,7 +54,7 @@
                 }
             ],
             "description": "Admin module for AbterPHP",
-            "time": "2019-08-13T21:17:05+00:00"
+            "time": "2019-08-21T00:04:19+00:00"
         },
         {
             "name": "abterphp/framework",
@@ -61,12 +62,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/framework.git",
-                "reference": "0346bc5a29508d15d8c29851645adc74599bebea"
+                "reference": "c9efe7d3e696aafa6de286c4f6f85d69dd9840a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/framework/zipball/0346bc5a29508d15d8c29851645adc74599bebea",
-                "reference": "0346bc5a29508d15d8c29851645adc74599bebea",
+                "url": "https://api.github.com/repos/abterphp/framework/zipball/c9efe7d3e696aafa6de286c4f6f85d69dd9840a0",
+                "reference": "c9efe7d3e696aafa6de286c4f6f85d69dd9840a0",
                 "shasum": ""
             },
             "require": {
@@ -123,7 +124,7 @@
                 }
             ],
             "description": "Foundations for AbterPHP",
-            "time": "2019-08-13T21:02:59+00:00"
+            "time": "2019-08-20T21:58:09+00:00"
         },
         {
             "name": "abterphp/website",
@@ -131,12 +132,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/website.git",
-                "reference": "f569a95062fcf74413ae2a66f4c1d5793e42ee23"
+                "reference": "b9afcdc343c66ab8ff706993eabbaa46bd9a8637"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/website/zipball/f569a95062fcf74413ae2a66f4c1d5793e42ee23",
-                "reference": "f569a95062fcf74413ae2a66f4c1d5793e42ee23",
+                "url": "https://api.github.com/repos/abterphp/website/zipball/b9afcdc343c66ab8ff706993eabbaa46bd9a8637",
+                "reference": "b9afcdc343c66ab8ff706993eabbaa46bd9a8637",
                 "shasum": ""
             },
             "require": {
@@ -170,7 +171,7 @@
                 }
             ],
             "description": "Website module for AbterPHP",
-            "time": "2019-08-13T21:27:17+00:00"
+            "time": "2019-08-22T14:26:38+00:00"
         },
         {
             "name": "bjeavons/zxcvbn-php",
@@ -2613,19 +2614,23 @@
         },
         {
             "name": "netresearch/jsonmapper",
-            "version": "v1.5.2",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cweiske/jsonmapper.git",
-                "reference": "caf41ab74ac7252f5f46db6c16ab0a8358e2e55c"
+                "reference": "0d4d1b48d682a93b6bfedf60b88c7750e9cb0b06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cweiske/jsonmapper/zipball/caf41ab74ac7252f5f46db6c16ab0a8358e2e55c",
-                "reference": "caf41ab74ac7252f5f46db6c16ab0a8358e2e55c",
+                "url": "https://api.github.com/repos/cweiske/jsonmapper/zipball/0d4d1b48d682a93b6bfedf60b88c7750e9cb0b06",
+                "reference": "0d4d1b48d682a93b6bfedf60b88c7750e9cb0b06",
                 "shasum": ""
             },
             "require": {
+                "ext-json": "*",
+                "ext-pcre": "*",
+                "ext-reflection": "*",
+                "ext-spl": "*",
                 "php": ">=5.6"
             },
             "require-dev": {
@@ -2651,7 +2656,7 @@
                 }
             ],
             "description": "Map nested JSON structures onto PHP classes",
-            "time": "2019-08-04T19:56:28+00:00"
+            "time": "2019-08-15T19:41:25+00:00"
         },
         {
             "name": "pdepend/pdepend",
@@ -2695,16 +2700,16 @@
         },
         {
             "name": "phan/phan",
-            "version": "2.2.10",
+            "version": "2.2.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phan/phan.git",
-                "reference": "a19dc65091abb4c87374a998912fcc9ae7de41d0"
+                "reference": "ce6cb621d473df36e0d71d9f8c2b2e421135204f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phan/phan/zipball/a19dc65091abb4c87374a998912fcc9ae7de41d0",
-                "reference": "a19dc65091abb4c87374a998912fcc9ae7de41d0",
+                "url": "https://api.github.com/repos/phan/phan/zipball/ce6cb621d473df36e0d71d9f8c2b2e421135204f",
+                "reference": "ce6cb621d473df36e0d71d9f8c2b2e421135204f",
                 "shasum": ""
             },
             "require": {
@@ -2760,7 +2765,7 @@
                 "php",
                 "static"
             ],
-            "time": "2019-08-12T23:40:39+00:00"
+            "time": "2019-08-18T19:08:45+00:00"
         },
         {
             "name": "phar-io/manifest",
