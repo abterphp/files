@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace AbterPhp\Files\Form\Factory;
 
 use AbterPhp\Admin\Form\Factory\Base;
-use AbterPhp\Admin\Form\Factory\IFormFactory;
 use AbterPhp\Files\Domain\Entities\File as Entity;
 use AbterPhp\Files\Domain\Entities\FileCategory;
 use AbterPhp\Files\Orm\FileCategoryRepo;
@@ -15,7 +14,6 @@ use AbterPhp\Framework\Form\Container\FormGroup;
 use AbterPhp\Framework\Form\Element\Input;
 use AbterPhp\Framework\Form\Element\Select;
 use AbterPhp\Framework\Form\Element\Textarea;
-use AbterPhp\Framework\Form\Extra\Help;
 use AbterPhp\Framework\Form\IForm;
 use AbterPhp\Framework\Form\Label\Label;
 use AbterPhp\Framework\I18n\ITranslator;
@@ -51,9 +49,7 @@ class File extends Base
      */
     public function create(string $action, string $method, string $showUrl, ?IEntity $entity = null): IForm
     {
-        if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException(IFormFactory::ERR_MSG_ENTITY_MISSING);
-        }
+        assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $this->createForm($action, $method, true)
             ->addDefaultElements()
@@ -98,34 +94,22 @@ class File extends Base
     /**
      * @param Entity $entity
      *
-     * @return $this
+     * @return File
+     * @throws \Opulence\Orm\OrmException
      */
     protected function addFileCategory(Entity $entity): File
     {
-        $allFileCategories = $this->getAllFileCategories();
+        $allFileCategories = $this->fileCategoryRepo->getAll();
         $fileCategoryId    = $entity->getCategory()->getId();
 
         $options = $this->createFileCategoryOptions($allFileCategories, $fileCategoryId);
 
         $this->form[] = new FormGroup(
             $this->createFileCategorySelect($options),
-            $this->createFileCategoryLabel(),
-            $this->createFileCategoryHelp($allFileCategories)
+            $this->createFileCategoryLabel()
         );
 
         return $this;
-    }
-
-    /**
-     * @return FileCategory[]
-     */
-    protected function getAllFileCategories(): array
-    {
-        try {
-            return $this->fileCategoryRepo->getAll();
-        } catch (\Opulence\Orm\OrmException $e) {
-            return [];
-        }
     }
 
     /**
@@ -175,20 +159,6 @@ class File extends Base
     protected function createFileCategoryLabel(): Label
     {
         return new Label('file_category_id', 'files:fileCategory');
-    }
-
-    /**
-     * @param array $allFileCategories
-     *
-     * @return Help|null
-     */
-    protected function createFileCategoryHelp(array $allFileCategories): ?Help
-    {
-        if (count($allFileCategories) > 0) {
-            return null;
-        }
-
-        return new Help('form:noFileCategories');
     }
 
     /**

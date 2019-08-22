@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Form\Factory;
 
-use AbterPhp\Admin\Form\Factory\Base;
-use AbterPhp\Admin\Form\Factory\IFormFactory;
 use AbterPhp\Admin\Domain\Entities\UserGroup;
+use AbterPhp\Admin\Form\Factory\Base;
 use AbterPhp\Admin\Orm\UserGroupRepo;
 use AbterPhp\Files\Domain\Entities\FileCategory as Entity;
 use AbterPhp\Framework\Constant\Html5;
@@ -19,7 +18,6 @@ use AbterPhp\Framework\Form\IForm;
 use AbterPhp\Framework\Form\Label\Label;
 use AbterPhp\Framework\I18n\ITranslator;
 use Opulence\Orm\IEntity;
-use Opulence\Orm\OrmException;
 use Opulence\Sessions\ISession;
 
 class FileCategory extends Base
@@ -51,9 +49,7 @@ class FileCategory extends Base
      */
     public function create(string $action, string $method, string $showUrl, ?IEntity $entity = null): IForm
     {
-        if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException(IFormFactory::ERR_MSG_ENTITY_MISSING);
-        }
+        assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $this->createForm($action, $method)
             ->addDefaultElements()
@@ -109,8 +105,8 @@ class FileCategory extends Base
      */
     protected function addUserGroups(Entity $entity): FileCategory
     {
-        $allUserGroups = $this->getAllUserGroups();
-        $userGroupIds  = $this->getUserGroupIds($entity);
+        $allUserGroups = $this->userGroupRepo->getAll();
+        $userGroupIds = $this->getUserGroupIds($entity);
 
         $options = $this->createUserGroupOptions($allUserGroups, $userGroupIds);
 
@@ -120,18 +116,6 @@ class FileCategory extends Base
         );
 
         return $this;
-    }
-
-    /**
-     * @return UserGroup[]
-     */
-    protected function getAllUserGroups(): array
-    {
-        try {
-            return $this->userGroupRepo->getAll();
-        } catch (OrmException $e) {
-            return [];
-        }
     }
 
     /**
