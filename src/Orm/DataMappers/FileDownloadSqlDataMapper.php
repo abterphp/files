@@ -21,9 +21,7 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
      */
     public function add($entity)
     {
-        if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException(__CLASS__ . ':' . __FUNCTION__ . ' expects a FileDownload entity.');
-        }
+        assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $query = (new QueryBuilder())
             ->insert(
@@ -51,9 +49,7 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
      */
     public function delete($entity)
     {
-        if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException(__CLASS__ . ':' . __FUNCTION__ . ' expects a FileDownload entity.');
-        }
+        assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $query = (new QueryBuilder())
             ->update('file_downloads', 'file_downloads', ['deleted' => [1, \PDO::PARAM_INT]])

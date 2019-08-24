@@ -31,8 +31,8 @@ class FileDownloadSqlDataMapperTest extends DataMapperTestCase
         $userId       = 'bd5edd79-4dac-4de3-b670-d93ea2b8b14e';
         $downloadedAt = new \DateTime();
 
-        $sql    = 'INSERT INTO file_downloads (id, file_id, user_id, downloaded_at) VALUES (?, ?, ?, ?)'; // phpcs:ignore
-        $values = [
+        $sql       = 'INSERT INTO file_downloads (id, file_id, user_id, downloaded_at) VALUES (?, ?, ?, ?)'; // phpcs:ignore
+        $values    = [
             [$nextId, \PDO::PARAM_STR],
             [$fileId, \PDO::PARAM_STR],
             [$userId, \PDO::PARAM_STR],
@@ -55,8 +55,8 @@ class FileDownloadSqlDataMapperTest extends DataMapperTestCase
         $userId       = '4c178710-2c4a-4658-90ea-491aadc3c32b';
         $downloadedAt = new \DateTime();
 
-        $sql    = 'UPDATE file_downloads AS file_downloads SET deleted = ? WHERE (id = ?)'; // phpcs:ignore
-        $values = [[1, \PDO::PARAM_INT], [$id, \PDO::PARAM_STR]];
+        $sql       = 'UPDATE file_downloads AS file_downloads SET deleted = ? WHERE (id = ?)'; // phpcs:ignore
+        $values    = [[1, \PDO::PARAM_INT], [$id, \PDO::PARAM_STR]];
         $statement = MockStatementFactory::createWriteStatement($this, $values);
         MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql, $statement);
 
@@ -90,10 +90,79 @@ class FileDownloadSqlDataMapperTest extends DataMapperTestCase
                 'username'        => $userName,
             ],
         ];
-        $statement = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
         MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
 
         $actualResult = $this->sut->getAll();
+
+        $this->assertCollection($expectedData, $actualResult);
+    }
+
+    public function testGetPage()
+    {
+        $id             = '0302b961-700f-4bbf-8d33-74c7b679cbf5';
+        $fileId         = '658ee9e7-9a0e-44a3-832c-9dd2acebcd64';
+        $userId         = '80f00d82-4832-4764-b74e-8ad90b7af2f1';
+        $downloadedAt   = new \DateTime();
+        $filesystemName = 'foo';
+        $publicName     = 'bar';
+        $mime           = 'text/yax';
+        $userName       = 'baz';
+
+        $sql          = 'SELECT SQL_CALC_FOUND_ROWS file_downloads.id, file_downloads.file_id, file_downloads.user_id, file_downloads.downloaded_at, files.filesystem_name AS filesystem_name, files.public_name AS public_name, files.mime AS mime, users.username AS username FROM file_downloads INNER JOIN files AS files ON files.id=file_downloads.file_id INNER JOIN users AS users ON users.id=file_downloads.user_id WHERE (file_downloads.deleted = 0) LIMIT 10 OFFSET 0'; // phpcs:ignore
+        $values       = [];
+        $expectedData = [
+            [
+                'id'              => $id,
+                'file_id'         => $fileId,
+                'user_id'         => $userId,
+                'downloaded_at'   => $downloadedAt->format(FileDownload::DATE_FORMAT),
+                'filesystem_name' => $filesystemName,
+                'public_name'     => $publicName,
+                'mime'            => $mime,
+                'username'        => $userName,
+            ],
+        ];
+        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+
+        $actualResult = $this->sut->getPage(0, 10, [], [], []);
+
+        $this->assertCollection($expectedData, $actualResult);
+    }
+
+    public function testGetPageWithOrdersAndConditions()
+    {
+        $id             = '0302b961-700f-4bbf-8d33-74c7b679cbf5';
+        $fileId         = '658ee9e7-9a0e-44a3-832c-9dd2acebcd64';
+        $userId         = '80f00d82-4832-4764-b74e-8ad90b7af2f1';
+        $downloadedAt   = new \DateTime();
+        $filesystemName = 'foo';
+        $publicName     = 'bar';
+        $mime           = 'text/yax';
+        $userName       = 'baz';
+
+        $orders     = ['files.filesystem_name ASC'];
+        $conditions = ['files.filesystem_name LIKE \'abc%\'', 'files.filesystem_name LIKE \'%bca\''];
+
+        $sql          = "SELECT SQL_CALC_FOUND_ROWS file_downloads.id, file_downloads.file_id, file_downloads.user_id, file_downloads.downloaded_at, files.filesystem_name AS filesystem_name, files.public_name AS public_name, files.mime AS mime, users.username AS username FROM file_downloads INNER JOIN files AS files ON files.id=file_downloads.file_id INNER JOIN users AS users ON users.id=file_downloads.user_id WHERE (file_downloads.deleted = 0) AND (files.filesystem_name LIKE 'abc%') AND (files.filesystem_name LIKE '%bca') ORDER BY files.filesystem_name ASC LIMIT 10 OFFSET 0"; // phpcs:ignore
+        $values       = [];
+        $expectedData = [
+            [
+                'id'              => $id,
+                'file_id'         => $fileId,
+                'user_id'         => $userId,
+                'downloaded_at'   => $downloadedAt->format(FileDownload::DATE_FORMAT),
+                'filesystem_name' => $filesystemName,
+                'public_name'     => $publicName,
+                'mime'            => $mime,
+                'username'        => $userName,
+            ],
+        ];
+        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+
+        $actualResult = $this->sut->getPage(0, 10, $orders, $conditions, []);
 
         $this->assertCollection($expectedData, $actualResult);
     }
@@ -123,7 +192,7 @@ class FileDownloadSqlDataMapperTest extends DataMapperTestCase
                 'username'        => $userName,
             ],
         ];
-        $statement = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
         MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
 
         $actualResult = $this->sut->getById($id);
@@ -138,8 +207,8 @@ class FileDownloadSqlDataMapperTest extends DataMapperTestCase
         $userId       = '0515c6bb-0ab4-4375-a990-bfa103ba9447';
         $downloadedAt = new \DateTime();
 
-        $sql    = 'UPDATE file_downloads AS file_downloads SET file_id = ?, user_id = ?, downloaded_at = ? WHERE (id = ?)'; // phpcs:ignore
-        $values = [
+        $sql       = 'UPDATE file_downloads AS file_downloads SET file_id = ?, user_id = ?, downloaded_at = ? WHERE (id = ?)'; // phpcs:ignore
+        $values    = [
             [$fileId, \PDO::PARAM_STR],
             [$userId, \PDO::PARAM_STR],
             [$downloadedAt->format(FileDownload::DATE_FORMAT), \PDO::PARAM_STR],
@@ -178,7 +247,7 @@ class FileDownloadSqlDataMapperTest extends DataMapperTestCase
                 'username'        => $userName,
             ],
         ];
-        $statement = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
         MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
 
         $actualResult = $this->sut->getByFileId($fileId);
@@ -211,7 +280,7 @@ class FileDownloadSqlDataMapperTest extends DataMapperTestCase
                 'username'        => $userName,
             ],
         ];
-        $statement = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
         MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
 
         $actualResult = $this->sut->getByUserId($userId);

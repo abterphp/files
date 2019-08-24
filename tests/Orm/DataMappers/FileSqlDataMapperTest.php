@@ -22,6 +22,37 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $this->sut = new FileSqlDataMapper($this->readConnectionMock, $this->writeConnectionMock);
     }
 
+    public function testAdd()
+    {
+        $nextId         = 'c2883287-ae5d-42d1-ab0c-7d3da2846452';
+        $filesystemName = 'foo';
+        $publicName     = 'bar';
+        $mime           = 'baz';
+        $description    = 'qux';
+        $fileCategoryId = '5df656e1-f2b2-4bff-8999-b90b041b696a';
+        $uploadedAt     = new \DateTime();
+
+        $sql       = 'INSERT INTO files (id, filesystem_name, public_name, mime, description, file_category_id, uploaded_at) VALUES (?, ?, ?, ?, ?, ?, ?)'; // phpcs:ignore
+        $values    = [
+            [$nextId, \PDO::PARAM_STR],
+            [$filesystemName, \PDO::PARAM_STR],
+            [$publicName, \PDO::PARAM_STR],
+            [$mime, \PDO::PARAM_STR],
+            [$description, \PDO::PARAM_STR],
+            [$fileCategoryId, \PDO::PARAM_STR],
+            [$uploadedAt->format('Y-m-d'), \PDO::PARAM_STR],
+        ];
+        $statement = MockStatementFactory::createWriteStatement($this, $values);
+        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql, $statement);
+
+        $category = new FileCategory($fileCategoryId, '', '', false);
+        $entity   = new File($nextId, $filesystemName, $publicName, $mime, $description, $category, $uploadedAt);
+
+        $this->sut->add($entity);
+
+        $this->assertSame($nextId, $entity->getId());
+    }
+
     public function testDelete()
     {
         $id                 = '5bc63ac6-b3cd-41f0-bbc6-81a4568179db';
@@ -81,6 +112,153 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $this->assertCollection($expectedData, $actualResult);
     }
 
+    public function testGetPage()
+    {
+        $id                 = '54d0ff01-f6b7-4058-9fcd-40f847cf2aef';
+        $filesystemName     = 'foo';
+        $publicName         = 'bar';
+        $mime               = 'text/yax';
+        $description        = 'baz';
+        $categoryId         = 'fc14a949-03cc-4d7a-8a71-7ee31d4d3be2';
+        $categoryName       = 'qux';
+        $categoryIdentifier = 'quuux';
+        $uploadedAt         = new \DateTime();
+
+        $sql          = 'SELECT SQL_CALC_FOUND_ROWS files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted =0 WHERE (files.deleted = 0) GROUP BY files.id LIMIT 10 OFFSET 0'; // phpcs:ignore
+        $values       = [];
+        $expectedData = [
+            [
+                'id'                       => $id,
+                'filesystem_name'          => $filesystemName,
+                'public_name'              => $publicName,
+                'file_category_id'         => $categoryId,
+                'mime'                     => $mime,
+                'description'              => $description,
+                'uploaded_at'              => $uploadedAt->format(File::DATE_FORMAT),
+                'file_category_name'       => $categoryName,
+                'file_category_identifier' => $categoryIdentifier,
+            ],
+        ];
+        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+
+        $actualResult = $this->sut->getPage(0, 10, [], [], []);
+
+        $this->assertCollection($expectedData, $actualResult);
+    }
+
+    public function testGetPageWithOrdersAndConditions()
+    {
+        $id                 = '54d0ff01-f6b7-4058-9fcd-40f847cf2aef';
+        $filesystemName     = 'foo';
+        $publicName         = 'bar';
+        $mime               = 'text/yax';
+        $description        = 'baz';
+        $categoryId         = 'fc14a949-03cc-4d7a-8a71-7ee31d4d3be2';
+        $categoryName       = 'qux';
+        $categoryIdentifier = 'quuux';
+        $uploadedAt         = new \DateTime();
+
+        $orders     = ['files.public_name ASC'];
+        $conditions = ['files.public_name LIKE \'abc%\'', 'files.public_name LIKE \'%bca\''];
+
+        $sql          = "SELECT SQL_CALC_FOUND_ROWS files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted =0 WHERE (files.deleted = 0) AND (files.public_name LIKE 'abc%') AND (files.public_name LIKE '%bca') GROUP BY files.id ORDER BY files.public_name ASC LIMIT 10 OFFSET 0"; // phpcs:ignore
+        $values       = [];
+        $expectedData = [
+            [
+                'id'                       => $id,
+                'filesystem_name'          => $filesystemName,
+                'public_name'              => $publicName,
+                'file_category_id'         => $categoryId,
+                'mime'                     => $mime,
+                'description'              => $description,
+                'uploaded_at'              => $uploadedAt->format(File::DATE_FORMAT),
+                'file_category_name'       => $categoryName,
+                'file_category_identifier' => $categoryIdentifier,
+            ],
+        ];
+        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+
+        $actualResult = $this->sut->getPage(0, 10, $orders, $conditions, []);
+
+        $this->assertCollection($expectedData, $actualResult);
+    }
+
+    public function testGetPublicByCategoryIdentifiers()
+    {
+        $id                 = '54d0ff01-f6b7-4058-9fcd-40f847cf2aef';
+        $filesystemName     = 'foo';
+        $publicName         = 'bar';
+        $mime               = 'text/yax';
+        $description        = 'baz';
+        $categoryId         = 'fc14a949-03cc-4d7a-8a71-7ee31d4d3be2';
+        $categoryName       = 'qux';
+        $categoryIdentifier = 'quuux';
+        $uploadedAt         = new \DateTime();
+
+        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted =0 INNER JOIN user_groups_file_categories AS ugfc ON file_categories.id = ugfc.file_category_id AND file_categories.deleted = 0 INNER JOIN user_groups AS user_groups ON user_groups.id = ugfc.user_group_id AND user_groups.deleted = 0 INNER JOIN users AS users ON users.user_group_id = user_groups.id AND users.deleted = 0 WHERE (files.deleted = 0) AND (file_categories.identifier IN (?)) GROUP BY files.id'; // phpcs:ignore
+        $values       = [
+            [$categoryIdentifier, \PDO::PARAM_STR],
+        ];
+        $expectedData = [
+            [
+                'id'                       => $id,
+                'filesystem_name'          => $filesystemName,
+                'public_name'              => $publicName,
+                'file_category_id'         => $categoryId,
+                'mime'                     => $mime,
+                'description'              => $description,
+                'uploaded_at'              => $uploadedAt->format(File::DATE_FORMAT),
+                'file_category_name'       => $categoryName,
+                'file_category_identifier' => $categoryIdentifier,
+            ],
+        ];
+        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+
+        $actualResult = $this->sut->getPublicByCategoryIdentifiers([$categoryIdentifier]);
+
+        $this->assertCollection($expectedData, $actualResult);
+    }
+
+    public function testGetPublicByFilesystemName()
+    {
+        $id                 = '54d0ff01-f6b7-4058-9fcd-40f847cf2aef';
+        $filesystemName     = 'foo';
+        $publicName         = 'bar';
+        $mime               = 'text/yax';
+        $description        = 'baz';
+        $categoryId         = 'fc14a949-03cc-4d7a-8a71-7ee31d4d3be2';
+        $categoryName       = 'qux';
+        $categoryIdentifier = 'quuux';
+        $uploadedAt         = new \DateTime();
+
+        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted =0 WHERE (files.deleted = 0) AND (files.filesystem_name = :filesystem_name) AND (file_categories.is_public = 1) GROUP BY files.id'; // phpcs:ignore
+        $values       = [
+            'filesystem_name' => [$filesystemName, \PDO::PARAM_STR],
+        ];
+        $expectedData = [
+            [
+                'id'                       => $id,
+                'filesystem_name'          => $filesystemName,
+                'public_name'              => $publicName,
+                'file_category_id'         => $categoryId,
+                'mime'                     => $mime,
+                'description'              => $description,
+                'uploaded_at'              => $uploadedAt->format(File::DATE_FORMAT),
+                'file_category_name'       => $categoryName,
+                'file_category_identifier' => $categoryIdentifier,
+            ],
+        ];
+        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+
+        $actualResult = $this->sut->getPublicByFilesystemName($filesystemName);
+
+        $this->assertEntity($expectedData[0], $actualResult);
+    }
+
     public function testGetById()
     {
         $id                 = '456cdb27-c8e8-4ab5-84c0-2d20d470521f';
@@ -90,7 +268,7 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $description        = 'baz';
         $categoryId         = 'd6ba660f-d131-4dfa-825a-81e7f3f69fcb';
         $categoryName       = 'qux';
-        $categoryIdentifier = 'quuux';
+        $categoryIdentifier = 'quux';
         $uploadedAt         = new \DateTime();
 
         $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted =0 WHERE (files.deleted = 0) AND (files.id = :file_id) GROUP BY files.id'; // phpcs:ignore

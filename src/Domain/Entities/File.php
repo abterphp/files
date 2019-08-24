@@ -32,7 +32,7 @@ class File implements IStringerEntity
     /** @var DateTime */
     protected $uploadedAt;
 
-    /** @var FileCategory */
+    /** @var FileCategory|null */
     protected $category;
 
     /** @var bool */
@@ -192,23 +192,19 @@ class File implements IStringerEntity
     }
 
     /**
-     * @return FileCategory
+     * @return FileCategory|null
      */
-    public function getCategory(): FileCategory
+    public function getCategory(): ?FileCategory
     {
-        if (null === $this->category) {
-            throw new \RuntimeException('Category is missing from file');
-        }
-
         return $this->category;
     }
 
     /**
-     * @param FileCategory $category
+     * @param FileCategory|null $category
      *
      * @return File
      */
-    public function setCategory(FileCategory $category): File
+    public function setCategory(?FileCategory $category): File
     {
         $this->category = $category;
 

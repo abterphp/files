@@ -20,9 +20,7 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
      */
     public function add($entity)
     {
-        if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException(__CLASS__ . ':' . __FUNCTION__ . ' expects a File entity.');
-        }
+        assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $query = (new QueryBuilder())
             ->insert(
@@ -53,9 +51,7 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
      */
     public function delete($entity)
     {
-        if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException(__CLASS__ . ':' . __FUNCTION__ . ' expects a File entity.');
-        }
+        assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $query = (new QueryBuilder())
             ->update('files', 'files', ['deleted' => [1, \PDO::PARAM_INT]])
@@ -221,9 +217,7 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
      */
     public function update($entity)
     {
-        if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException(__CLASS__ . ':' . __FUNCTION__ . ' expects a File entity.');
-        }
+        assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $query = (new QueryBuilder())
             ->update(
@@ -265,11 +259,7 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
             (bool)$hash['file_category_name']
         );
 
-        try {
-            $uploadedAt = new \DateTime((string)$hash['uploaded_at']);
-        } catch (\Exception $e) {
-            $uploadedAt = null;
-        }
+        $uploadedAt = new \DateTime((string)$hash['uploaded_at']);
 
         return new Entity(
             $hash['id'],

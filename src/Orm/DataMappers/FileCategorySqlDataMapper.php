@@ -24,9 +24,7 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
      */
     public function add($entity)
     {
-        if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException(__CLASS__ . ':' . __FUNCTION__ . ' expects a File Category entity.');
-        }
+        assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $query = (new QueryBuilder())
             ->insert(
@@ -55,9 +53,7 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
      */
     public function delete($entity)
     {
-        if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException(__CLASS__ . ':' . __FUNCTION__ . ' expects a File Category entity.');
-        }
+        assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $query = (new QueryBuilder())
             ->update('file_categories', 'file_categories', ['deleted' => [1, \PDO::PARAM_INT]])
@@ -163,9 +159,7 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
      */
     public function update($entity)
     {
-        if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException(__CLASS__ . ':' . __FUNCTION__ . ' expects a File Category entity.');
-        }
+        assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $query = (new QueryBuilder())
             ->update(
