@@ -6,9 +6,11 @@ namespace AbterPhp\Files\Grid\Factory;
 
 use AbterPhp\Admin\Grid\Factory\GridFactory;
 use AbterPhp\Admin\Grid\Factory\PaginationFactory;
+use AbterPhp\Files\Domain\Entities\File as Entity;
 use AbterPhp\Files\Grid\Factory\Table\File as TableFactory;
 use AbterPhp\Files\Grid\Filters\File as Filters;
 use AbterPhp\Framework\Grid\IGrid;
+use AbterPhp\Framework\Helper\DateHelper;
 use Opulence\Routing\Urls\UrlGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -58,5 +60,19 @@ class FileTest extends TestCase
         $actualResult = $this->sut->createGrid($params, $baseUrl);
 
         $this->assertInstanceOf(IGrid::class, $actualResult);
+    }
+
+    public function testGetUploadedAtFormatsDateValue()
+    {
+        $dateStub = new \DateTime();
+
+        $entityMock = $this->createMock(Entity::class);
+        $entityMock->expects($this->any())->method('getUploadedAt')->willReturn($dateStub);
+
+        putenv('ADMIN_DATE_FORMAT=Y-m-d');
+
+        $actualResult = $this->sut->getUploadedAt($entityMock);
+
+        $this->assertSame(DateHelper::format($dateStub), $actualResult);
     }
 }

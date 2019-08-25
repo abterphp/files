@@ -6,6 +6,7 @@ namespace AbterPhp\Files\Grid\Factory;
 
 use AbterPhp\Admin\Grid\Factory\GridFactory;
 use AbterPhp\Admin\Grid\Factory\PaginationFactory;
+use AbterPhp\Files\Domain\Entities\FileCategory as Entity;
 use AbterPhp\Files\Grid\Factory\Table\FileCategory as TableFactory;
 use AbterPhp\Files\Grid\Filters\FileCategory as Filters;
 use AbterPhp\Framework\Grid\IGrid;
@@ -58,5 +59,15 @@ class FileCategoryTest extends TestCase
         $actualResult = $this->sut->createGrid($params, $baseUrl);
 
         $this->assertInstanceOf(IGrid::class, $actualResult);
+    }
+
+    public function testGetIsPublic()
+    {
+        $entityMock = $this->createMock(Entity::class);
+        $entityMock->expects($this->any())->method('isPublic')->willReturn(true);
+
+        $actualResult = $this->sut->getIsPublic($entityMock);
+
+        $this->assertSame('framework:yes', $actualResult);
     }
 }
