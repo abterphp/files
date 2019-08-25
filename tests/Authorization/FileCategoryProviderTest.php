@@ -10,7 +10,7 @@ use Casbin\Model\Model;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class PageCategoryProviderTest extends TestCase
+class FileCategoryProviderTest extends TestCase
 {
     /** @var FileCategoryProvider */
     protected $sut;
