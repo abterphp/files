@@ -13,6 +13,7 @@ use AbterPhp\Framework\Domain\Entities\IStringerEntity;
 use AbterPhp\Framework\Filesystem\Uploader;
 use Cocur\Slugify\Slugify;
 use Opulence\Events\Dispatchers\IEventDispatcher;
+use Opulence\Http\Requests\UploadedFile;
 use Opulence\Orm\IUnitOfWork;
 use Opulence\Validation\IValidator;
 use Opulence\Validation\Rules\Errors\ErrorCollection;
@@ -190,6 +191,48 @@ class FileTest extends TestCase
         $entityStub = $this->createMock(IStringerEntity::class);
 
         $this->sut->update($entityStub, [], []);
+    }
+
+    public function testUpdateHandlesFileUpdate()
+    {
+        $id = '5c003d37-c59e-43eb-a471-e7b3c031fbeb';
+
+        $entity = $this->sut->createEntity($id);
+
+        $identifier     = 'bar';
+        $description    = 'foo';
+        $tmpFilename    = 'baz';
+        $tmpFsName      = 'qux';
+        $filename       = 'quux';
+        $categoryId     = null;
+        $postData       = [
+            'identifier'  => $identifier,
+            'description' => $description,
+            'category_id' => $categoryId,
+        ];
+        $fileUploadMock = $this->createMock(UploadedFile::class);
+        $fileUploadMock->expects($this->any())->method('getTempFilename')->willReturn($tmpFilename);
+        $fileUploadMock->expects($this->any())->method('getFilename')->willReturn($filename);
+        $fileData = [
+            'file' => $fileUploadMock,
+        ];
+        $paths    = [
+            'file' => $tmpFsName,
+        ];
+
+        $this->gridRepoMock->expects($this->any())->method('add');
+        $this->gridRepoMock->expects($this->any())->method('delete');
+        $this->eventDispatcherMock->expects($this->any())->method('dispatch');
+        $this->unitOfWorkMock->expects($this->any())->method('commit');
+        $this->slugifyMock->expects($this->any())->method('slugify')->willReturnArgument(0);
+        $this->uploaderMock->expects($this->atLeastOnce())->method('delete');
+        $this->uploaderMock->expects($this->atLeastOnce())->method('persist')->wilLReturn($paths);
+
+        $actualResult = $this->sut->update($entity, $postData, $fileData);
+
+        $this->assertTrue($actualResult);
+        $this->assertSame($tmpFsName, $entity->getFilesystemName());
+        $this->assertSame($tmpFilename, $entity->getPublicName());
     }
 
     public function testDelete()
