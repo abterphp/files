@@ -124,11 +124,9 @@ class FileCategoryRepoTest extends RepoTestCase
         $this->assertSame($entities, $actualResult);
     }
 
-    public function getByUserGroup()
+    public function testGetByUserGroup()
     {
-        $identifier = 'foo-0';
-
-        $userGroup = new UserGroup('bar0', 'bar-0', 'Bar 0');
+        $userGroup   = new UserGroup('bar0', 'bar-0', 'Bar 0');
         $entityStub0 = new Entity('foo0', 'foo-0', 'Foo 0', false, [$userGroup]);
         $entityStub1 = new Entity('foo1', 'foo-1', 'Foo 1', false, [$userGroup]);
         $entities    = [$entityStub0, $entityStub1];
@@ -139,7 +137,7 @@ class FileCategoryRepoTest extends RepoTestCase
 
         $this->unitOfWorkMock->expects($this->any())->method('getEntityRegistry')->willReturn($entityRegistry);
 
-        $actualResult = $this->sut->getByUserGroup($identifier);
+        $actualResult = $this->sut->getByUserGroup($userGroup);
 
         $this->assertSame($entities, $actualResult);
     }

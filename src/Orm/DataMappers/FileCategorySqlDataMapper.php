@@ -259,10 +259,6 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
             return [];
         }
 
-        if (is_array($hash[static::USER_GROUP_IDS])) {
-            return $hash[static::USER_GROUP_IDS];
-        }
-
         $userGroups = [];
         foreach (explode(',', $hash[static::USER_GROUP_IDS]) as $id) {
             $userGroups[] = new UserGroup((string)$id, '', '');
