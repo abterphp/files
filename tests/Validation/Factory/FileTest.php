@@ -47,7 +47,6 @@ class FileTest extends TestCase
                 [
                     'id'          => '465c91df-9cc7-47e2-a2ef-8fe645753148',
                     'description' => 'foo',
-                    'category_id' => '69da7b0b-8315-43c9-8f5d-a6a5ea09b051',
                 ],
                 true,
             ],
@@ -86,21 +85,6 @@ class FileTest extends TestCase
                     'id'          => '465c91df-9cc7-47e2-a2ef-8fe645753148',
                     'description' => 'foo',
                     'category_id' => '69da7b0b-8315-43c9-8f5d-a6a5ea09b05',
-                ],
-                false,
-            ],
-            'invalid-category-id-missing'         => [
-                [
-                    'id'          => '465c91df-9cc7-47e2-a2ef-8fe645753148',
-                    'description' => 'foo',
-                ],
-                false,
-            ],
-            'invalid-category-id-empty'           => [
-                [
-                    'id'          => '465c91df-9cc7-47e2-a2ef-8fe645753148',
-                    'description' => 'foo',
-                    'category_id' => '',
                 ],
                 false,
             ],
