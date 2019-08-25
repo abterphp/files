@@ -205,14 +205,16 @@ class FileTest extends TestCase
         $tmpFsName      = 'qux';
         $filename       = 'quux';
         $categoryId     = null;
+
+        $fileUploadMock = $this->createMock(UploadedFile::class);
+        $fileUploadMock->expects($this->any())->method('getTempFilename')->willReturn($tmpFilename);
+        $fileUploadMock->expects($this->any())->method('getFilename')->willReturn($filename);
+
         $postData       = [
             'identifier'  => $identifier,
             'description' => $description,
             'category_id' => $categoryId,
         ];
-        $fileUploadMock = $this->createMock(UploadedFile::class);
-        $fileUploadMock->expects($this->any())->method('getTempFilename')->willReturn($tmpFilename);
-        $fileUploadMock->expects($this->any())->method('getFilename')->willReturn($filename);
         $fileData = [
             'file' => $fileUploadMock,
         ];
