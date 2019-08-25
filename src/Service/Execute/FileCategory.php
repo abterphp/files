@@ -70,10 +70,7 @@ class FileCategory extends RepoServiceAbstract
 
         $name = isset($postData['name']) ? (string)$postData['name'] : '';
 
-        $identifier = (string)$postData['identifier'];
-        if (empty($identifier)) {
-            $identifier = $name;
-        }
+        $identifier = empty($postData['identifier']) ? $name : (string)$postData['identifier'];
         $identifier = $this->slugify->slugify($identifier);
 
         $userGroups = [];

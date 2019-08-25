@@ -92,9 +92,7 @@ class File extends RepoServiceAbstract
      */
     public function update(IStringerEntity $entity, array $postData, array $fileData): bool
     {
-        if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException('Invalid entity');
-        }
+        assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $this->fillEntity($entity, $postData, $fileData);
 
@@ -116,9 +114,7 @@ class File extends RepoServiceAbstract
      */
     public function delete(IStringerEntity $entity): bool
     {
-        if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException('Invalid entity');
-        }
+        assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $this->deleteFile($entity);
 
@@ -134,9 +130,7 @@ class File extends RepoServiceAbstract
      */
     public function deleteFile(IStringerEntity $entity)
     {
-        if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException('Invalid entity');
-        }
+        assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $this->uploader->delete($entity->getOldFilesystemName());
     }
@@ -147,9 +141,7 @@ class File extends RepoServiceAbstract
      */
     public function uploadFile(IStringerEntity $entity, array $fileData)
     {
-        if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException('Invalid entity');
-        }
+        assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $paths = $this->uploader->persist($fileData);
 
@@ -183,9 +175,7 @@ class File extends RepoServiceAbstract
      */
     protected function fillEntity(IStringerEntity $entity, array $postData, array $fileData): IStringerEntity
     {
-        if (!($entity instanceof Entity)) {
-            throw new \InvalidArgumentException('Invalid entity');
-        }
+        assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $categoryId  = (string)$postData['category_id'];
         $description = (string)$postData['description'];

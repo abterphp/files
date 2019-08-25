@@ -129,6 +129,33 @@ class FileTest extends TestCase
         $this->assertSame($categoryId, $actualResult->getCategory()->getId());
     }
 
+    public function testCreateDoesNotCommitIfUploadHadError()
+    {
+        $description = 'foo';
+        $categoryId  = 'a9338468-1094-4070-af03-bcdec333fea9';
+        $postData    = [
+            'description' => $description,
+            'category_id' => $categoryId,
+        ];
+
+        $fileCategory = new FileCategory($categoryId, '', '', false, []);
+
+        $this->gridRepoMock->expects($this->never())->method('add');
+        $this->eventDispatcherMock->expects($this->never())->method('dispatch');
+        $this->unitOfWorkMock->expects($this->never())->method('commit');
+        $this->slugifyMock->expects($this->any())->method('slugify')->willReturnArgument(0);
+        $this->uploaderMock->expects($this->any())->method('getErrors')->willReturn(['foo' => ['bar']]);
+        $this->fileCategoryRepo->expects($this->any())->method('getById')->willReturn($fileCategory);
+
+        /** @var IStringerEntity|Entity $actualResult */
+        $actualResult = $this->sut->create($postData, []);
+
+        $this->assertInstanceOf(Entity::class, $actualResult);
+        $this->assertEmpty($actualResult->getId());
+        $this->assertSame($description, $actualResult->getDescription());
+        $this->assertSame($categoryId, $actualResult->getCategory()->getId());
+    }
+
     public function testUpdate()
     {
         $id = '5c003d37-c59e-43eb-a471-e7b3c031fbeb';

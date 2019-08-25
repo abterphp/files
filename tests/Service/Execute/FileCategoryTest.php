@@ -85,6 +85,29 @@ class FileCategoryTest extends TestCase
         $this->assertSame($identifier, $actualResult->getIdentifier());
     }
 
+    public function testCreateWithUserGroups()
+    {
+        $identifier = 'bar';
+        $ugId0      = '4567f007-6efa-4dae-b0af-795a3dbfe44e';
+        $ugId1      = '66822f5c-e32c-434c-a220-552a41138653';
+        $postData   = [
+            'identifier'     => $identifier,
+            'user_group_ids' => [$ugId0, $ugId1],
+        ];
+
+        $this->gridRepoMock->expects($this->once())->method('add');
+        $this->eventDispatcherMock->expects($this->atLeastOnce())->method('dispatch');
+        $this->unitOfWorkMock->expects($this->once())->method('commit');
+        $this->slugifyMock->expects($this->any())->method('slugify')->willReturnArgument(0);
+
+        /** @var IStringerEntity|Entity $actualResult */
+        $actualResult = $this->sut->create($postData, []);
+
+        $this->assertInstanceOf(Entity::class, $actualResult);
+        $this->assertEmpty($actualResult->getId());
+        $this->assertSame($identifier, $actualResult->getIdentifier());
+    }
+
     public function testUpdate()
     {
         $id = '5c003d37-c59e-43eb-a471-e7b3c031fbeb';
