@@ -194,18 +194,55 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $this->assertEntity($expectedData[0], $actualResult);
     }
 
+    public function testGetByIdWithUserGroups()
+    {
+        $id         = 'c44a45e8-67fb-4e96-85ff-88fb30d1c0e9';
+        $identifier = 'bar';
+        $name       = 'foo';
+        $isPublic   = true;
+        $ugId0      = '11c7ff36-3a00-447e-bcfe-594eee978ff7';
+        $ugId1      = 'bc577876-3fa4-4bd8-833d-e52b9ff7b94d';
+
+        $sql          = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted = 0) AND (fc.id = :file_category_id) GROUP BY fc.id'; // phpcs:ignore
+        $values       = ['file_category_id' => [$id, \PDO::PARAM_STR]];
+        $expectedData = [
+            [
+                'id'             => $id,
+                'identifier'     => $identifier,
+                'name'           => $name,
+                'is_public'      => $isPublic,
+                'user_group_ids' => "$ugId0,$ugId1",
+            ],
+        ];
+        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+
+        $actualResult = $this->sut->getById($id);
+
+        $this->assertEntity($expectedData[0], $actualResult);
+    }
+
     public function testGetByUserGroupId()
     {
-        $userGroupId = '978760e5-b495-474d-8d87-5ead22778d38';
+        $userGroupId = '11c7ff36-3a00-447e-bcfe-594eee978ff7';
 
         $id         = '3525f6d8-52ad-4bf2-ad68-15314ccff70d';
         $identifier = 'bar';
         $name       = 'foo';
         $isPublic   = true;
+        $ugId0      = '11c7ff36-3a00-447e-bcfe-594eee978ff7';
+        $ugId1      = 'bc577876-3fa4-4bd8-833d-e52b9ff7b94d';
 
         $sql          = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc INNER JOIN user_groups_file_categories AS ugfc2 ON fc.id = ugfc2.file_category_id LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted = 0) AND (ugfc2.user_group_id = :user_group_id) GROUP BY fc.id'; // phpcs:ignore
         $values       = ['ugfc2.user_group_id' => [$userGroupId, \PDO::PARAM_STR]];
-        $expectedData = [['id' => $id, 'identifier' => $identifier, 'name' => $name, 'is_public' => $isPublic]];
+        $expectedData = [
+            ['id'             => $id,
+             'identifier'     => $identifier,
+             'name'           => $name,
+             'is_public'      => $isPublic,
+             'user_group_ids' => "$ugId0,$ugId1",
+            ],
+        ];
         $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
         MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
 
@@ -308,5 +345,25 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $this->assertEquals($expectedData['id'], $entity->getId());
         $this->assertSame($expectedData['name'], $entity->getName());
         $this->assertSame($expectedData['is_public'], $entity->isPublic());
+
+        $this->assertUserGroups($expectedData, $entity);
+    }
+
+    /**
+     * @param array        $expectedData
+     * @param FileCategory $entity
+     */
+    protected function assertUserGroups(array $expectedData, $entity)
+    {
+        if (empty($expectedData['user_group_ids'])) {
+            return;
+        }
+
+        $ugIds = [];
+        foreach ($entity->getUserGroups() as $userGroup) {
+            $ugIds[] = $userGroup->getId();
+        }
+
+        $this->assertSame($expectedData['user_group_ids'], implode(',', $ugIds));
     }
 }

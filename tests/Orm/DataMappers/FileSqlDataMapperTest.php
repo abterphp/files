@@ -294,6 +294,41 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $this->assertEntity($expectedData[0], $actualResult);
     }
 
+    public function testGetByFilesystemName()
+    {
+        $id                 = '456cdb27-c8e8-4ab5-84c0-2d20d470521f';
+        $filesystemName     = 'foo';
+        $publicName         = 'bar';
+        $mime               = 'text/yax';
+        $description        = 'baz';
+        $categoryId         = 'd6ba660f-d131-4dfa-825a-81e7f3f69fcb';
+        $categoryName       = 'qux';
+        $categoryIdentifier = 'quux';
+        $uploadedAt         = new \DateTime();
+
+        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted =0 WHERE (files.deleted = 0) AND (files.filesystem_name = :filesystem_name) GROUP BY files.id'; // phpcs:ignore
+        $values       = ['filesystem_name' => [$filesystemName, \PDO::PARAM_STR]];
+        $expectedData = [
+            [
+                'id'                       => $id,
+                'filesystem_name'          => $filesystemName,
+                'public_name'              => $publicName,
+                'mime'                     => $mime,
+                'file_category_id'         => $categoryId,
+                'description'              => $description,
+                'uploaded_at'              => $uploadedAt->format(File::DATE_FORMAT),
+                'file_category_name'       => $categoryName,
+                'file_category_identifier' => $categoryIdentifier,
+            ],
+        ];
+        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+
+        $actualResult = $this->sut->getByFilesystemName($filesystemName);
+
+        $this->assertEntity($expectedData[0], $actualResult);
+    }
+
     public function testGetByUserId()
     {
         $userId = '673459fb-1f34-4339-8436-3fff0774fcf1';
