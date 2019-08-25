@@ -222,6 +222,13 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $this->assertCollection($expectedData, $actualResult);
     }
 
+    public function testGetPublicByCategoryIdentifiersCanReturnEarly()
+    {
+        $actualResult = $this->sut->getPublicByCategoryIdentifiers([]);
+
+        $this->assertSame([], $actualResult);
+    }
+
     public function testGetPublicByFilesystemName()
     {
         $id                 = '54d0ff01-f6b7-4058-9fcd-40f847cf2aef';
