@@ -46,7 +46,7 @@ class NavigationBuilder
             return;
         }
 
-        $item = $this->createFilesItem();
+        $item = $this->createItem();
 
         $navigation->addItem($item, static::BASE_WEIGHT);
     }
@@ -55,25 +55,7 @@ class NavigationBuilder
      * @return Item
      * @throws \Opulence\Routing\Urls\UrlException
      */
-    protected function createFileCategoriesItem(): Item
-    {
-        $text = 'files:fileCategories';
-        $icon = 'folder';
-
-        $button   = $this->buttonFactory->createFromName($text, Routes::ROUTE_FILE_CATEGORIES, [], $icon);
-        $resource = $this->getAdminResource(Routes::ROUTE_FILE_CATEGORIES);
-
-        $item = new Item($button);
-        $item->setResource($resource);
-
-        return $item;
-    }
-
-    /**
-     * @return Item
-     * @throws \Opulence\Routing\Urls\UrlException
-     */
-    protected function createFilesItem(): Item
+    protected function createItem(): Item
     {
         $text = 'files:files';
         $icon = 'attachment';
@@ -108,6 +90,42 @@ class NavigationBuilder
         $dropdown[] = $this->createFileDownloadsItem();
 
         return $dropdown;
+    }
+
+    /**
+     * @return Item
+     * @throws \Opulence\Routing\Urls\UrlException
+     */
+    protected function createFileCategoriesItem(): Item
+    {
+        $text = 'files:fileCategories';
+        $icon = 'folder';
+
+        $button   = $this->buttonFactory->createFromName($text, Routes::ROUTE_FILE_CATEGORIES, [], $icon);
+        $resource = $this->getAdminResource(Routes::ROUTE_FILE_CATEGORIES);
+
+        $item = new Item($button);
+        $item->setResource($resource);
+
+        return $item;
+    }
+
+    /**
+     * @return Item
+     * @throws \Opulence\Routing\Urls\UrlException
+     */
+    protected function createFilesItem(): Item
+    {
+        $text = 'files:files';
+        $icon = 'file';
+
+        $button   = $this->buttonFactory->createFromName($text, Routes::ROUTE_FILES, [], $icon);
+        $resource = $this->getAdminResource(Routes::ROUTE_FILES);
+
+        $item = new Item($button);
+        $item->setResource($resource);
+
+        return $item;
     }
 
     /**
