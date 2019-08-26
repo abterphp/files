@@ -24,7 +24,7 @@
     "abterphp/framework": "dev-master",
     "abterphp/admin": "dev-master",
     "abterphp/website": "dev-master",
-    "ext/json": "*"
+    "ext-json": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "^8.2",
