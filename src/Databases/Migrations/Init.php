@@ -16,7 +16,7 @@ class Init extends BaseMigration
      *
      * @return DateTime The date this migration was created
      */
-    public static function getCreationDate() : DateTime
+    public static function getCreationDate(): DateTime
     {
         return DateTime::createFromFormat(DateTime::ATOM, '2019-02-28T21:02:00+00:00');
     }

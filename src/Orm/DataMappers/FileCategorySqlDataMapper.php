@@ -15,9 +15,9 @@ use Opulence\QueryBuilders\MySql\SelectQuery;
 
 class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDataMapper
 {
-    const USER_GROUP_IDS = 'user_group_ids';
-
     use IdGeneratorUserTrait;
+
+    const USER_GROUP_IDS = 'user_group_ids';
 
     /**
      * @param Entity $entity
