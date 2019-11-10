@@ -21,9 +21,9 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "abterphp/framework": "dev-master",
-    "abterphp/admin": "dev-master",
-    "abterphp/website": "dev-master",
+    "abterphp/framework": "*",
+    "abterphp/admin": "*",
+    "abterphp/website": "*",
     "ext-json": "*"
   },
   "require-dev": {
