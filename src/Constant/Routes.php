@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Constant;
 
-class Routes
+use AbterPhp\Framework\Constant\Routes as FrameworkConstant;
+
+class Routes extends FrameworkConstant
 {
     const ROUTE_API_CSV      = 'api-csv';
     const ROUTE_API_DOWNLOAD = 'api-download';

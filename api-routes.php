@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
+use AbterPhp\Admin\Config\Routes as RoutesConfig;
 use AbterPhp\Admin\Http\Middleware\Api;
-use AbterPhp\Files\Constant\Routes;
 use Opulence\Routing\Router;
 
 /**
@@ -18,7 +18,7 @@ $router->group(
     function (Router $router) {
         $router->group(
             [
-                'path'       => PATH_API,
+                'path' => RoutesConfig::getApiBasePath(),
                 'middleware' => [
                     Api::class,
                 ],
@@ -71,19 +71,6 @@ $router->group(
                         "Api\\${controllerName}@delete"
                     );
                 }
-
-                /** @see \AbterPhp\Files\Http\Controllers\Api\File\Csv::csv() */
-                $router->get(
-                    Routes::PATH_API_CSV,
-                    'Api\File\Csv@csv',
-                    [OPTION_NAME => Routes::ROUTE_API_CSV]
-                );
-                /** @see \AbterPhp\Files\Http\Controllers\Api\File\Download::download() */
-                $router->get(
-                    Routes::PATH_API_DOWNLOAD,
-                    'Api\File\Download@download',
-                    [OPTION_NAME => Routes::ROUTE_API_DOWNLOAD]
-                );
             }
         );
     }
