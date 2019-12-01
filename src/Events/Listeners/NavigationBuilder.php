@@ -58,7 +58,7 @@ class NavigationBuilder
     protected function createItem(): Item
     {
         $text = 'files:files';
-        $icon = 'attachment';
+        $icon = 'file_copy';
 
         $button   = $this->buttonFactory->createFromName($text, Routes::ROUTE_FILES, [], $icon);
         $resource = $this->getAdminResource(Routes::ROUTE_FILES);
@@ -117,7 +117,7 @@ class NavigationBuilder
     protected function createFilesItem(): Item
     {
         $text = 'files:files';
-        $icon = 'file';
+        $icon = 'file_copy';
 
         $button   = $this->buttonFactory->createFromName($text, Routes::ROUTE_FILES, [], $icon);
         $resource = $this->getAdminResource(Routes::ROUTE_FILES);
