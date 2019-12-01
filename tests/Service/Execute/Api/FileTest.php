@@ -190,7 +190,7 @@ class FileTest extends TestCase
         $filesystemName = 'bar';
         $publicName     = 'baz';
         $mime           = 'qux';
-
+        
         $postData = [
             'identifier'      => $identifier,
             'description'     => $description,
