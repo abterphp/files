@@ -83,7 +83,7 @@ class File extends BaseFactory
         $downloadCallbacks  = $this->getDownloadCallbacks();
 
         $downloadAttributes = [
-            Html5::ATTR_HREF  => Routes::ROUTE_FILES_DOWNLOAD,
+            Html5::ATTR_HREF  => Routes::ROUTE_PUBLIC_FILE,
         ];
         $editAttributes     = [
             Html5::ATTR_HREF  => Routes::ROUTE_FILES_EDIT,

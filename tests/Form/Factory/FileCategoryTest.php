@@ -58,6 +58,7 @@ class FileCategoryTest extends TestCase
         $entityId      = '99a5c8ae-cf2c-4c21-8a4f-2a47f9eb6dcb';
         $name          = 'Blah!';
         $identifier    = 'blah';
+        $isPublic      = true;
         $allUserGroups = [
             new UserGroup('c6f1db1f-7f6c-408a-b8ba-4ad6ea0b08e1', 'ug-22', 'UG 22', []),
             new UserGroup('a26bee22-4b9e-4db6-be61-e3b3434218b7', 'ug-73', 'UG 73', []),
@@ -76,6 +77,7 @@ class FileCategoryTest extends TestCase
         $entityMock->expects($this->any())->method('getId')->willReturn($entityId);
         $entityMock->expects($this->any())->method('getIdentifier')->willReturn($identifier);
         $entityMock->expects($this->any())->method('getName')->willReturn($name);
+        $entityMock->expects($this->any())->method('isPublic')->willReturn($isPublic);
         $entityMock->expects($this->any())->method('getUserGroups')->willReturn($userGroups);
 
         $form = (string)$this->sut->create($action, $method, $showUrl, $entityMock);
@@ -97,7 +99,7 @@ class FileCategoryTest extends TestCase
     {
         $entityMock = $this->getMockBuilder(Entity::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['getId', 'getIdentifier', 'getName', 'getUserGroups'])
+            ->onlyMethods(['getId', 'getIdentifier', 'getName', 'isPublic', 'getUserGroups'])
             ->getMock();
 
         return $entityMock;

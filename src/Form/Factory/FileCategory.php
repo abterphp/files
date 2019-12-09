@@ -10,12 +10,14 @@ use AbterPhp\Admin\Orm\UserGroupRepo;
 use AbterPhp\Files\Domain\Entities\FileCategory as Entity;
 use AbterPhp\Framework\Constant\Html5;
 use AbterPhp\Framework\Form\Component\Option;
+use AbterPhp\Framework\Form\Container\CheckboxGroup;
 use AbterPhp\Framework\Form\Container\FormGroup;
 use AbterPhp\Framework\Form\Element\Input;
 use AbterPhp\Framework\Form\Element\MultiSelect;
 use AbterPhp\Framework\Form\Element\Select;
 use AbterPhp\Framework\Form\IForm;
 use AbterPhp\Framework\Form\Label\Label;
+use AbterPhp\Framework\Html\Node;
 use AbterPhp\Framework\I18n\ITranslator;
 use Opulence\Orm\IEntity;
 use Opulence\Sessions\ISession;
@@ -53,8 +55,9 @@ class FileCategory extends Base
 
         $this->createForm($action, $method)
             ->addDefaultElements()
-            ->addIdentifier($entity)
             ->addName($entity)
+            ->addIdentifier($entity)
+            ->addIsPublic($entity)
             ->addUserGroups($entity)
             ->addDefaultButtons($showUrl);
 
@@ -63,24 +66,6 @@ class FileCategory extends Base
         $this->form = null;
 
         return $form;
-    }
-
-    /**
-     * @param Entity $entity
-     *
-     * @return $this
-     */
-    protected function addIdentifier(Entity $entity): FileCategory
-    {
-        $this->form[] = new Input(
-            'identifier',
-            'identifier',
-            $entity->getIdentifier(),
-            [],
-            [Html5::ATTR_TYPE => Input::TYPE_HIDDEN]
-        );
-
-        return $this;
     }
 
     /**
@@ -103,10 +88,54 @@ class FileCategory extends Base
      *
      * @return $this
      */
+    protected function addIdentifier(Entity $entity): FileCategory
+    {
+        $input = new Input('identifier', 'identifier', $entity->getIdentifier());
+        $label = new Label('body', 'files:fileCategoryIdentifier');
+
+        $this->form[] = new FormGroup($input, $label);
+
+        return $this;
+    }
+
+    /**
+     * @param Entity $entity
+     *
+     * @return $this
+     */
+    protected function addIsPublic(Entity $entity): FileCategory
+    {
+        $attributes = [Html5::ATTR_TYPE => [Input::TYPE_CHECKBOX]];
+        if ($entity->isPublic()) {
+            $attributes[Html5::ATTR_CHECKED] = null;
+        }
+        $input = new Input(
+            'is_public',
+            'is_public',
+            '1',
+            [],
+            $attributes
+        );
+        $label = new Label(
+            'is_public',
+            'files:fileCategoryIsPublic'
+        );
+        $help  = new Node('files:fileCategoryIsPublic');
+
+        $this->form[] = new CheckboxGroup($input, $label, $help);
+
+        return $this;
+    }
+
+    /**
+     * @param Entity $entity
+     *
+     * @return $this
+     */
     protected function addUserGroups(Entity $entity): FileCategory
     {
         $allUserGroups = $this->userGroupRepo->getAll();
-        $userGroupIds = $this->getUserGroupIds($entity);
+        $userGroupIds  = $this->getUserGroupIds($entity);
 
         $options = $this->createUserGroupOptions($allUserGroups, $userGroupIds);
 

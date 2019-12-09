@@ -20,6 +20,6 @@ class File extends Filters
     {
         parent::__construct($intents, $attributes, $tag);
 
-        $this->nodes[] = new LikeFilter('username', 'files:userUsername');
+        $this->nodes[] = new LikeFilter('public_name', 'public_name');
     }
 }

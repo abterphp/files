@@ -32,6 +32,6 @@ class FileTest extends TestCase
         $html = (string)$sut;
 
         $this->assertStringContainsString('<div class="hidable">', $html);
-        $this->assertStringContainsString('filter-username', $html);
+        $this->assertStringContainsString('filter-public_name', $html);
     }
 }
