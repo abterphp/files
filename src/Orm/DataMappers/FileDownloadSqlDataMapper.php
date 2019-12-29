@@ -9,11 +9,11 @@ use AbterPhp\Admin\Domain\Entities\UserLanguage;
 use AbterPhp\Files\Domain\Entities\File;
 use AbterPhp\Files\Domain\Entities\FileDownload as Entity;
 use Opulence\Orm\DataMappers\SqlDataMapper;
+use Opulence\QueryBuilders\Expression;
 use Opulence\QueryBuilders\MySql\QueryBuilder;
 use Opulence\QueryBuilders\MySql\SelectQuery;
 
 /** @phan-file-suppress PhanTypeMismatchArgument */
-
 class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDataMapper
 {
     /**
@@ -52,7 +52,11 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
         assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $query = (new QueryBuilder())
-            ->update('file_downloads', 'file_downloads', ['deleted' => [1, \PDO::PARAM_INT]])
+            ->update(
+                'file_downloads',
+                'file_downloads',
+                ['deleted_at' => new Expression('NOW()')]
+            )
             ->where('id = ?')
             ->addUnnamedPlaceholderValue($entity->getId(), \PDO::PARAM_STR);
 
@@ -243,7 +247,7 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
                 'users',
                 'users.id=file_downloads.user_id'
             )
-            ->where('file_downloads.deleted = 0');
+            ->where('file_downloads.deleted_at IS NULL');
 
         return $query;
     }

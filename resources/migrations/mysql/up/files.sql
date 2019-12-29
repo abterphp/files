@@ -34,10 +34,10 @@ CREATE TABLE `file_categories`
     `is_public`  tinyint(1) unsigned NOT NULL DEFAULT 1,
     `created_at` timestamp           NOT NULL DEFAULT current_timestamp(),
     `updated_at` timestamp           NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-    `deleted`    tinyint(1) unsigned NOT NULL DEFAULT 0,
+    `deleted_at` datetime                     DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `identifier` (`identifier`),
-    KEY `file_categories_deleted_index` (`deleted`)
+    KEY `file_categories_deleted_at_index` (`deleted_at`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
@@ -51,20 +51,20 @@ VALUES (UUID(), 'public', 'public', 1),
 
 CREATE TABLE `files`
 (
-    `id`               char(36)            NOT NULL,
-    `file_category_id` char(36)            NOT NULL,
-    `filesystem_name`  varchar(100)        NOT NULL,
-    `public_name`      varchar(255)        NOT NULL,
-    `mime`             varchar(160)        NOT NULL,
-    `description`      text                NOT NULL,
-    `uploaded_at`      timestamp           NOT NULL DEFAULT current_timestamp(),
-    `created_at`       timestamp           NOT NULL DEFAULT current_timestamp(),
-    `updated_at`       timestamp           NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-    `deleted`          tinyint(1) unsigned NOT NULL DEFAULT 0,
+    `id`               char(36)     NOT NULL,
+    `file_category_id` char(36)     NOT NULL,
+    `filesystem_name`  varchar(100) NOT NULL,
+    `public_name`      varchar(255) NOT NULL,
+    `mime`             varchar(160) NOT NULL,
+    `description`      text         NOT NULL,
+    `uploaded_at`      timestamp    NOT NULL DEFAULT current_timestamp(),
+    `created_at`       timestamp    NOT NULL DEFAULT current_timestamp(),
+    `updated_at`       timestamp    NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    `deleted_at`       datetime              DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `file_category_id` (`file_category_id`),
     KEY `filesystem_name` (`filesystem_name`),
-    KEY `files_deleted_index` (`deleted`),
+    KEY `files_deleted_at_index` (`deleted_at`),
     CONSTRAINT `files_ibfk_1` FOREIGN KEY (`file_category_id`) REFERENCES `file_categories` (`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -75,17 +75,17 @@ CREATE TABLE `files`
 
 CREATE TABLE `file_downloads`
 (
-    `id`            char(36)            NOT NULL,
-    `file_id`       char(36)            NOT NULL,
-    `user_id`       char(36)            NOT NULL,
-    `downloaded_at` timestamp           NOT NULL DEFAULT current_timestamp(),
-    `created_at`    timestamp           NOT NULL DEFAULT current_timestamp(),
-    `updated_at`    timestamp           NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-    `deleted`       tinyint(1) unsigned NOT NULL DEFAULT 0,
+    `id`            char(36)  NOT NULL,
+    `file_id`       char(36)  NOT NULL,
+    `user_id`       char(36)  NOT NULL,
+    `downloaded_at` timestamp NOT NULL DEFAULT current_timestamp(),
+    `created_at`    timestamp NOT NULL DEFAULT current_timestamp(),
+    `updated_at`    timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    `deleted_at`    datetime           DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `file_id` (`file_id`),
     KEY `user_id` (`user_id`),
-    KEY `file_downloads_deleted_index` (`deleted`),
+    KEY `file_downloads_deleted_at_index` (`deleted_at`),
     CONSTRAINT `file_downloads_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
     CONSTRAINT `file_downloads_ibfk_2` FOREIGN KEY (`file_id`) REFERENCES `files` (`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB

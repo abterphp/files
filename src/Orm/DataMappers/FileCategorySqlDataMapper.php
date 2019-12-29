@@ -8,11 +8,11 @@ use AbterPhp\Admin\Domain\Entities\UserGroup;
 use AbterPhp\Admin\Orm\DataMappers\IdGeneratorUserTrait;
 use AbterPhp\Files\Domain\Entities\FileCategory as Entity;
 use Opulence\Orm\DataMappers\SqlDataMapper;
+use Opulence\QueryBuilders\Expression;
 use Opulence\QueryBuilders\MySql\QueryBuilder;
 use Opulence\QueryBuilders\MySql\SelectQuery;
 
 /** @phan-file-suppress PhanTypeMismatchArgument */
-
 class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDataMapper
 {
     use IdGeneratorUserTrait;
@@ -56,7 +56,11 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
         assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $query = (new QueryBuilder())
-            ->update('file_categories', 'file_categories', ['deleted' => [1, \PDO::PARAM_INT]])
+            ->update(
+                'file_categories',
+                'file_categories',
+                ['deleted_at' => new Expression('NOW()')]
+            )
             ->where('id = ?')
             ->addUnnamedPlaceholderValue($entity->getId(), \PDO::PARAM_STR);
 
@@ -172,7 +176,7 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
                 ]
             )
             ->where('id = ?')
-            ->andWhere('deleted = 0')
+            ->andWhere('deleted_at IS NULL')
             ->addUnnamedPlaceholderValue($entity->getId(), \PDO::PARAM_STR);
 
         $sql = $query->getSql();
@@ -283,7 +287,7 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
             )
             ->from('file_categories', 'fc')
             ->leftJoin('user_groups_file_categories', 'ugfc', 'ugfc.file_category_id = fc.id')
-            ->where('fc.deleted = 0')
+            ->where('fc.deleted_at IS NULL')
             ->groupBy('fc.id');
 
         return $query;

@@ -8,11 +8,11 @@ use AbterPhp\Files\Domain\Entities\File as Entity;
 use AbterPhp\Files\Domain\Entities\FileCategory;
 use Opulence\Orm\DataMappers\SqlDataMapper;
 use Opulence\QueryBuilders\Conditions\ConditionFactory;
+use Opulence\QueryBuilders\Expression;
 use Opulence\QueryBuilders\MySql\QueryBuilder;
 use Opulence\QueryBuilders\MySql\SelectQuery;
 
 /** @phan-file-suppress PhanTypeMismatchArgument */
-
 class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
 {
     /**
@@ -54,7 +54,7 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
         assert($entity instanceof Entity, new \InvalidArgumentException());
 
         $query = (new QueryBuilder())
-            ->update('files', 'files', ['deleted' => [1, \PDO::PARAM_INT]])
+            ->update('files', 'files', ['deleted_at' => new Expression('NOW()')])
             ->where('id = ?')
             ->addUnnamedPlaceholderValue($entity->getId(), \PDO::PARAM_STR);
 
@@ -181,7 +181,7 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
 
         $conditions = new ConditionFactory();
         $query      = $this
-            ->withUser($this->withUserGroup($this->getBaseQuery()))
+            ->withUserGroup($this->getBaseQuery())
             ->andWhere($conditions->in('file_categories.identifier', $identifiers));
 
         $sql    = $query->getSql();
@@ -233,7 +233,7 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
                 ]
             )
             ->where('id = ?')
-            ->andWhere('deleted = 0')
+            ->andWhere('deleted_at IS NULL')
             ->addUnnamedPlaceholderValue($entity->getId(), \PDO::PARAM_STR);
 
         $sql    = $query->getSql();
@@ -295,9 +295,9 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
             ->innerJoin(
                 'file_categories',
                 'file_categories',
-                'file_categories.id = files.file_category_id AND file_categories.deleted =0'
+                'file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL'
             )
-            ->where('files.deleted = 0')
+            ->where('files.deleted_at IS NULL')
             ->groupBy('files.id');
 
         return $query;
@@ -315,30 +315,12 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
             ->innerJoin(
                 'user_groups_file_categories',
                 'ugfc',
-                'file_categories.id = ugfc.file_category_id AND file_categories.deleted = 0'
+                'file_categories.id = ugfc.file_category_id AND file_categories.deleted_at IS NULL'
             )
             ->innerJoin(
                 'user_groups',
                 'user_groups',
-                'user_groups.id = ugfc.user_group_id AND user_groups.deleted = 0'
-            );
-
-        return $selectQuery;
-    }
-
-    /**
-     * @param SelectQuery $selectQuery
-     *
-     * @return SelectQuery
-     */
-    private function withUser(SelectQuery $selectQuery): SelectQuery
-    {
-        /** @var SelectQuery $query */
-        $selectQuery
-            ->innerJoin(
-                'users',
-                'users',
-                'users.user_group_id = user_groups.id AND users.deleted = 0'
+                'user_groups.id = ugfc.user_group_id AND user_groups.deleted_at IS NULL'
             );
 
         return $selectQuery;

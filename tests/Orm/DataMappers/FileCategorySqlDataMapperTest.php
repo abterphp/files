@@ -104,9 +104,8 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $name       = 'foo';
         $isPublic   = true;
 
-        $sql0       = 'UPDATE file_categories AS file_categories SET deleted = ? WHERE (id = ?)'; // phpcs:ignore
-        $values0    = [[1, \PDO::PARAM_INT], [$id, \PDO::PARAM_STR]];
-        $statement0 = MockStatementFactory::createWriteStatement($this, $values0);
+        $sql0       = 'UPDATE file_categories AS file_categories SET deleted_at = ? WHERE (id = ?)'; // phpcs:ignore
+        $statement0 = MockStatementFactory::createWriteStatementWithAny($this);
         MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql0, $statement0, 0);
 
         $entity = new FileCategory($id, $identifier, $name, $isPublic);
@@ -126,7 +125,7 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $name       = 'foo';
         $isPublic   = true;
 
-        $sql          = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted = 0) GROUP BY fc.id'; // phpcs:ignore
+        $sql          = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) GROUP BY fc.id'; // phpcs:ignore
         $values       = [];
         $expectedData = [['id' => $id, 'identifier' => $identifier, 'name' => $name, 'is_public' => $isPublic]];
         $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
@@ -144,7 +143,7 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $name       = 'foo';
         $isPublic   = true;
 
-        $sql          = 'SELECT SQL_CALC_FOUND_ROWS fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted = 0) GROUP BY fc.id LIMIT 10 OFFSET 0'; // phpcs:ignore
+        $sql          = 'SELECT SQL_CALC_FOUND_ROWS fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) GROUP BY fc.id LIMIT 10 OFFSET 0'; // phpcs:ignore
         $values       = [];
         $expectedData = [['id' => $id, 'identifier' => $identifier, 'name' => $name, 'is_public' => $isPublic]];
         $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
@@ -165,7 +164,7 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $orders     = ['fc.name ASC'];
         $conditions = ['fc.name LIKE \'abc%\'', 'fc.name LIKE \'%bca\''];
 
-        $sql          = "SELECT SQL_CALC_FOUND_ROWS fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted = 0) AND (fc.name LIKE 'abc%') AND (fc.name LIKE '%bca') GROUP BY fc.id ORDER BY fc.name ASC LIMIT 10 OFFSET 0"; // phpcs:ignore
+        $sql          = "SELECT SQL_CALC_FOUND_ROWS fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) AND (fc.name LIKE 'abc%') AND (fc.name LIKE '%bca') GROUP BY fc.id ORDER BY fc.name ASC LIMIT 10 OFFSET 0"; // phpcs:ignore
         $values       = [];
         $expectedData = [['id' => $id, 'identifier' => $identifier, 'name' => $name, 'is_public' => $isPublic]];
         $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
@@ -183,7 +182,7 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $name       = 'foo';
         $isPublic   = true;
 
-        $sql          = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted = 0) AND (fc.id = :file_category_id) GROUP BY fc.id'; // phpcs:ignore
+        $sql          = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) AND (fc.id = :file_category_id) GROUP BY fc.id'; // phpcs:ignore
         $values       = ['file_category_id' => [$id, \PDO::PARAM_STR]];
         $expectedData = [['id' => $id, 'identifier' => $identifier, 'name' => $name, 'is_public' => $isPublic]];
         $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
@@ -203,7 +202,7 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $ugId0      = '11c7ff36-3a00-447e-bcfe-594eee978ff7';
         $ugId1      = 'bc577876-3fa4-4bd8-833d-e52b9ff7b94d';
 
-        $sql          = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted = 0) AND (fc.id = :file_category_id) GROUP BY fc.id'; // phpcs:ignore
+        $sql          = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) AND (fc.id = :file_category_id) GROUP BY fc.id'; // phpcs:ignore
         $values       = ['file_category_id' => [$id, \PDO::PARAM_STR]];
         $expectedData = [
             [
@@ -233,7 +232,7 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $ugId0      = '11c7ff36-3a00-447e-bcfe-594eee978ff7';
         $ugId1      = 'bc577876-3fa4-4bd8-833d-e52b9ff7b94d';
 
-        $sql          = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc INNER JOIN user_groups_file_categories AS ugfc2 ON fc.id = ugfc2.file_category_id LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted = 0) AND (ugfc2.user_group_id = :user_group_id) GROUP BY fc.id'; // phpcs:ignore
+        $sql          = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc INNER JOIN user_groups_file_categories AS ugfc2 ON fc.id = ugfc2.file_category_id LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) AND (ugfc2.user_group_id = :user_group_id) GROUP BY fc.id'; // phpcs:ignore
         $values       = ['ugfc2.user_group_id' => [$userGroupId, \PDO::PARAM_STR]];
         $expectedData = [
             ['id'             => $id,
@@ -258,7 +257,7 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $name       = 'foo';
         $isPublic   = true;
 
-        $sql0       = 'UPDATE file_categories AS file_categories SET identifier = ?, name = ?, is_public = ? WHERE (id = ?) AND (deleted = 0)'; // phpcs:ignore
+        $sql0       = 'UPDATE file_categories AS file_categories SET identifier = ?, name = ?, is_public = ? WHERE (id = ?) AND (deleted_at IS NULL)'; // phpcs:ignore
         $values0    = [
             [$identifier, \PDO::PARAM_STR],
             [$name, \PDO::PARAM_STR],
@@ -295,7 +294,7 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
 
         $this->sut->setIdGenerator(MockIdGeneratorFactory::create($this, $ugfc0, $ugfc1));
 
-        $sql0       = 'UPDATE file_categories AS file_categories SET identifier = ?, name = ?, is_public = ? WHERE (id = ?) AND (deleted = 0)'; // phpcs:ignore
+        $sql0       = 'UPDATE file_categories AS file_categories SET identifier = ?, name = ?, is_public = ? WHERE (id = ?) AND (deleted_at IS NULL)'; // phpcs:ignore
         $values0    = [
             [$identifier, \PDO::PARAM_STR],
             [$name, \PDO::PARAM_STR],
