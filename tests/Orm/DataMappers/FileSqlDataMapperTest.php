@@ -66,8 +66,9 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $categoryIsPublic   = false;
         $uploadedAt         = new \DateTime();
 
-        $sql       = 'UPDATE files AS files SET deleted_at = ? WHERE (id = ?)'; // phpcs:ignore
-        $statement = MockStatementFactory::createWriteStatementWithAny($this);
+        $sql       = 'UPDATE files AS files SET deleted_at = NOW() WHERE (id = ?)'; // phpcs:ignore
+        $values    = [[$id, \PDO::PARAM_STR]];
+        $statement = MockStatementFactory::createWriteStatement($this, $values);
         MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql, $statement);
 
         $category = new FileCategory($categoryId, $categoryIdentifier, $categoryName, $categoryIsPublic);
@@ -123,7 +124,7 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $categoryIdentifier = 'quuux';
         $uploadedAt         = new \DateTime();
 
-        $sql          = 'SELECT SQL_CALC_FOUND_ROWS files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted =0 WHERE (files.deleted_at IS NULL) GROUP BY files.id LIMIT 10 OFFSET 0'; // phpcs:ignore
+        $sql          = 'SELECT SQL_CALC_FOUND_ROWS files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) GROUP BY files.id LIMIT 10 OFFSET 0'; // phpcs:ignore
         $values       = [];
         $expectedData = [
             [
@@ -161,7 +162,7 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $orders     = ['files.public_name ASC'];
         $conditions = ['files.public_name LIKE \'abc%\'', 'files.public_name LIKE \'%bca\''];
 
-        $sql          = "SELECT SQL_CALC_FOUND_ROWS files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted =0 WHERE (files.deleted_at IS NULL) AND (files.public_name LIKE 'abc%') AND (files.public_name LIKE '%bca') GROUP BY files.id ORDER BY files.public_name ASC LIMIT 10 OFFSET 0"; // phpcs:ignore
+        $sql          = "SELECT SQL_CALC_FOUND_ROWS files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (files.public_name LIKE 'abc%') AND (files.public_name LIKE '%bca') GROUP BY files.id ORDER BY files.public_name ASC LIMIT 10 OFFSET 0"; // phpcs:ignore
         $values       = [];
         $expectedData = [
             [
@@ -196,7 +197,7 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $categoryIdentifier = 'quuux';
         $uploadedAt         = new \DateTime();
 
-        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted =0 INNER JOIN user_groups_file_categories AS ugfc ON file_categories.id = ugfc.file_category_id AND file_categories.deleted_at IS NULL INNER JOIN user_groups AS user_groups ON user_groups.id = ugfc.user_group_id AND user_groups.deleted_at IS NULL INNER JOIN users AS users ON users.user_group_id = user_groups.id AND users.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (file_categories.identifier IN (?)) GROUP BY files.id'; // phpcs:ignore
+        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL INNER JOIN user_groups_file_categories AS ugfc ON file_categories.id = ugfc.file_category_id AND file_categories.deleted_at IS NULL INNER JOIN user_groups AS user_groups ON user_groups.id = ugfc.user_group_id AND user_groups.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (file_categories.identifier IN (?)) GROUP BY files.id'; // phpcs:ignore
         $values       = [
             [$categoryIdentifier, \PDO::PARAM_STR],
         ];
@@ -240,7 +241,7 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $categoryIdentifier = 'quuux';
         $uploadedAt         = new \DateTime();
 
-        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted =0 WHERE (files.deleted_at IS NULL) AND (files.filesystem_name = :filesystem_name) AND (file_categories.is_public = 1) GROUP BY files.id'; // phpcs:ignore
+        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (files.filesystem_name = :filesystem_name) AND (file_categories.is_public = 1) GROUP BY files.id'; // phpcs:ignore
         $values       = [
             'filesystem_name' => [$filesystemName, \PDO::PARAM_STR],
         ];
@@ -277,7 +278,7 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $categoryIdentifier = 'quux';
         $uploadedAt         = new \DateTime();
 
-        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted =0 WHERE (files.deleted_at IS NULL) AND (files.id = :file_id) GROUP BY files.id'; // phpcs:ignore
+        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (files.id = :file_id) GROUP BY files.id'; // phpcs:ignore
         $values       = ['file_id' => [$id, \PDO::PARAM_STR]];
         $expectedData = [
             [
@@ -312,7 +313,7 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $categoryIdentifier = 'quux';
         $uploadedAt         = new \DateTime();
 
-        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted =0 WHERE (files.deleted_at IS NULL) AND (files.filesystem_name = :filesystem_name) GROUP BY files.id'; // phpcs:ignore
+        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (files.filesystem_name = :filesystem_name) GROUP BY files.id'; // phpcs:ignore
         $values       = ['filesystem_name' => [$filesystemName, \PDO::PARAM_STR]];
         $expectedData = [
             [
@@ -349,7 +350,7 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $categoryIdentifier = 'quuux';
         $uploadedAt         = new \DateTime();
 
-        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted =0 INNER JOIN user_groups_file_categories AS ugfc ON file_categories.id = ugfc.file_category_id AND file_categories.deleted_at IS NULL INNER JOIN user_groups AS user_groups ON user_groups.id = ugfc.user_group_id AND user_groups.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (user_groups.user_id = :user_id) GROUP BY files.id'; // phpcs:ignore
+        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL INNER JOIN user_groups_file_categories AS ugfc ON file_categories.id = ugfc.file_category_id AND file_categories.deleted_at IS NULL INNER JOIN user_groups AS user_groups ON user_groups.id = ugfc.user_group_id AND user_groups.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (user_groups.user_id = :user_id) GROUP BY files.id'; // phpcs:ignore
         $values       = ['user_id' => [$userId, \PDO::PARAM_STR]];
         $expectedData = [
             [

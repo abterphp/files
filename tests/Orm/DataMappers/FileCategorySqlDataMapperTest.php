@@ -104,8 +104,9 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $name       = 'foo';
         $isPublic   = true;
 
-        $sql0       = 'UPDATE file_categories AS file_categories SET deleted_at = ? WHERE (id = ?)'; // phpcs:ignore
-        $statement0 = MockStatementFactory::createWriteStatementWithAny($this);
+        $sql0       = 'UPDATE file_categories AS file_categories SET deleted_at = NOW() WHERE (id = ?)'; // phpcs:ignore
+        $values0    = [[$id, \PDO::PARAM_STR]];
+        $statement0 = MockStatementFactory::createWriteStatement($this, $values0);
         MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql0, $statement0, 0);
 
         $entity = new FileCategory($id, $identifier, $name, $isPublic);

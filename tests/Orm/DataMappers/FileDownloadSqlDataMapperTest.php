@@ -55,8 +55,9 @@ class FileDownloadSqlDataMapperTest extends DataMapperTestCase
         $userId       = '4c178710-2c4a-4658-90ea-491aadc3c32b';
         $downloadedAt = new \DateTime();
 
-        $sql       = 'UPDATE file_downloads AS file_downloads SET deleted_at = ? WHERE (id = ?)'; // phpcs:ignore
-        $statement = MockStatementFactory::createWriteStatementWithAny($this);
+        $sql       = 'UPDATE file_downloads AS file_downloads SET deleted_at = NOW() WHERE (id = ?)'; // phpcs:ignore
+        $values    = [[$id, \PDO::PARAM_STR]];
+        $statement = MockStatementFactory::createWriteStatement($this, $values);
         MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql, $statement);
 
         $entity = $this->createEntity($id, $fileId, $userId, $downloadedAt);
