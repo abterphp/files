@@ -20,6 +20,8 @@ class File extends ExecuteAbstract
     const ENTITY_TITLE_SINGULAR = 'files:file';
     const ENTITY_TITLE_PLURAL   = 'files:files';
 
+    const ROUTING_PATH = 'files';
+
     /**
      * File constructor.
      *

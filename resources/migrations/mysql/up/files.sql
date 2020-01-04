@@ -4,9 +4,9 @@
 
 INSERT INTO `admin_resources` (`id`, `identifier`)
 VALUES (UUID(), 'files'),
-       (UUID(), 'filecategories'),
-       (UUID(), 'filedownloads'),
-       (UUID(), 'usergroups_filecategories');
+       (UUID(), 'file-categories'),
+       (UUID(), 'file-downloads'),
+       (UUID(), 'user-groups_file-categories');
 
 --
 -- Table data for table `casbin_rule`
@@ -122,7 +122,7 @@ INSERT IGNORE INTO `user_groups_admin_resources` (`id`, `user_group_id`, `admin_
 SELECT UUID() AS `id`, user_groups.id AS user_group_id, admin_resources.id AS admin_resource_id
 FROM user_groups
          INNER JOIN admin_resources ON admin_resources.identifier IN
-                                       ('files', 'filecategories', 'filedownloads', 'usergroups_filecategories')
+                                       ('files', 'file-categories', 'file-downloads', 'user-groups_file-categories')
 WHERE user_groups.identifier = 'file-uploader';
 
 -- Provide admins access to all admin resources

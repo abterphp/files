@@ -20,6 +20,8 @@ class FileDownload extends ExecuteAbstract
     const ENTITY_TITLE_SINGULAR = 'files:fileDownload';
     const ENTITY_TITLE_PLURAL   = 'files:fileDownloads';
 
+    const ROUTING_PATH = 'file-downloads';
+
     /**
      * FileDownload constructor.
      *

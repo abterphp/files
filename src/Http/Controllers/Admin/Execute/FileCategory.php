@@ -20,6 +20,8 @@ class FileCategory extends ExecuteAbstract
     const ENTITY_TITLE_SINGULAR = 'files:fileCategory';
     const ENTITY_TITLE_PLURAL   = 'files:fileCategories';
 
+    const ROUTING_PATH = 'file-categories';
+
     /**
      * FileCategory constructor.
      *

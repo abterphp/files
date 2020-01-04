@@ -20,6 +20,8 @@ class FileCategory extends GridAbstract
 
     const ENTITY_TITLE_PLURAL = 'files:fileCategories';
 
+    const ROUTING_PATH = 'file-categories';
+
     /** @var string */
     protected $resource = 'file_categories';
 

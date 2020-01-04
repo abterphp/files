@@ -20,6 +20,8 @@ class FileDownload extends GridAbstract
 
     const ENTITY_TITLE_PLURAL = 'files:fileDownloads';
 
+    const ROUTING_PATH = 'file-downloads';
+
     /** @var string */
     protected $resource = 'file_downloads';
 

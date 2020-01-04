@@ -24,6 +24,8 @@ class FileCategory extends FormAbstract
     const ENTITY_TITLE_SINGULAR = 'files:fileCategory';
     const ENTITY_TITLE_PLURAL   = 'files:fileCategories';
 
+    const ROUTING_PATH = 'file-categories';
+
     /** @var string */
     protected $resource = 'file_categories';
 

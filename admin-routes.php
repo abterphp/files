@@ -29,8 +29,8 @@ $router->group(
             ],
             function (Router $router) {
                 $entities = [
-                    'filecategories' => 'FileCategory',
-                    'filedownloads'  => 'FileDownload',
+                    'file-categories' => 'FileCategory',
+                    'file-downloads'  => 'FileDownload',
                     'files'          => 'File',
                 ];
 
