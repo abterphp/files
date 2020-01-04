@@ -146,23 +146,29 @@ class FileCategory implements IStringerEntity
     }
 
     /**
-     * @return string
+     * @return array|null
      */
-    public function toJSON(): string
+    public function toData(): ?array
     {
         $userGroupIds = [];
         foreach ($this->getUserGroups() as $userGroup) {
             $userGroupIds[] = $userGroup->getId();
         }
 
-        return json_encode(
-            [
-                'id'             => $this->getId(),
-                'identifier'     => $this->getIdentifier(),
-                'name'           => $this->getName(),
-                'is_public'      => $this->isPublic(),
-                'user_group_ids' => $userGroupIds,
-            ]
-        );
+        return [
+            'id'             => $this->getId(),
+            'identifier'     => $this->getIdentifier(),
+            'name'           => $this->getName(),
+            'is_public'      => $this->isPublic(),
+            'user_group_ids' => $userGroupIds,
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function toJSON(): string
+    {
+        return json_encode($this->toData());
     }
 }

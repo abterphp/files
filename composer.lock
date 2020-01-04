@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/admin.git",
-                "reference": "0488efae3898134e22e4effe8ce4070f0faafc1a"
+                "reference": "7a68ca59ffa9ce9930c5a69eee9f13610c1d28dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/admin/zipball/0488efae3898134e22e4effe8ce4070f0faafc1a",
-                "reference": "0488efae3898134e22e4effe8ce4070f0faafc1a",
+                "url": "https://api.github.com/repos/abterphp/admin/zipball/7a68ca59ffa9ce9930c5a69eee9f13610c1d28dd",
+                "reference": "7a68ca59ffa9ce9930c5a69eee9f13610c1d28dd",
                 "shasum": ""
             },
             "require": {
@@ -54,7 +54,7 @@
                 }
             ],
             "description": "Admin module for AbterPHP",
-            "time": "2019-12-29T18:11:54+00:00"
+            "time": "2020-01-04T10:04:31+00:00"
         },
         {
             "name": "abterphp/framework",
@@ -62,12 +62,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/framework.git",
-                "reference": "0ab8be6f8944ea1cc7e58787c3f2d06006a92748"
+                "reference": "c0fc71ef6d0a720c9b12f5ca6bc1032942ccc28a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/framework/zipball/0ab8be6f8944ea1cc7e58787c3f2d06006a92748",
-                "reference": "0ab8be6f8944ea1cc7e58787c3f2d06006a92748",
+                "url": "https://api.github.com/repos/abterphp/framework/zipball/c0fc71ef6d0a720c9b12f5ca6bc1032942ccc28a",
+                "reference": "c0fc71ef6d0a720c9b12f5ca6bc1032942ccc28a",
                 "shasum": ""
             },
             "require": {
@@ -124,7 +124,7 @@
                 }
             ],
             "description": "Foundations for AbterPHP",
-            "time": "2019-12-29T17:34:24+00:00"
+            "time": "2020-01-04T09:53:22+00:00"
         },
         {
             "name": "abterphp/website",
@@ -132,12 +132,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/website.git",
-                "reference": "26f223e16aab696967fddb9a915e2af7f6e0c212"
+                "reference": "a11e3f0d0d75414490f4579241bb0925699f523b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/website/zipball/26f223e16aab696967fddb9a915e2af7f6e0c212",
-                "reference": "26f223e16aab696967fddb9a915e2af7f6e0c212",
+                "url": "https://api.github.com/repos/abterphp/website/zipball/a11e3f0d0d75414490f4579241bb0925699f523b",
+                "reference": "a11e3f0d0d75414490f4579241bb0925699f523b",
                 "shasum": ""
             },
             "require": {
@@ -171,7 +171,7 @@
                 }
             ],
             "description": "Website module for AbterPHP",
-            "time": "2019-12-30T20:38:42+00:00"
+            "time": "2020-01-04T11:07:02+00:00"
         },
         {
             "name": "bjeavons/zxcvbn-php",

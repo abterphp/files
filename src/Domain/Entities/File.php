@@ -288,9 +288,9 @@ class File implements IStringerEntity
     }
 
     /**
-     * @return string
+     * @return array|null
      */
-    public function toJSON(): string
+    public function toData(): ?array
     {
         $data = [
             'id'          => $this->getId(),
@@ -305,6 +305,14 @@ class File implements IStringerEntity
             $data['data'] = $this->getContent();
         }
 
-        return json_encode($data);
+        return $data;
+    }
+
+    /**
+     * @return string
+     */
+    public function toJSON(): string
+    {
+        return json_encode($this->toData());
     }
 }

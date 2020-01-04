@@ -87,21 +87,27 @@ class FileDownload implements IStringerEntity
     }
 
     /**
+     * @return array|null
+     */
+    public function toData(): ?array
+    {
+        return [
+            'id'            => $this->getId(),
+            'file'          => [
+                'id' => $this->getFile()->getId(),
+            ],
+            'user'          => [
+                'id' => $this->getUser()->getId(),
+            ],
+            'downloaded_at' => $this->getDownloadedAt(),
+        ];
+    }
+
+    /**
      * @return string
      */
     public function toJSON(): string
     {
-        return json_encode(
-            [
-                'id'            => $this->getId(),
-                'file'          => [
-                    'id' => $this->getFile()->getId(),
-                ],
-                'user'          => [
-                    'id' => $this->getUser()->getId(),
-                ],
-                'downloaded_at' => $this->getDownloadedAt(),
-            ]
-        );
+        return json_encode($this->toData());
     }
 }
