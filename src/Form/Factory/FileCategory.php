@@ -15,9 +15,9 @@ use AbterPhp\Framework\Form\Container\FormGroup;
 use AbterPhp\Framework\Form\Element\Input;
 use AbterPhp\Framework\Form\Element\MultiSelect;
 use AbterPhp\Framework\Form\Element\Select;
+use AbterPhp\Framework\Form\Extra\Help;
 use AbterPhp\Framework\Form\IForm;
 use AbterPhp\Framework\Form\Label\Label;
-use AbterPhp\Framework\Html\Node;
 use AbterPhp\Framework\I18n\ITranslator;
 use Opulence\Orm\IEntity;
 use Opulence\Sessions\ISession;
@@ -90,10 +90,17 @@ class FileCategory extends Base
      */
     protected function addIdentifier(Entity $entity): FileCategory
     {
-        $input = new Input('identifier', 'identifier', $entity->getIdentifier());
-        $label = new Label('body', 'files:fileCategoryIdentifier');
+        $input = new Input(
+            'identifier',
+            'identifier',
+            $entity->getIdentifier(),
+            [],
+            [Html5::ATTR_CLASS => 'semi-auto']
+        );
+        $label = new Label('identifier', 'files:fileCategoryIdentifier');
+        $help  = new Help('files:fileCategoryIdentifierHelp');
 
-        $this->form[] = new FormGroup($input, $label);
+        $this->form[] = new FormGroup($input, $label, $help);
 
         return $this;
     }
@@ -120,7 +127,7 @@ class FileCategory extends Base
             'is_public',
             'files:fileCategoryIsPublic'
         );
-        $help  = new Node('files:fileCategoryIsPublic');
+        $help  = new Help('files:fileCategoryIsPublicHelp');
 
         $this->form[] = new CheckboxGroup($input, $label, $help);
 

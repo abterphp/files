@@ -9,6 +9,7 @@ use AbterPhp\Files\Domain\Entities\File as Entity;
 use AbterPhp\Files\Domain\Entities\FileCategory;
 use AbterPhp\Files\Form\Factory\File as FormFactory;
 use AbterPhp\Files\Orm\FileRepo as Repo;
+use AbterPhp\Framework\Assets\AssetManager;
 use AbterPhp\Framework\Domain\Entities\IStringerEntity;
 use AbterPhp\Framework\I18n\ITranslator;
 use AbterPhp\Framework\Session\FlashService;
@@ -27,6 +28,9 @@ class File extends FormAbstract
 
     const ROUTING_PATH = 'files';
 
+    /** @var AssetManager */
+    protected $assetManager;
+
     /** @var string */
     protected $resource = 'files';
 
@@ -41,6 +45,7 @@ class File extends FormAbstract
      * @param ISession         $session
      * @param FormFactory      $formFactory
      * @param IEventDispatcher $eventDispatcher
+     * @param AssetManager     $assetManager
      */
     public function __construct(
         FlashService $flashService,
@@ -50,7 +55,8 @@ class File extends FormAbstract
         Repo $repo,
         ISession $session,
         FormFactory $formFactory,
-        IEventDispatcher $eventDispatcher
+        IEventDispatcher $eventDispatcher,
+        AssetManager $assetManager
     ) {
         parent::__construct(
             $flashService,
@@ -62,6 +68,8 @@ class File extends FormAbstract
             $formFactory,
             $eventDispatcher
         );
+
+        $this->assetManager = $assetManager;
     }
 
     /**
@@ -74,5 +82,22 @@ class File extends FormAbstract
         $fileCategory = new FileCategory('', '', '', false, []);
 
         return new Entity($entityId, '', '', '', '', $fileCategory, null);
+    }
+
+    /**
+     * @param IStringerEntity|null $entity
+     *
+     * @throws \League\Flysystem\FileNotFoundException
+     */
+    protected function addCustomAssets(?IStringerEntity $entity = null)
+    {
+        parent::addCustomAssets($entity);
+
+        if (!($entity instanceof Entity)) {
+            return;
+        }
+
+        $footer = $this->getResourceName(static::RESOURCE_FOOTER);
+        $this->assetManager->addJs($footer, '/admin-assets/js/semi-auto.js');
     }
 }
