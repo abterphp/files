@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Events\Listeners;
 
-use AbterPhp\Files\Constant\Routes;
+use AbterPhp\Files\Constant\Route;
+use AbterPhp\Files\Constant\Resource;
 use AbterPhp\Framework\Constant\Html5;
 use AbterPhp\Framework\Events\NavigationReady;
 use AbterPhp\Framework\Html\Component\ButtonFactory;
@@ -60,8 +61,8 @@ class NavigationBuilder
         $text = 'files:files';
         $icon = 'file_copy';
 
-        $button   = $this->buttonFactory->createFromName($text, Routes::ROUTE_FILES, [], $icon);
-        $resource = $this->getAdminResource(Routes::ROUTE_FILES);
+        $button   = $this->buttonFactory->createFromName($text, Route::FILES_LIST, [], $icon);
+        $resource = $this->getAdminResource(Resource::FILES);
 
         $item = new Item($button);
         $item->setResource($resource);
@@ -101,8 +102,8 @@ class NavigationBuilder
         $text = 'files:fileCategories';
         $icon = 'folder';
 
-        $button   = $this->buttonFactory->createFromName($text, Routes::ROUTE_FILE_CATEGORIES, [], $icon);
-        $resource = $this->getAdminResource(Routes::ROUTE_FILE_CATEGORIES);
+        $button   = $this->buttonFactory->createFromName($text, Route::FILE_CATEGORIES_LIST, [], $icon);
+        $resource = $this->getAdminResource(Resource::FILE_CATEGORIES);
 
         $item = new Item($button);
         $item->setResource($resource);
@@ -119,8 +120,8 @@ class NavigationBuilder
         $text = 'files:files';
         $icon = 'file_copy';
 
-        $button   = $this->buttonFactory->createFromName($text, Routes::ROUTE_FILES, [], $icon);
-        $resource = $this->getAdminResource(Routes::ROUTE_FILES);
+        $button   = $this->buttonFactory->createFromName($text, Route::FILES_LIST, [], $icon);
+        $resource = $this->getAdminResource(Resource::FILES);
 
         $item = new Item($button);
         $item->setResource($resource);
@@ -137,8 +138,8 @@ class NavigationBuilder
         $text = 'files:fileDownloads';
         $icon = 'file_download';
 
-        $button   = $this->buttonFactory->createFromName($text, Routes::ROUTE_FILE_DOWNLOADS, [], $icon);
-        $resource = $this->getAdminResource(Routes::ROUTE_FILE_DOWNLOADS);
+        $button   = $this->buttonFactory->createFromName($text, Route::FILE_DOWNLOADS_LIST, [], $icon);
+        $resource = $this->getAdminResource(Resource::FILE_DOWNLOADS);
 
         $item = new Item($button);
         $item->setResource($resource);

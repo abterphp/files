@@ -8,13 +8,13 @@ use AbterPhp\Admin\Grid\Factory\Table\HeaderFactory;
 
 class FileDownload extends HeaderFactory
 {
-    const GROUP_FILE          = 'fileDownload-file';
-    const GROUP_USER          = 'fileDownload-user';
-    const GROUP_DOWNLOADED_AT = 'fileDownload-downloaded-at';
+    public const GROUP_FILE          = 'fileDownload-file';
+    public const GROUP_USER          = 'fileDownload-user';
+    public const GROUP_DOWNLOADED_AT = 'fileDownload-downloaded-at';
 
-    const HEADER_FILE          = 'files:fileDownloadFile';
-    const HEADER_USER          = 'files:fileDownloadUser';
-    const HEADER_DOWNLOADED_AT = 'files:fileDownloadDownloadedAt';
+    private const HEADER_FILE          = 'files:fileDownloadFile';
+    private const HEADER_USER          = 'files:fileDownloadUser';
+    private const HEADER_DOWNLOADED_AT = 'files:fileDownloadDownloadedAt';
 
     /** @var array */
     protected $headers = [

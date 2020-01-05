@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Template\Loader;
 
-use AbterPhp\Files\Constant\Routes;
+use AbterPhp\Files\Constant\Route;
 use AbterPhp\Framework\Html\Helper\StringHelper;
 use AbterPhp\Framework\Template\IData;
 use AbterPhp\Framework\Template\ILoader;
@@ -104,7 +104,7 @@ class File implements ILoader
         $html = [];
         foreach ($files as $file) {
             // @phan-suppress-next-line PhanTypeMismatchArgument
-            $url  = $this->urlGenerator->createFromName(Routes::ROUTE_PUBLIC_FILE, $file->getFilesystemName());
+            $url  = $this->urlGenerator->createFromName(Route::PUBLIC_FILE, $file->getFilesystemName());
             $link = StringHelper::wrapInTag(
                 $file->getPublicName(),
                 static::TAG_A,

@@ -8,15 +8,15 @@ use AbterPhp\Admin\Grid\Factory\Table\HeaderFactory;
 
 class File extends HeaderFactory
 {
-    const GROUP_FILENAME    = 'file-filename';
-    const GROUP_CATEGORY    = 'file-category';
-    const GROUP_DESCRIPTION = 'file-description';
-    const GROUP_UPLOADED_AT = 'file-uploaded-at';
+    public const GROUP_FILENAME    = 'file-filename';
+    public const GROUP_CATEGORY    = 'file-category';
+    public const GROUP_DESCRIPTION = 'file-description';
+    public const GROUP_UPLOADED_AT = 'file-uploaded-at';
 
-    const HEADER_PUBLIC_NAME = 'files:filePublicName';
-    const HEADER_CATEGORY    = 'files:fileCategory';
-    const HEADER_DESCRIPTION = 'files:fileDescription';
-    const HEADER_UPLOADED_AT = 'files:fileUploadedAt';
+    private const HEADER_PUBLIC_NAME = 'files:filePublicName';
+    private const HEADER_CATEGORY    = 'files:fileCategory';
+    private const HEADER_DESCRIPTION = 'files:fileDescription';
+    private const HEADER_UPLOADED_AT = 'files:fileUploadedAt';
 
     /** @var array */
     protected $headers = [

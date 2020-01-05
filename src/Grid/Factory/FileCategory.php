@@ -7,8 +7,9 @@ namespace AbterPhp\Files\Grid\Factory;
 use AbterPhp\Admin\Grid\Factory\BaseFactory;
 use AbterPhp\Admin\Grid\Factory\GridFactory;
 use AbterPhp\Admin\Grid\Factory\PaginationFactory;
-use AbterPhp\Files\Constant\Routes;
+use AbterPhp\Files\Constant\Route;
 use AbterPhp\Files\Domain\Entities\FileCategory as Entity;
+use AbterPhp\Files\Grid\Factory\Table\Header\FileCategory as HeaderFactory;
 use AbterPhp\Files\Grid\Factory\Table\FileCategory as TableFactory;
 use AbterPhp\Files\Grid\Filters\FileCategory as Filters;
 use AbterPhp\Framework\Constant\Html5;
@@ -18,13 +19,8 @@ use Opulence\Routing\Urls\UrlGenerator;
 
 class FileCategory extends BaseFactory
 {
-    const GROUP_IDENTIFIER = 'fileCategory-identifier';
-    const GROUP_NAME       = 'fileCategory-name';
-    const GROUP_IS_PUBLIC  = 'fileCategory-is-public';
-
-    const GETTER_IDENTIFIER = 'getIdentifier';
-    const GETTER_NAME       = 'getName';
-    const GETTER_IS_PUBLIC  = 'isPublic';
+    private const GETTER_IDENTIFIER = 'getIdentifier';
+    private const GETTER_NAME       = 'getName';
 
     /**
      * FileCategory constructor.
@@ -51,9 +47,9 @@ class FileCategory extends BaseFactory
     public function getGetters(): array
     {
         return [
-            static::GROUP_IDENTIFIER => static::GETTER_IDENTIFIER,
-            static::GROUP_NAME       => static::GETTER_NAME,
-            static::GROUP_IS_PUBLIC  => [$this, 'getIsPublic'],
+            HeaderFactory::GROUP_NAME       => static::GETTER_NAME,
+            HeaderFactory::GROUP_IS_PUBLIC  => [$this, 'getIsPublic'],
+            HeaderFactory::GROUP_IDENTIFIER => static::GETTER_IDENTIFIER,
         ];
     }
 
@@ -77,11 +73,11 @@ class FileCategory extends BaseFactory
         $attributeCallbacks = $this->getAttributeCallbacks();
 
         $editAttributes = [
-            Html5::ATTR_HREF  => Routes::ROUTE_FILE_CATEGORIES_EDIT,
+            Html5::ATTR_HREF => Route::FILE_CATEGORIES_EDIT,
         ];
 
         $deleteAttributes = [
-            Html5::ATTR_HREF  => Routes::ROUTE_FILE_CATEGORIES_DELETE,
+            Html5::ATTR_HREF => Route::FILE_CATEGORIES_DELETE,
         ];
 
         $cellActions   = new Actions();

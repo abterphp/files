@@ -9,19 +9,15 @@ use AbterPhp\Admin\Grid\Factory\GridFactory;
 use AbterPhp\Admin\Grid\Factory\PaginationFactory;
 use AbterPhp\Files\Domain\Entities\FileDownload as Entity;
 use AbterPhp\Files\Grid\Factory\Table\FileDownload as TableFactory;
+use AbterPhp\Files\Grid\Factory\Table\Header\FileDownload as HeaderFactory;
 use AbterPhp\Files\Grid\Filters\FileDownload as Filters;
 use AbterPhp\Framework\Helper\DateHelper;
 use Opulence\Routing\Urls\UrlGenerator;
 
 class FileDownload extends BaseFactory
 {
-    const GROUP_FILE          = 'fileDownload-file';
-    const GROUP_USER          = 'fileDownload-user';
-    const GROUP_DOWNLOADED_AT = 'fileDownload-downloaded-at';
-
-    const GETTER_FILE          = 'getFile';
-    const GETTER_USER          = 'getUser';
-    const GETTER_DOWNLOADED_AT = 'getDownloadedAt';
+    private const GETTER_FILE = 'getFile';
+    private const GETTER_USER = 'getUser';
 
     /**
      * FileDownload constructor.
@@ -48,10 +44,10 @@ class FileDownload extends BaseFactory
     public function getGetters(): array
     {
         return [
-            static::GROUP_FILE          => static::GETTER_FILE,
-            static::GROUP_USER          => static::GETTER_USER,
+            HeaderFactory::GROUP_FILE          => static::GETTER_FILE,
+            HeaderFactory::GROUP_USER          => static::GETTER_USER,
             /** @see FileDownload::getDownloadedAt() */
-            static::GROUP_DOWNLOADED_AT => [$this, 'getDownloadedAt'],
+            HeaderFactory::GROUP_DOWNLOADED_AT => [$this, 'getDownloadedAt'],
         ];
     }
 

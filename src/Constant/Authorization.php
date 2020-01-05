@@ -6,7 +6,7 @@ namespace AbterPhp\Files\Constant;
 
 class Authorization
 {
-    const RESOURCE_FILES = 'files';
+    public const RESOURCE_FILES = 'files';
 
-    const ROLE_FILES_UPLOAD = 'upload';
+    public const ROLE_FILES_UPLOAD = 'upload';
 }

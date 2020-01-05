@@ -7,8 +7,9 @@ namespace AbterPhp\Files\Grid\Factory;
 use AbterPhp\Admin\Grid\Factory\BaseFactory;
 use AbterPhp\Admin\Grid\Factory\GridFactory;
 use AbterPhp\Admin\Grid\Factory\PaginationFactory;
-use AbterPhp\Files\Constant\Routes;
+use AbterPhp\Files\Constant\Route;
 use AbterPhp\Files\Domain\Entities\File as Entity;
+use AbterPhp\Files\Grid\Factory\Table\Header\File as HeaderFactory;
 use AbterPhp\Files\Grid\Factory\Table\File as TableFactory;
 use AbterPhp\Files\Grid\Filters\File as Filters;
 use AbterPhp\Framework\Constant\Html5;
@@ -20,16 +21,11 @@ use Opulence\Routing\Urls\UrlGenerator;
 
 class File extends BaseFactory
 {
-    const GROUP_FILENAME    = 'file-filename';
-    const GROUP_CATEGORY    = 'file-category';
-    const GROUP_DESCRIPTION = 'file-description';
-    const GROUP_UPLOADED_AT = 'file-uploaded-at';
+    private const GETTER_PUBLIC_NAME = 'getPublicName';
+    private const GETTER_CATEGORY    = 'getCategory';
+    private const GETTER_DESCRIPTION = 'getDescription';
 
-    const GETTER_PUBLIC_NAME = 'getPublicName';
-    const GETTER_CATEGORY    = 'getCategory';
-    const GETTER_DESCRIPTION = 'getDescription';
-
-    const LABEL_DOWNLOAD = 'files:download';
+    private const LABEL_DOWNLOAD = 'files:download';
 
     /**
      * File constructor.
@@ -56,11 +52,11 @@ class File extends BaseFactory
     public function getGetters(): array
     {
         return [
-            static::GROUP_FILENAME    => static::GETTER_PUBLIC_NAME,
-            static::GROUP_CATEGORY    => static::GETTER_CATEGORY,
-            static::GROUP_DESCRIPTION => static::GETTER_DESCRIPTION,
+            HeaderFactory::GROUP_FILENAME    => static::GETTER_PUBLIC_NAME,
+            HeaderFactory::GROUP_CATEGORY    => static::GETTER_CATEGORY,
+            HeaderFactory::GROUP_DESCRIPTION => static::GETTER_DESCRIPTION,
             /** @see File::getUploadedAt */
-            static::GROUP_UPLOADED_AT => [$this, 'getUploadedAt'],
+            HeaderFactory::GROUP_UPLOADED_AT => [$this, 'getUploadedAt'],
         ];
     }
 
@@ -83,13 +79,13 @@ class File extends BaseFactory
         $downloadCallbacks  = $this->getDownloadCallbacks();
 
         $downloadAttributes = [
-            Html5::ATTR_HREF  => Routes::ROUTE_PUBLIC_FILE,
+            Html5::ATTR_HREF  => Route::PUBLIC_FILE,
         ];
         $editAttributes     = [
-            Html5::ATTR_HREF  => Routes::ROUTE_FILES_EDIT,
+            Html5::ATTR_HREF  => Route::FILES_EDIT,
         ];
         $deleteAttributes   = [
-            Html5::ATTR_HREF  => Routes::ROUTE_FILES_DELETE,
+            Html5::ATTR_HREF  => Route::FILES_DELETE,
         ];
 
         $cellActions   = new Actions();
