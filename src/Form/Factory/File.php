@@ -86,7 +86,7 @@ class File extends Base
         $input = new Textarea('description', 'description', $entity->getDescription());
         $label = new Label('description', 'files:fileDescription');
 
-        $this->form[] = new FormGroup($input, $label);
+        $this->form[] = new FormGroup($input, $label, null, [], [Html5::ATTR_CLASS => FormGroup::CLASS_REQUIRED]);
 
         return $this;
     }

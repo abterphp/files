@@ -98,5 +98,7 @@ class FileCategory extends FormAbstract
 
         $footer = $this->getResourceName(static::RESOURCE_FOOTER);
         $this->assetManager->addJs($footer, '/admin-assets/js/semi-auto.js');
+        $this->assetManager->addJs($footer, '/admin-assets/js/required.js');
+        $this->assetManager->addJs($footer, '/admin-assets/js/validation.js');
     }
 }
