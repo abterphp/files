@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace AbterPhp\Files\Service\Execute;
 
-use AbterPhp\Framework\Domain\Entities\IStringerEntity;
 use AbterPhp\Files\Domain\Entities\FileCategory as Entity;
 use AbterPhp\Files\Orm\FileCategoryRepo as GridRepo;
 use AbterPhp\Files\Validation\Factory\FileCategory as ValidatorFactory;
+use AbterPhp\Framework\Domain\Entities\IStringerEntity;
 use Cocur\Slugify\Slugify;
 use Opulence\Events\Dispatchers\IEventDispatcher;
 use Opulence\Orm\IUnitOfWork;
@@ -67,8 +67,10 @@ class FileCategoryTest extends TestCase
 
     public function testCreate()
     {
+        $name       = 'Bar';
         $identifier = 'bar';
         $postData   = [
+            'name'       => $name,
             'identifier' => $identifier,
         ];
 
@@ -87,10 +89,12 @@ class FileCategoryTest extends TestCase
 
     public function testCreateWithUserGroups()
     {
+        $name       = 'Bar';
         $identifier = 'bar';
         $ugId0      = '4567f007-6efa-4dae-b0af-795a3dbfe44e';
         $ugId1      = '66822f5c-e32c-434c-a220-552a41138653';
         $postData   = [
+            'name'           => $name,
             'identifier'     => $identifier,
             'user_group_ids' => [$ugId0, $ugId1],
         ];
@@ -114,8 +118,10 @@ class FileCategoryTest extends TestCase
 
         $entity = $this->sut->createEntity($id);
 
+        $name       = 'Bar';
         $identifier = 'bar';
         $postData   = [
+            'name'       => $name,
             'identifier' => $identifier,
         ];
 

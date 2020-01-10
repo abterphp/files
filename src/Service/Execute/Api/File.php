@@ -179,11 +179,11 @@ class File extends RepoServiceAbstract
     {
         assert($entity instanceof Entity, new \InvalidArgumentException());
 
-        $categoryId     = (string)$postData['category_id'];
-        $description    = (string)$postData['description'];
-        $filesystemName = (string)$postData['filesystem_name'];
-        $publicName     = (string)$postData['public_name'];
-        $mime           = (string)$postData['mime'];
+        $categoryId     = $postData['category_id'];
+        $description    = $postData['description'];
+        $filesystemName = $postData['filesystem_name'];
+        $publicName     = $postData['public_name'];
+        $mime           = $postData['mime'];
 
         /** @var FileCategory $fileCategory */
         $fileCategory = $this->fileCategoryRepo->getById($categoryId);

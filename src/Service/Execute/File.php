@@ -177,8 +177,8 @@ class File extends RepoServiceAbstract
     {
         assert($entity instanceof Entity, new \InvalidArgumentException());
 
-        $categoryId  = (string)$postData['category_id'];
-        $description = (string)$postData['description'];
+        $categoryId  = $postData['category_id'];
+        $description = $postData['description'];
 
         /** @var FileCategory $fileCategory */
         $fileCategory = $this->fileCategoryRepo->getById($categoryId);
