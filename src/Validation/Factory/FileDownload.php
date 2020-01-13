@@ -17,6 +17,10 @@ class FileDownload extends ValidatorFactory
         $validator = parent::createValidator();
 
         $validator
+            ->field('id')
+            ->forbidden();
+
+        $validator
             ->field('user_id')
             ->uuid()
             ->required();

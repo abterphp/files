@@ -18,7 +18,7 @@ class File extends ValidatorFactory
 
         $validator
             ->field('id')
-            ->uuid();
+            ->forbidden();
 
         $validator
             ->field('description')

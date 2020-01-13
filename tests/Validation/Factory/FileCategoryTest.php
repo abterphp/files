@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AbterPhp\Files\Validation\Factory;
 
 use AbterPhp\Admin\TestDouble\Validation\StubRulesFactory;
-use AbterPhp\Framework\Validation\Rules\Uuid;
+use AbterPhp\Framework\Validation\Rules\Forbidden;
 use Opulence\Validation\IValidator;
 use Opulence\Validation\Rules\Factories\RulesFactory;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -23,7 +23,7 @@ class FileCategoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->rulesFactoryMock = StubRulesFactory::createRulesFactory($this, ['uuid' => new Uuid()]);
+        $this->rulesFactoryMock = StubRulesFactory::createRulesFactory($this, ['forbidden' => new Forbidden()]);
 
         $this->sut = new FileCategory($this->rulesFactoryMock);
     }
@@ -34,37 +34,30 @@ class FileCategoryTest extends TestCase
     public function createValidatorProvider(): array
     {
         return [
-            'empty-data'                          => [
+            'empty-data'           => [
                 [],
                 false,
             ],
-            'valid-data'                          => [
-                [
-                    'id'   => '465c91df-9cc7-47e2-a2ef-8fe645753148',
-                    'name' => 'foo',
-                ],
-                true,
-            ],
-            'valid-data-missing-all-not-required' => [
+            'valid-data'           => [
                 [
                     'name' => 'foo',
                 ],
                 true,
             ],
-            'invalid-id-not-uuid'                 => [
+            'invalid-id-present'   => [
                 [
                     'id'   => '465c91df-9cc7-47e2-a2ef-8fe64575314',
                     'name' => 'foo',
                 ],
                 false,
             ],
-            'invalid-name-missing'                 => [
+            'invalid-name-missing' => [
                 [
-                    'id'   => '465c91df-9cc7-47e2-a2ef-8fe64575314',
+                    'id' => '465c91df-9cc7-47e2-a2ef-8fe64575314',
                 ],
                 false,
             ],
-            'invalid-name-empty'                 => [
+            'invalid-name-empty'   => [
                 [
                     'id'   => '465c91df-9cc7-47e2-a2ef-8fe64575314',
                     'name' => '',

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AbterPhp\Files\Validation\Factory;
 
 use AbterPhp\Admin\TestDouble\Validation\StubRulesFactory;
+use AbterPhp\Framework\Validation\Rules\Forbidden;
 use AbterPhp\Framework\Validation\Rules\Uuid;
 use Opulence\Validation\IValidator;
 use Opulence\Validation\Rules\Factories\RulesFactory;
@@ -23,7 +24,10 @@ class FileDownloadTest extends TestCase
     {
         parent::setUp();
 
-        $this->rulesFactoryMock = StubRulesFactory::createRulesFactory($this, ['uuid' => new Uuid()]);
+        $this->rulesFactoryMock = StubRulesFactory::createRulesFactory(
+            $this,
+            ['forbidden' => new Forbidden(), 'uuid' => new Uuid()]
+        );
 
         $this->sut = new FileDownload($this->rulesFactoryMock);
     }
@@ -44,6 +48,14 @@ class FileDownloadTest extends TestCase
                     'file_id' => '69da7b0b-8315-43c9-8f5d-a6a5ea09b051',
                 ],
                 true,
+            ],
+            'invalid-user-id-present'  => [
+                [
+                    'id'      => '465c91df-9cc7-47e2-a2ef-8fe64575314',
+                    'user_id' => '465c91df-9cc7-47e2-a2ef-8fe64575314',
+                    'file_id' => '69da7b0b-8315-43c9-8f5d-a6a5ea09b051',
+                ],
+                false,
             ],
             'invalid-user-id-not-uuid' => [
                 [
