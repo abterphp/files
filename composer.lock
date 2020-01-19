@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/admin.git",
-                "reference": "f5762f10b577f1fc84cf61aa8e783b4a3ed651c2"
+                "reference": "5948f56d6e5ad43e649146471973aafb4ebb4f4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/admin/zipball/f5762f10b577f1fc84cf61aa8e783b4a3ed651c2",
-                "reference": "f5762f10b577f1fc84cf61aa8e783b4a3ed651c2",
+                "url": "https://api.github.com/repos/abterphp/admin/zipball/5948f56d6e5ad43e649146471973aafb4ebb4f4e",
+                "reference": "5948f56d6e5ad43e649146471973aafb4ebb4f4e",
                 "shasum": ""
             },
             "require": {
@@ -54,7 +54,7 @@
                 }
             ],
             "description": "Admin module for AbterPHP",
-            "time": "2020-01-16T01:25:33+00:00"
+            "time": "2020-01-19T07:39:13+00:00"
         },
         {
             "name": "abterphp/framework",
@@ -62,12 +62,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/framework.git",
-                "reference": "a527641cc6c7e763553431722cd6151652b6d378"
+                "reference": "df4541c2e7ebc1a6a8e3ccffafe065c9498e967c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/framework/zipball/a527641cc6c7e763553431722cd6151652b6d378",
-                "reference": "a527641cc6c7e763553431722cd6151652b6d378",
+                "url": "https://api.github.com/repos/abterphp/framework/zipball/df4541c2e7ebc1a6a8e3ccffafe065c9498e967c",
+                "reference": "df4541c2e7ebc1a6a8e3ccffafe065c9498e967c",
                 "shasum": ""
             },
             "require": {
@@ -124,7 +124,7 @@
                 }
             ],
             "description": "Foundations for AbterPHP",
-            "time": "2020-01-16T01:16:23+00:00"
+            "time": "2020-01-19T07:32:09+00:00"
         },
         {
             "name": "abterphp/website",
@@ -132,12 +132,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/website.git",
-                "reference": "f5d2c399d47d1ea51465d9fa2fe5ad746dccd802"
+                "reference": "dcd9952801f2e47186e98137fe3ff382aea61f42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/website/zipball/f5d2c399d47d1ea51465d9fa2fe5ad746dccd802",
-                "reference": "f5d2c399d47d1ea51465d9fa2fe5ad746dccd802",
+                "url": "https://api.github.com/repos/abterphp/website/zipball/dcd9952801f2e47186e98137fe3ff382aea61f42",
+                "reference": "dcd9952801f2e47186e98137fe3ff382aea61f42",
                 "shasum": ""
             },
             "require": {
@@ -171,7 +171,7 @@
                 }
             ],
             "description": "Website module for AbterPHP",
-            "time": "2020-01-16T01:46:08+00:00"
+            "time": "2020-01-19T08:58:57+00:00"
         },
         {
             "name": "bjeavons/zxcvbn-php",
@@ -2565,16 +2565,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.9.4",
+            "version": "1.9.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "579bb7356d91f9456ccd505f24ca8b667966a0a7"
+                "reference": "b2c28789e80a97badd14145fda39b545d83ca3ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/579bb7356d91f9456ccd505f24ca8b667966a0a7",
-                "reference": "579bb7356d91f9456ccd505f24ca8b667966a0a7",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/b2c28789e80a97badd14145fda39b545d83ca3ef",
+                "reference": "b2c28789e80a97badd14145fda39b545d83ca3ef",
                 "shasum": ""
             },
             "require": {
@@ -2609,7 +2609,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2019-12-15T19:12:40+00:00"
+            "time": "2020-01-17T21:11:47+00:00"
         },
         {
             "name": "netresearch/jsonmapper",
