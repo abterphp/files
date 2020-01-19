@@ -124,7 +124,7 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $categoryIdentifier = 'quuux';
         $uploadedAt         = new \DateTime();
 
-        $sql          = 'SELECT SQL_CALC_FOUND_ROWS files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) GROUP BY files.id LIMIT 10 OFFSET 0'; // phpcs:ignore
+        $sql          = 'SELECT SQL_CALC_FOUND_ROWS files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) GROUP BY files.id ORDER BY files.public_name ASC LIMIT 10 OFFSET 0'; // phpcs:ignore
         $values       = [];
         $expectedData = [
             [

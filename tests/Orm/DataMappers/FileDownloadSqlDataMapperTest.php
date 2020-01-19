@@ -109,7 +109,7 @@ class FileDownloadSqlDataMapperTest extends DataMapperTestCase
         $mime           = 'text/yax';
         $userName       = 'baz';
 
-        $sql          = 'SELECT SQL_CALC_FOUND_ROWS file_downloads.id, file_downloads.file_id, file_downloads.user_id, file_downloads.downloaded_at, files.filesystem_name AS filesystem_name, files.public_name AS public_name, files.mime AS mime, users.username AS username FROM file_downloads INNER JOIN files AS files ON files.id=file_downloads.file_id INNER JOIN users AS users ON users.id=file_downloads.user_id WHERE (file_downloads.deleted_at IS NULL) LIMIT 10 OFFSET 0'; // phpcs:ignore
+        $sql          = 'SELECT SQL_CALC_FOUND_ROWS file_downloads.id, file_downloads.file_id, file_downloads.user_id, file_downloads.downloaded_at, files.filesystem_name AS filesystem_name, files.public_name AS public_name, files.mime AS mime, users.username AS username FROM file_downloads INNER JOIN files AS files ON files.id=file_downloads.file_id INNER JOIN users AS users ON users.id=file_downloads.user_id WHERE (file_downloads.deleted_at IS NULL) ORDER BY downloaded_at DESC LIMIT 10 OFFSET 0'; // phpcs:ignore
         $values       = [];
         $expectedData = [
             [

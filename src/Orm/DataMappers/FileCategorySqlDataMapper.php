@@ -102,6 +102,9 @@ class FileCategorySqlDataMapper extends SqlDataMapper implements IFileCategoryDa
             ->limit($pageSize)
             ->offset($limitFrom);
 
+        if (!$orders) {
+            $query->orderBy('fc.name ASC');
+        }
         foreach ($orders as $order) {
             $query->addOrderBy($order);
         }

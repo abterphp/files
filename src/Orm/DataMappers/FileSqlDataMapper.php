@@ -95,6 +95,9 @@ class FileSqlDataMapper extends SqlDataMapper implements IFileDataMapper
             ->limit($pageSize)
             ->offset($limitFrom);
 
+        if (!$orders) {
+            $query->orderBy('files.public_name ASC');
+        }
         foreach ($orders as $order) {
             $query->addOrderBy($order);
         }

@@ -95,6 +95,9 @@ class FileDownloadSqlDataMapper extends SqlDataMapper implements IFileDownloadDa
             ->limit($pageSize)
             ->offset($limitFrom);
 
+        if (!$orders) {
+            $query->orderBy('downloaded_at DESC');
+        }
         foreach ($orders as $order) {
             $query->addOrderBy($order);
         }

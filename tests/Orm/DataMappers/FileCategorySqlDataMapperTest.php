@@ -144,7 +144,7 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $name       = 'foo';
         $isPublic   = true;
 
-        $sql          = 'SELECT SQL_CALC_FOUND_ROWS fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) GROUP BY fc.id LIMIT 10 OFFSET 0'; // phpcs:ignore
+        $sql          = 'SELECT SQL_CALC_FOUND_ROWS fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) GROUP BY fc.id ORDER BY fc.name ASC LIMIT 10 OFFSET 0'; // phpcs:ignore
         $values       = [];
         $expectedData = [['id' => $id, 'identifier' => $identifier, 'name' => $name, 'is_public' => $isPublic]];
         $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
