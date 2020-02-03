@@ -21,8 +21,7 @@ class File extends ValidatorFactory
             ->forbidden();
 
         $validator
-            ->field('description')
-            ->required();
+            ->field('description');
 
         $validator
             ->field('category_id')

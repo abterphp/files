@@ -71,7 +71,8 @@ class File extends RepoServiceAbstract
 
         $this->uploadFile($entity, $fileData);
 
-        if ($this->uploader->getErrors()) {
+        $errors = $this->uploader->getErrors();
+        if ($errors) {
             return $entity;
         }
 
