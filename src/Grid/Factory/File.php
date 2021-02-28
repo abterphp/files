@@ -67,7 +67,7 @@ class File extends BaseFactory
      */
     public function getUploadedAt(Entity $entity): string
     {
-        return DateHelper::format($entity->getUploadedAt());
+        return DateHelper::mysqlDateTime($entity->getUploadedAt());
     }
 
     /**

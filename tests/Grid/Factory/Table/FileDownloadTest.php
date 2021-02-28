@@ -10,7 +10,7 @@ use AbterPhp\Framework\Grid\Table\Table;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class PageCategoryTest extends TestCase
+class FileDownloadTest extends TestCase
 {
     /** @var FileDownload - System Under Test */
     protected $sut;

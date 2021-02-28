@@ -14,7 +14,8 @@ use AbterPhp\Framework\Authorization\Constant\Role;
 use AbterPhp\Framework\Filesystem\Uploader;
 use Casbin\Enforcer;
 use Casbin\Exceptions\CasbinException;
-use League\Flysystem\FileNotFoundException;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\UnableToReadFile;
 use Opulence\Orm\IUnitOfWork;
 use Opulence\Orm\OrmException;
 
@@ -105,13 +106,13 @@ class Downloader
      * @param File $entity
      *
      * @return callable
-     * @throws FileNotFoundException
+     * @throws FilesystemException
      */
     public function getStream(File $entity): callable
     {
         $stream = $this->uploader->getStream($entity->getFilesystemName());
         if (!$stream) {
-            throw new FileNotFoundException($this->uploader->getPath($entity->getFilesystemName()));
+            throw new UnableToReadFile($this->uploader->getPath($entity->getFilesystemName()));
         }
 
         return $this->getReadStreamCallback($stream);

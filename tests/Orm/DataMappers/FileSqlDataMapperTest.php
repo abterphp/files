@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AbterPhp\Files\Orm\DataMapper;
+namespace AbterPhp\Files\Orm\DataMappers;
 
 use AbterPhp\Admin\TestCase\Orm\DataMapperTestCase;
 use AbterPhp\Files\Domain\Entities\File;
 use AbterPhp\Files\Domain\Entities\FileCategory;
-use AbterPhp\Files\Orm\DataMappers\FileSqlDataMapper;
 use AbterPhp\Framework\TestDouble\Database\MockStatementFactory;
 
 class FileSqlDataMapperTest extends DataMapperTestCase
@@ -32,8 +31,8 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $fileCategoryId = '5df656e1-f2b2-4bff-8999-b90b041b696a';
         $uploadedAt     = new \DateTime();
 
-        $sql       = 'INSERT INTO files (id, filesystem_name, public_name, mime, description, file_category_id, uploaded_at) VALUES (?, ?, ?, ?, ?, ?, ?)'; // phpcs:ignore
-        $values    = [
+        $sql0       = 'INSERT INTO files (id, filesystem_name, public_name, mime, description, file_category_id, uploaded_at) VALUES (?, ?, ?, ?, ?, ?, ?)'; // phpcs:ignore
+        $values     = [
             [$nextId, \PDO::PARAM_STR],
             [$filesystemName, \PDO::PARAM_STR],
             [$publicName, \PDO::PARAM_STR],
@@ -42,8 +41,13 @@ class FileSqlDataMapperTest extends DataMapperTestCase
             [$fileCategoryId, \PDO::PARAM_STR],
             [$uploadedAt->format('Y-m-d'), \PDO::PARAM_STR],
         ];
-        $statement = MockStatementFactory::createWriteStatement($this, $values);
-        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql, $statement);
+        $statement0 = MockStatementFactory::createWriteStatement($this, $values);
+
+        $this->writeConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $category = new FileCategory($fileCategoryId, '', '', false);
         $entity   = new File($nextId, $filesystemName, $publicName, $mime, $description, $category, $uploadedAt);
@@ -66,10 +70,15 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $categoryIsPublic   = false;
         $uploadedAt         = new \DateTime();
 
-        $sql       = 'UPDATE files AS files SET deleted_at = NOW() WHERE (id = ?)'; // phpcs:ignore
-        $values    = [[$id, \PDO::PARAM_STR]];
-        $statement = MockStatementFactory::createWriteStatement($this, $values);
-        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql, $statement);
+        $sql0       = 'UPDATE files AS files SET deleted_at = NOW() WHERE (id = ?)'; // phpcs:ignore
+        $values     = [[$id, \PDO::PARAM_STR]];
+        $statement0 = MockStatementFactory::createWriteStatement($this, $values);
+
+        $this->writeConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $category = new FileCategory($categoryId, $categoryIdentifier, $categoryName, $categoryIsPublic);
         $entity   = new File($id, $filesystemName, $publicName, $mime, $description, $category, $uploadedAt);
@@ -89,7 +98,7 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $categoryIdentifier = 'quuux';
         $uploadedAt         = new \DateTime();
 
-        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) GROUP BY files.id'; // phpcs:ignore
+        $sql0         = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) GROUP BY files.id'; // phpcs:ignore
         $values       = [];
         $expectedData = [
             [
@@ -104,8 +113,13 @@ class FileSqlDataMapperTest extends DataMapperTestCase
                 'file_category_identifier' => $categoryIdentifier,
             ],
         ];
-        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
-        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+        $statement0   = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+
+        $this->readConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $actualResult = $this->sut->getAll();
 
@@ -124,7 +138,7 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $categoryIdentifier = 'quuux';
         $uploadedAt         = new \DateTime();
 
-        $sql          = 'SELECT SQL_CALC_FOUND_ROWS files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) GROUP BY files.id ORDER BY files.public_name ASC LIMIT 10 OFFSET 0'; // phpcs:ignore
+        $sql0         = 'SELECT SQL_CALC_FOUND_ROWS files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) GROUP BY files.id ORDER BY files.public_name ASC LIMIT 10 OFFSET 0'; // phpcs:ignore
         $values       = [];
         $expectedData = [
             [
@@ -139,8 +153,13 @@ class FileSqlDataMapperTest extends DataMapperTestCase
                 'file_category_identifier' => $categoryIdentifier,
             ],
         ];
-        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
-        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+        $statement0   = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+
+        $this->readConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $actualResult = $this->sut->getPage(0, 10, [], [], []);
 
@@ -162,7 +181,7 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $orders     = ['files.public_name ASC'];
         $conditions = ['files.public_name LIKE \'abc%\'', 'files.public_name LIKE \'%bca\''];
 
-        $sql          = "SELECT SQL_CALC_FOUND_ROWS files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (files.public_name LIKE 'abc%') AND (files.public_name LIKE '%bca') GROUP BY files.id ORDER BY files.public_name ASC LIMIT 10 OFFSET 0"; // phpcs:ignore
+        $sql0         = "SELECT SQL_CALC_FOUND_ROWS files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (files.public_name LIKE 'abc%') AND (files.public_name LIKE '%bca') GROUP BY files.id ORDER BY files.public_name ASC LIMIT 10 OFFSET 0"; // phpcs:ignore
         $values       = [];
         $expectedData = [
             [
@@ -177,8 +196,13 @@ class FileSqlDataMapperTest extends DataMapperTestCase
                 'file_category_identifier' => $categoryIdentifier,
             ],
         ];
-        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
-        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+        $statement0   = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+
+        $this->readConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $actualResult = $this->sut->getPage(0, 10, $orders, $conditions, []);
 
@@ -197,7 +221,7 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $categoryIdentifier = 'quuux';
         $uploadedAt         = new \DateTime();
 
-        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL INNER JOIN user_groups_file_categories AS ugfc ON file_categories.id = ugfc.file_category_id AND file_categories.deleted_at IS NULL INNER JOIN user_groups AS user_groups ON user_groups.id = ugfc.user_group_id AND user_groups.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (file_categories.identifier IN (?)) GROUP BY files.id'; // phpcs:ignore
+        $sql0         = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL INNER JOIN user_groups_file_categories AS ugfc ON file_categories.id = ugfc.file_category_id AND file_categories.deleted_at IS NULL INNER JOIN user_groups AS user_groups ON user_groups.id = ugfc.user_group_id AND user_groups.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (file_categories.identifier IN (?)) GROUP BY files.id'; // phpcs:ignore
         $values       = [
             [$categoryIdentifier, \PDO::PARAM_STR],
         ];
@@ -214,8 +238,13 @@ class FileSqlDataMapperTest extends DataMapperTestCase
                 'file_category_identifier' => $categoryIdentifier,
             ],
         ];
-        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
-        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+        $statement0   = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+
+        $this->readConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $actualResult = $this->sut->getPublicByCategoryIdentifiers([$categoryIdentifier]);
 
@@ -241,7 +270,7 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $categoryIdentifier = 'quuux';
         $uploadedAt         = new \DateTime();
 
-        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (files.filesystem_name = :filesystem_name) AND (file_categories.is_public = 1) GROUP BY files.id'; // phpcs:ignore
+        $sql0         = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (files.filesystem_name = :filesystem_name) AND (file_categories.is_public = 1) GROUP BY files.id'; // phpcs:ignore
         $values       = [
             'filesystem_name' => [$filesystemName, \PDO::PARAM_STR],
         ];
@@ -258,8 +287,13 @@ class FileSqlDataMapperTest extends DataMapperTestCase
                 'file_category_identifier' => $categoryIdentifier,
             ],
         ];
-        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
-        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+        $statement0   = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+
+        $this->readConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $actualResult = $this->sut->getPublicByFilesystemName($filesystemName);
 
@@ -278,7 +312,7 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $categoryIdentifier = 'quux';
         $uploadedAt         = new \DateTime();
 
-        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (files.id = :file_id) GROUP BY files.id'; // phpcs:ignore
+        $sql0         = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (files.id = :file_id) GROUP BY files.id'; // phpcs:ignore
         $values       = ['file_id' => [$id, \PDO::PARAM_STR]];
         $expectedData = [
             [
@@ -293,8 +327,13 @@ class FileSqlDataMapperTest extends DataMapperTestCase
                 'file_category_identifier' => $categoryIdentifier,
             ],
         ];
-        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
-        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+        $statement0   = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+
+        $this->readConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $actualResult = $this->sut->getById($id);
 
@@ -313,7 +352,7 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $categoryIdentifier = 'quux';
         $uploadedAt         = new \DateTime();
 
-        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (files.filesystem_name = :filesystem_name) GROUP BY files.id'; // phpcs:ignore
+        $sql0         = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (files.filesystem_name = :filesystem_name) GROUP BY files.id'; // phpcs:ignore
         $values       = ['filesystem_name' => [$filesystemName, \PDO::PARAM_STR]];
         $expectedData = [
             [
@@ -328,8 +367,13 @@ class FileSqlDataMapperTest extends DataMapperTestCase
                 'file_category_identifier' => $categoryIdentifier,
             ],
         ];
-        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
-        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+        $statement0   = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+
+        $this->readConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $actualResult = $this->sut->getByFilesystemName($filesystemName);
 
@@ -350,7 +394,7 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $categoryIdentifier = 'quuux';
         $uploadedAt         = new \DateTime();
 
-        $sql          = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL INNER JOIN user_groups_file_categories AS ugfc ON file_categories.id = ugfc.file_category_id AND file_categories.deleted_at IS NULL INNER JOIN user_groups AS user_groups ON user_groups.id = ugfc.user_group_id AND user_groups.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (user_groups.user_id = :user_id) GROUP BY files.id'; // phpcs:ignore
+        $sql0         = 'SELECT files.id, files.filesystem_name, files.public_name, files.mime, files.file_category_id, files.description, files.uploaded_at, file_categories.name AS file_category_name, file_categories.identifier AS file_category_identifier FROM files INNER JOIN file_categories AS file_categories ON file_categories.id = files.file_category_id AND file_categories.deleted_at IS NULL INNER JOIN user_groups_file_categories AS ugfc ON file_categories.id = ugfc.file_category_id AND file_categories.deleted_at IS NULL INNER JOIN user_groups AS user_groups ON user_groups.id = ugfc.user_group_id AND user_groups.deleted_at IS NULL WHERE (files.deleted_at IS NULL) AND (user_groups.user_id = :user_id) GROUP BY files.id'; // phpcs:ignore
         $values       = ['user_id' => [$userId, \PDO::PARAM_STR]];
         $expectedData = [
             [
@@ -365,8 +409,13 @@ class FileSqlDataMapperTest extends DataMapperTestCase
                 'file_category_identifier' => $categoryIdentifier,
             ],
         ];
-        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
-        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+        $statement0   = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+
+        $this->readConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $actualResult = $this->sut->getByUserId($userId);
 
@@ -386,8 +435,8 @@ class FileSqlDataMapperTest extends DataMapperTestCase
         $categoryIsPublic   = false;
         $uploadedAt         = new \DateTime();
 
-        $sql       = 'UPDATE files AS files SET filesystem_name = ?, public_name = ?, mime = ?, description = ?, uploaded_at = ?, file_category_id = ? WHERE (id = ?) AND (deleted_at IS NULL)'; // phpcs:ignore
-        $values    = [
+        $sql0       = 'UPDATE files AS files SET filesystem_name = ?, public_name = ?, mime = ?, description = ?, uploaded_at = ?, file_category_id = ? WHERE (id = ?) AND (deleted_at IS NULL)'; // phpcs:ignore
+        $values     = [
             [$filesystemName, \PDO::PARAM_STR],
             [$publicName, \PDO::PARAM_STR],
             [$description, \PDO::PARAM_STR],
@@ -396,8 +445,13 @@ class FileSqlDataMapperTest extends DataMapperTestCase
             [$categoryId, \PDO::PARAM_STR],
             [$id, \PDO::PARAM_STR],
         ];
-        $statement = MockStatementFactory::createWriteStatement($this, $values);
-        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql, $statement);
+        $statement0 = MockStatementFactory::createWriteStatement($this, $values);
+
+        $this->writeConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $category = new FileCategory($categoryId, $categoryIdentifier, $categoryName, $categoryIsPublic);
         $entity   = new File($id, $filesystemName, $publicName, $description, $mime, $category, $uploadedAt);

@@ -10,7 +10,7 @@ use Casbin\Enforcer;
 use Casbin\Exceptions\CasbinException;
 use AbterPhp\Admin\Domain\Entities\User;
 use AbterPhp\Admin\Orm\UserRepo;
-use League\Flysystem\FileNotFoundException;
+use League\Flysystem\FilesystemException;
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Http\Responses\StreamResponse;
@@ -74,7 +74,7 @@ class Download extends Controller
             $this->downloadService->logDownload($entity, $user);
         } catch (CasbinException $e) {
             return new Response($e->getMessage(), ResponseHeaders::HTTP_UNAUTHORIZED);
-        } catch (FileNotFoundException $e) {
+        } catch (FilesystemException $e) {
             return new Response($e->getMessage(), ResponseHeaders::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
             return new Response($e->getMessage(), ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);

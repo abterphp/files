@@ -30,7 +30,7 @@ class TemplateInitializerTest extends TestCase
     {
         $rendererMock = $this->createMock(Renderer::class);
         $rendererMock
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('addLoader')
             ->with(TemplateInitializer::TEMPLATE_TYPE, $this->fileLoaderMock)
             ->willReturnSelf();

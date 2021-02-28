@@ -73,6 +73,6 @@ class FileTest extends TestCase
 
         $actualResult = $this->sut->getUploadedAt($entityMock);
 
-        $this->assertSame(DateHelper::format($dateStub), $actualResult);
+        $this->assertSame(DateHelper::mysqlDateTime($dateStub), $actualResult);
     }
 }

@@ -10,6 +10,7 @@ use AbterPhp\Files\Service\Execute\Api\File as RepoService;
 use AbterPhp\Framework\Config\EnvReader;
 use AbterPhp\Framework\Databases\Queries\FoundRows;
 use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemException;
 use Opulence\Http\Responses\Response;
 use Psr\Log\LoggerInterface;
 
@@ -51,7 +52,7 @@ class File extends ApiAbstract
      * @param string $entityId
      *
      * @return Response
-     * @throws \League\Flysystem\FileNotFoundException
+     * @throws FilesystemException
      */
     public function get(string $entityId): Response
     {
@@ -78,7 +79,7 @@ class File extends ApiAbstract
 
     /**
      * @return array
-     * @throws \League\Flysystem\FileExistsException
+     * @throws FilesystemException
      */
     public function getSharedData(): array
     {

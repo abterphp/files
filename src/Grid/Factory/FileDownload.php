@@ -58,6 +58,6 @@ class FileDownload extends BaseFactory
      */
     public function getDownloadedAt(Entity $entity): string
     {
-        return DateHelper::formatDateTime($entity->getDownloadedAt());
+        return DateHelper::mysqlDateTime($entity->getDownloadedAt());
     }
 }

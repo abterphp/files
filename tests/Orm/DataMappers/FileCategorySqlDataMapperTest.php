@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace AbterPhp\Files\Orm\DataMapper;
+namespace AbterPhp\Files\Orm\DataMappers;
 
 use AbterPhp\Admin\Domain\Entities\UserGroup;
 use AbterPhp\Admin\TestCase\Orm\DataMapperTestCase;
 use AbterPhp\Admin\TestDouble\Orm\MockIdGeneratorFactory;
 use AbterPhp\Files\Domain\Entities\FileCategory;
-use AbterPhp\Files\Orm\DataMappers\FileCategorySqlDataMapper;
 use AbterPhp\Framework\TestDouble\Database\MockStatementFactory;
 
 class FileCategorySqlDataMapperTest extends DataMapperTestCase
@@ -30,15 +29,20 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $name       = 'foo';
         $isPublic   = true;
 
-        $sql       = 'INSERT INTO file_categories (id, identifier, name, is_public) VALUES (?, ?, ?, ?)'; // phpcs:ignore
-        $values    = [
+        $sql0       = 'INSERT INTO file_categories (id, identifier, name, is_public) VALUES (?, ?, ?, ?)'; // phpcs:ignore
+        $values     = [
             [$nextId, \PDO::PARAM_STR],
             [$identifier, \PDO::PARAM_STR],
             [$name, \PDO::PARAM_STR],
             [$isPublic, \PDO::PARAM_BOOL],
         ];
-        $statement = MockStatementFactory::createWriteStatement($this, $values);
-        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql, $statement, 0);
+        $statement0 = MockStatementFactory::createWriteStatement($this, $values);
+
+        $this->writeConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $entity = new FileCategory($nextId, $identifier, $name, $isPublic);
 
@@ -70,7 +74,6 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
             [$isPublic, \PDO::PARAM_BOOL],
         ];
         $statement0 = MockStatementFactory::createWriteStatement($this, $values0);
-        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql0, $statement0, 0);
 
         $entity = new FileCategory($nextId, $identifier, $name, $isPublic, $userGroups);
 
@@ -81,7 +84,6 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
             [$nextId, \PDO::PARAM_STR],
         ];
         $statement1 = MockStatementFactory::createWriteStatement($this, $values1);
-        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql1, $statement1, 1);
 
         $sql2       = 'INSERT INTO user_groups_file_categories (id, user_group_id, file_category_id) VALUES (?, ?, ?)'; // phpcs:ignore
         $values2    = [
@@ -90,7 +92,12 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
             [$nextId, \PDO::PARAM_STR],
         ];
         $statement2 = MockStatementFactory::createWriteStatement($this, $values2);
-        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql2, $statement2, 2);
+
+        $this->writeConnectionMock
+            ->expects($this->exactly(3))
+            ->method('prepare')
+            ->withConsecutive([$sql0], [$sql1], [$sql2])
+            ->willReturnOnConsecutiveCalls($statement0, $statement1, $statement2);
 
         $this->sut->add($entity);
 
@@ -107,14 +114,18 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $sql0       = 'UPDATE file_categories AS file_categories SET deleted_at = NOW() WHERE (id = ?)'; // phpcs:ignore
         $values0    = [[$id, \PDO::PARAM_STR]];
         $statement0 = MockStatementFactory::createWriteStatement($this, $values0);
-        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql0, $statement0, 0);
 
         $entity = new FileCategory($id, $identifier, $name, $isPublic);
 
         $sql1       = 'DELETE FROM user_groups_file_categories WHERE (file_category_id = ?)'; // phpcs:ignore
         $values1    = [[$id, \PDO::PARAM_STR]];
         $statement1 = MockStatementFactory::createWriteStatement($this, $values1);
-        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql1, $statement1, 1);
+
+        $this->writeConnectionMock
+            ->expects($this->exactly(2))
+            ->method('prepare')
+            ->withConsecutive([$sql0], [$sql1])
+            ->willReturnOnConsecutiveCalls($statement0, $statement1);
 
         $this->sut->delete($entity);
     }
@@ -126,11 +137,16 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $name       = 'foo';
         $isPublic   = true;
 
-        $sql          = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) GROUP BY fc.id'; // phpcs:ignore
+        $sql0         = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) GROUP BY fc.id'; // phpcs:ignore
         $values       = [];
         $expectedData = [['id' => $id, 'identifier' => $identifier, 'name' => $name, 'is_public' => $isPublic]];
-        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
-        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+        $statement0   = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+
+        $this->readConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $actualResult = $this->sut->getAll();
 
@@ -144,11 +160,16 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $name       = 'foo';
         $isPublic   = true;
 
-        $sql          = 'SELECT SQL_CALC_FOUND_ROWS fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) GROUP BY fc.id ORDER BY fc.name ASC LIMIT 10 OFFSET 0'; // phpcs:ignore
+        $sql0         = 'SELECT SQL_CALC_FOUND_ROWS fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) GROUP BY fc.id ORDER BY fc.name ASC LIMIT 10 OFFSET 0'; // phpcs:ignore
         $values       = [];
         $expectedData = [['id' => $id, 'identifier' => $identifier, 'name' => $name, 'is_public' => $isPublic]];
-        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
-        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+        $statement0   = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+
+        $this->readConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $actualResult = $this->sut->getPage(0, 10, [], [], []);
 
@@ -165,11 +186,16 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $orders     = ['fc.name ASC'];
         $conditions = ['fc.name LIKE \'abc%\'', 'fc.name LIKE \'%bca\''];
 
-        $sql          = "SELECT SQL_CALC_FOUND_ROWS fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) AND (fc.name LIKE 'abc%') AND (fc.name LIKE '%bca') GROUP BY fc.id ORDER BY fc.name ASC LIMIT 10 OFFSET 0"; // phpcs:ignore
+        $sql0         = "SELECT SQL_CALC_FOUND_ROWS fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) AND (fc.name LIKE 'abc%') AND (fc.name LIKE '%bca') GROUP BY fc.id ORDER BY fc.name ASC LIMIT 10 OFFSET 0"; // phpcs:ignore
         $values       = [];
         $expectedData = [['id' => $id, 'identifier' => $identifier, 'name' => $name, 'is_public' => $isPublic]];
-        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
-        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+        $statement0   = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+
+        $this->readConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $actualResult = $this->sut->getPage(0, 10, $orders, $conditions, []);
 
@@ -183,11 +209,16 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $name       = 'foo';
         $isPublic   = true;
 
-        $sql          = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) AND (fc.id = :file_category_id) GROUP BY fc.id'; // phpcs:ignore
+        $sql0         = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) AND (fc.id = :file_category_id) GROUP BY fc.id'; // phpcs:ignore
         $values       = ['file_category_id' => [$id, \PDO::PARAM_STR]];
         $expectedData = [['id' => $id, 'identifier' => $identifier, 'name' => $name, 'is_public' => $isPublic]];
-        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
-        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+        $statement0   = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+
+        $this->readConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $actualResult = $this->sut->getById($id);
 
@@ -203,7 +234,7 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $ugId0      = '11c7ff36-3a00-447e-bcfe-594eee978ff7';
         $ugId1      = 'bc577876-3fa4-4bd8-833d-e52b9ff7b94d';
 
-        $sql          = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) AND (fc.id = :file_category_id) GROUP BY fc.id'; // phpcs:ignore
+        $sql0         = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) AND (fc.id = :file_category_id) GROUP BY fc.id'; // phpcs:ignore
         $values       = ['file_category_id' => [$id, \PDO::PARAM_STR]];
         $expectedData = [
             [
@@ -214,8 +245,13 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
                 'user_group_ids' => "$ugId0,$ugId1",
             ],
         ];
-        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
-        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+        $statement0   = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+
+        $this->readConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $actualResult = $this->sut->getById($id);
 
@@ -233,18 +269,24 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
         $ugId0      = '11c7ff36-3a00-447e-bcfe-594eee978ff7';
         $ugId1      = 'bc577876-3fa4-4bd8-833d-e52b9ff7b94d';
 
-        $sql          = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc INNER JOIN user_groups_file_categories AS ugfc2 ON fc.id = ugfc2.file_category_id LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) AND (ugfc2.user_group_id = :user_group_id) GROUP BY fc.id'; // phpcs:ignore
+        $sql0         = 'SELECT fc.id, fc.identifier, fc.name, fc.is_public, GROUP_CONCAT(ugfc.user_group_id) AS user_group_ids FROM file_categories AS fc INNER JOIN user_groups_file_categories AS ugfc2 ON fc.id = ugfc2.file_category_id LEFT JOIN user_groups_file_categories AS ugfc ON ugfc.file_category_id = fc.id WHERE (fc.deleted_at IS NULL) AND (ugfc2.user_group_id = :user_group_id) GROUP BY fc.id'; // phpcs:ignore
         $values       = ['ugfc2.user_group_id' => [$userGroupId, \PDO::PARAM_STR]];
         $expectedData = [
-            ['id'             => $id,
-             'identifier'     => $identifier,
-             'name'           => $name,
-             'is_public'      => $isPublic,
-             'user_group_ids' => "$ugId0,$ugId1",
+            [
+                'id'             => $id,
+                'identifier'     => $identifier,
+                'name'           => $name,
+                'is_public'      => $isPublic,
+                'user_group_ids' => "$ugId0,$ugId1",
             ],
         ];
-        $statement    = MockStatementFactory::createReadStatement($this, $values, $expectedData);
-        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+        $statement0   = MockStatementFactory::createReadStatement($this, $values, $expectedData);
+
+        $this->readConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $actualResult = $this->sut->getByUserGroupId($userGroupId);
 
@@ -266,7 +308,6 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
             [$id, \PDO::PARAM_STR],
         ];
         $statement0 = MockStatementFactory::createWriteStatement($this, $values0);
-        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql0, $statement0, 0);
 
         $entity = new FileCategory($id, $identifier, $name, $isPublic);
 
@@ -275,7 +316,12 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
             [$id, \PDO::PARAM_STR],
         ];
         $statement1 = MockStatementFactory::createWriteStatement($this, $values1);
-        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql1, $statement1, 1);
+
+        $this->writeConnectionMock
+            ->expects($this->exactly(2))
+            ->method('prepare')
+            ->withConsecutive([$sql0], [$sql1])
+            ->willReturnOnConsecutiveCalls($statement0, $statement1);
 
         $this->sut->update($entity);
     }
@@ -303,7 +349,6 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
             [$id, \PDO::PARAM_STR],
         ];
         $statement0 = MockStatementFactory::createWriteStatement($this, $values0);
-        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql0, $statement0, 0);
 
         $entity = new FileCategory($id, $identifier, $name, $isPublic, $userGroups);
 
@@ -312,7 +357,6 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
             [$id, \PDO::PARAM_STR],
         ];
         $statement1 = MockStatementFactory::createWriteStatement($this, $values1);
-        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql1, $statement1, 1);
 
         $sql2       = 'INSERT INTO user_groups_file_categories (id, user_group_id, file_category_id) VALUES (?, ?, ?)'; // phpcs:ignore
         $values2    = [
@@ -321,7 +365,6 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
             [$id, \PDO::PARAM_STR],
         ];
         $statement2 = MockStatementFactory::createWriteStatement($this, $values2);
-        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql2, $statement2, 2);
 
         $sql3       = 'INSERT INTO user_groups_file_categories (id, user_group_id, file_category_id) VALUES (?, ?, ?)'; // phpcs:ignore
         $values3    = [
@@ -330,7 +373,12 @@ class FileCategorySqlDataMapperTest extends DataMapperTestCase
             [$id, \PDO::PARAM_STR],
         ];
         $statement3 = MockStatementFactory::createWriteStatement($this, $values3);
-        MockStatementFactory::prepare($this, $this->writeConnectionMock, $sql3, $statement3, 3);
+
+        $this->writeConnectionMock
+            ->expects($this->exactly(4))
+            ->method('prepare')
+            ->withConsecutive([$sql0], [$sql1], [$sql2], [$sql3])
+            ->willReturnOnConsecutiveCalls($statement0, $statement1, $statement2, $statement3);
 
         $this->sut->update($entity);
     }

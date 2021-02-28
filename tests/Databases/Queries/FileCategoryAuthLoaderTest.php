@@ -25,7 +25,7 @@ class FileCategoryAuthLoaderTest extends QueryTestCase
         $userGroupIdentifier    = 'foo';
         $fileCategoryIdentifier = 'bar';
 
-        $sql          = 'SELECT ug.identifier AS v0, fc.identifier AS v1 FROM user_groups_file_categories AS ugfc INNER JOIN file_categories AS fc ON ugfc.file_category_id = fc.id AND fc.deleted_at IS NULL INNER JOIN user_groups AS ug ON ugfc.user_group_id = ug.id AND ug.deleted_at IS NULL'; // phpcs:ignore
+        $sql0         = 'SELECT ug.identifier AS v0, fc.identifier AS v1 FROM user_groups_file_categories AS ugfc INNER JOIN file_categories AS fc ON ugfc.file_category_id = fc.id AND fc.deleted_at IS NULL INNER JOIN user_groups AS ug ON ugfc.user_group_id = ug.id AND ug.deleted_at IS NULL'; // phpcs:ignore
         $valuesToBind = [];
         $returnValues = [
             [
@@ -33,8 +33,13 @@ class FileCategoryAuthLoaderTest extends QueryTestCase
                 'v1' => $fileCategoryIdentifier,
             ],
         ];
-        $statement = MockStatementFactory::createReadStatement($this, $valuesToBind, $returnValues);
-        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+        $statement0   = MockStatementFactory::createReadStatement($this, $valuesToBind, $returnValues);
+
+        $this->readConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $actualResult = $this->sut->loadAll();
 
@@ -48,10 +53,15 @@ class FileCategoryAuthLoaderTest extends QueryTestCase
         $this->expectException(Database::class);
         $this->expectExceptionCode($errorInfo[1]);
 
-        $sql          = 'SELECT ug.identifier AS v0, fc.identifier AS v1 FROM user_groups_file_categories AS ugfc INNER JOIN file_categories AS fc ON ugfc.file_category_id = fc.id AND fc.deleted_at IS NULL INNER JOIN user_groups AS ug ON ugfc.user_group_id = ug.id AND ug.deleted_at IS NULL'; // phpcs:ignore
+        $sql0         = 'SELECT ug.identifier AS v0, fc.identifier AS v1 FROM user_groups_file_categories AS ugfc INNER JOIN file_categories AS fc ON ugfc.file_category_id = fc.id AND fc.deleted_at IS NULL INNER JOIN user_groups AS ug ON ugfc.user_group_id = ug.id AND ug.deleted_at IS NULL'; // phpcs:ignore
         $valuesToBind = [];
-        $statement = MockStatementFactory::createErrorStatement($this, $valuesToBind, $errorInfo);
-        MockStatementFactory::prepare($this, $this->readConnectionMock, $sql, $statement);
+        $statement0   = MockStatementFactory::createErrorStatement($this, $valuesToBind, $errorInfo);
+
+        $this->readConnectionMock
+            ->expects($this->once())
+            ->method('prepare')
+            ->with($sql0)
+            ->willReturn($statement0);
 
         $this->sut->loadAll();
     }
