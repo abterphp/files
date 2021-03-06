@@ -5,4 +5,4 @@
 [![Build Status](https://scrutinizer-ci.com/g/abterphp/files/badges/build.png?b=main)](https://scrutinizer-ci.com/g/abterphp/files/build-status/main)
 [![Coverage Status](https://coveralls.io/repos/github/abterphp/files/badge.svg)](https://coveralls.io/github/abterphp/files)
 
-This project serves as a File sharing module of [AbterPHP](https://github.com/abterphp/abterphp).
+This project serves as a File sharing module of [AbterPHP](https://github.com/abtercms/abterphp).
