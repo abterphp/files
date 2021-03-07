@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/admin.git",
-                "reference": "36534aaa603634ffbaba27bcf20209a3a3db7b28"
+                "reference": "e317b4aa9e2dc3da2112dfcd37c656ac27c0e0de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/admin/zipball/36534aaa603634ffbaba27bcf20209a3a3db7b28",
-                "reference": "36534aaa603634ffbaba27bcf20209a3a3db7b28",
+                "url": "https://api.github.com/repos/abterphp/admin/zipball/e317b4aa9e2dc3da2112dfcd37c656ac27c0e0de",
+                "reference": "e317b4aa9e2dc3da2112dfcd37c656ac27c0e0de",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "issues": "https://github.com/abterphp/admin/issues",
                 "source": "https://github.com/abterphp/admin/tree/main"
             },
-            "time": "2021-03-06T15:36:19+00:00"
+            "time": "2021-03-07T17:59:13+00:00"
         },
         {
             "name": "abterphp/framework",
@@ -64,12 +64,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/framework.git",
-                "reference": "9c59f2c55c98c1fee3781918e99720695da85d29"
+                "reference": "e724aa82a647d8cbe0ac0888d6324b472eceb18f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/framework/zipball/9c59f2c55c98c1fee3781918e99720695da85d29",
-                "reference": "9c59f2c55c98c1fee3781918e99720695da85d29",
+                "url": "https://api.github.com/repos/abterphp/framework/zipball/e724aa82a647d8cbe0ac0888d6324b472eceb18f",
+                "reference": "e724aa82a647d8cbe0ac0888d6324b472eceb18f",
                 "shasum": ""
             },
             "require": {
@@ -134,7 +134,7 @@
                 "issues": "https://github.com/abterphp/framework/issues",
                 "source": "https://github.com/abterphp/framework/tree/main"
             },
-            "time": "2021-03-06T14:20:14+00:00"
+            "time": "2021-03-07T17:52:02+00:00"
         },
         {
             "name": "abterphp/website",
@@ -142,12 +142,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abterphp/website.git",
-                "reference": "b0f0af11301bece062f9f9779c9e00628253e680"
+                "reference": "75242f1debc88d01f0eb145f708800a9ba94aa43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abterphp/website/zipball/b0f0af11301bece062f9f9779c9e00628253e680",
-                "reference": "b0f0af11301bece062f9f9779c9e00628253e680",
+                "url": "https://api.github.com/repos/abterphp/website/zipball/75242f1debc88d01f0eb145f708800a9ba94aa43",
+                "reference": "75242f1debc88d01f0eb145f708800a9ba94aa43",
                 "shasum": ""
             },
             "require": {
@@ -187,7 +187,7 @@
                 "issues": "https://github.com/abterphp/website/issues",
                 "source": "https://github.com/abterphp/website/tree/main"
             },
-            "time": "2021-03-06T14:57:49+00:00"
+            "time": "2021-03-07T18:24:53+00:00"
         },
         {
             "name": "bjeavons/zxcvbn-php",
